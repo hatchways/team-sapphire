@@ -17,7 +17,6 @@ const ObjectId = Schema.ObjectId;
 const UserSchema = new Schema({
   _id: ObjectId,
   email: String,
-  username: String,
   password: String,
   companies: []
 });
