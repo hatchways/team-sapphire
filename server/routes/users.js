@@ -8,20 +8,8 @@ router.get("/", (req, res, next) => {
     res.send(databaseConnection);
 });
 
-mongoose.connect("mongodb://localhost:27017/mentions", { useNewUrlParser: true  });
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true  });
 const database = mongoose.connection;
-
-const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
-
-const UserSchema = new Schema({
-  _id: ObjectId,
-  email: String,
-  password: String,
-  companies: []
-});
-
-const UserModel = mongoose.model('user', UserSchema);
 
 database.on("error", error => {
     console.log("Database connection error:", error);
