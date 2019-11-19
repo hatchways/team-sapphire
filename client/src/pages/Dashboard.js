@@ -5,14 +5,15 @@ import { withStyles } from "@material-ui/core/styles";
 
 import Mentions from "./Mentions";
 import Platforms from "./Platforms";
+import Navbar from "./Navbar";
 
 const dashboardStyle = theme => ({
   dashboardContainer: {
-    margin: theme.spacing.unit * 2
+    
   },
-  leftGridContainer: {
-    borderRight: '1px solid black',
-    height: '100vh'
+  rightGridContainer: {
+    borderLeft: '1px solid black',
+    height: '100%'
   }
 });
 
@@ -51,14 +52,17 @@ class Dashboard extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.dashboardContainer}>
+        <Navbar
+          where="dashboard"
+        />
         <Grid container spacing={0}>
-          <Grid item xs={4} className={classes.leftGridContainer}>
+          <Grid item xs={4}>
             <Platforms
               platforms={this.state.platforms}
               handleChange={this.handlePlatformChange}
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={8} className={classes.rightGridContainer}>
             <Mentions
               mentions={this.state.mentions}
             />

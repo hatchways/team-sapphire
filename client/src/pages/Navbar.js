@@ -1,0 +1,64 @@
+import React, { useState, useEffect } from "react";
+
+import { AppBar, Toolbar, InputBase, Paper, Typography, IconButton } from "@material-ui/core";
+import SettingsIcon from '@material-ui/icons/Settings';
+import SearchIcon from '@material-ui/icons/Search';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  navContainer: {
+
+  },
+  title: {
+    width: '160px'
+  },
+  titlePart: {
+    color: '#30336b'
+  },
+  search: {
+    width: '50%',
+    height: '90%',
+    borderRadius: '50px'
+  },
+  input: {
+    width: 'calc(100% - 58px)',
+    marginLeft: '10px'
+  },
+  settings: {
+    float: 'right'
+  }
+}));
+
+function Navbar(props) {
+  const classes = useStyles();
+  if (props.where === "dashboard") {
+    return (
+      <AppBar position="static" className={classes.navContainer}>
+        <Toolbar>
+          <Typography variant="h6" noWrap className={classes.title}>
+            mentions<span className={classes.titlePart}>crawler</span>
+          </Typography>
+          <Paper component="form" className={classes.search}>
+            <InputBase
+              placeholder="Search Company Name..."
+              className={classes.input}
+            />
+            <IconButton type="submit" aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <IconButton className={classes.settings}>
+            <SettingsIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    );
+  } else {
+    return (
+      <div>
+      </div>
+    );
+  }
+}
+
+export default Navbar;
