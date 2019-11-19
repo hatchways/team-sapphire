@@ -1,24 +1,47 @@
 import React from "react";
 
-import { Switch, Card, CardContent, Typography, Divider } from "@material-ui/core";
+import { Switch, Icon, Typography, Divider } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  platformContainer: {
+    height: '55px'
+  },
+  dividerContainer: {
+    marginTop: '7.5px',
+    width: '97.5%'
+  },
+  iconContainer: {
+    float: 'left',
+    marginRight: '20px'
+  },
+  toggleContainer: {
+    float: 'right'
+  }
+}));
 
 function Platforms(props) {
-  const platform = props.platforms.map((platform, i) => {
-    return <div>
-            <Typography>
+  const classes = useStyles();
+  const platforms = props.platforms.map((platform, i) => {
+    return <Typography className={classes.platformContainer}>
+            <div>
+              <Icon className={classes.iconContainer}>
+                info
+              </Icon>
               {platform.name}
               <Switch
                 checked={platform.inUse}
                 onChange={() => props.handleChange(i)}
                 color="primary"
+                className={classes.toggleContainer}
               />
-            </Typography>
-            <Divider variant="middle" />
-           </div>
+            </div>
+            <Divider className={classes.dividerContainer}/>
+           </Typography>
   })
   return (
     <div>
-      {platform}
+      {platforms}
     </div>
   );
 }

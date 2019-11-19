@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Grid } from "@material-ui/core";
+import { Grid, Divider } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 import Mentions from "./Mentions";
@@ -8,7 +8,11 @@ import Platforms from "./Platforms";
 
 const dashboardStyle = theme => ({
   dashboardContainer: {
-
+    margin: theme.spacing.unit * 2
+  },
+  leftGridContainer: {
+    borderRight: '1px solid black',
+    height: '100vh'
   }
 });
 
@@ -28,8 +32,7 @@ class Dashboard extends Component {
       {title: 'consume', platform: 'Forbes', desc: '12345'},
       {title: 'buy', platform: 'Shopify', desc: 'abc123'},
       {title: 'do', platform: 'Business Insider', desc: 'aedsfadwsf'}
-    ],
-    sortByRecent: true
+    ]
   };
 
   handlePlatformChange = (key) => {
@@ -49,7 +52,7 @@ class Dashboard extends Component {
     return (
       <div className={classes.dashboardContainer}>
         <Grid container spacing={0}>
-          <Grid item xs={4}>
+          <Grid item xs={4} className={classes.leftGridContainer}>
             <Platforms
               platforms={this.state.platforms}
               handleChange={this.handlePlatformChange}
@@ -57,7 +60,6 @@ class Dashboard extends Component {
           </Grid>
           <Grid item xs={8}>
             <Mentions
-              sortByRecent={this.state.sortByRecent}
               mentions={this.state.mentions}
             />
           </Grid>
