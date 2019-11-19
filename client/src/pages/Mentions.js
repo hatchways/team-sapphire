@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 
-import { Card, CardContent, CardMedia, Typography, Switch } from "@material-ui/core";
+import { Card, CardContent, CardMedia, Typography, Paper, Tabs, Tab } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   mentionsContainer: {
     width: '75%',
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: '10px'
   },
   sortToggleContainer: {
-    float: 'right'
+    float: 'right',
+    borderRadius: '50px',
+    color: '#30336b'
   },
   cardContainer: {
     marginBottom: '10px',
@@ -54,7 +57,18 @@ function Mentions(props) {
     <div className={classes.mentionsContainer}>
       <Typography variant="h4" className={classes.header}>
         My mentions
-        <Switch className={classes.sortToggleContainer}/>
+        <Paper className={classes.sortToggleContainer}>
+          <Tabs
+            value={props.sort}
+            onChange={props.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            className={classes.sortToggleContainer}
+          >
+            <Tab label="Most recent" className={classes.sortToggleContainer}/>
+            <Tab label="Most popular" className={classes.sortToggleContainer}/>
+          </Tabs>
+        </Paper>
       </Typography>
       {mentions}
     </div>

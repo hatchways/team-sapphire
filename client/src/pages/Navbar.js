@@ -6,9 +6,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  navContainer: {
-
-  },
   title: {
     width: '160px'
   },
@@ -18,7 +15,8 @@ const useStyles = makeStyles(theme => ({
   search: {
     width: '50%',
     height: '90%',
-    borderRadius: '50px'
+    borderRadius: '50px',
+    margin: 'auto'
   },
   input: {
     width: 'calc(100% - 58px)',
@@ -33,7 +31,7 @@ function Navbar(props) {
   const classes = useStyles();
   if (props.where === "dashboard") {
     return (
-      <AppBar position="static" className={classes.navContainer}>
+      <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" noWrap className={classes.title}>
             mentions<span className={classes.titlePart}>crawler</span>

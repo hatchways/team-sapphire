@@ -8,9 +8,6 @@ import Platforms from "./Platforms";
 import Navbar from "./Navbar";
 
 const dashboardStyle = theme => ({
-  dashboardContainer: {
-    
-  },
   rightGridContainer: {
     borderLeft: '1px solid black',
     height: '100%'
@@ -33,7 +30,8 @@ class Dashboard extends Component {
       {title: 'consume', platform: 'Forbes', desc: '12345'},
       {title: 'buy', platform: 'Shopify', desc: 'abc123'},
       {title: 'do', platform: 'Business Insider', desc: 'aedsfadwsf'}
-    ]
+    ],
+    sort: 0
   };
 
   handlePlatformChange = (key) => {
@@ -46,6 +44,13 @@ class Dashboard extends Component {
       });
       return { platforms }
     })
+  }
+
+  handleSortChange = (event, sort) => {
+    console.log(sort)
+    this.setState(prevState => ({
+      sort
+    }));
   }
 
   render() {
@@ -65,6 +70,8 @@ class Dashboard extends Component {
           <Grid item xs={8} className={classes.rightGridContainer}>
             <Mentions
               mentions={this.state.mentions}
+              sort={this.state.sort}
+              handleChange={this.handleSortChange}
             />
           </Grid>
         </Grid>
