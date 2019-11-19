@@ -61,8 +61,7 @@ const useStyles = makeStyles(theme => ({
 function Platforms(props) {
   const classes = useStyles();
   const platforms = props.platforms.map((platform, i) => {
-    return <Typography className={classes.platformContainer}>
-            <div>
+    return <Typography className={classes.platformContainer} key={i}>
               <Icon className={classes.iconContainer}>
                 info
               </Icon>
@@ -80,12 +79,12 @@ function Platforms(props) {
                   checked: classes.checked,
                 }}
               />
-            </div>
             <Divider className={classes.dividerContainer}/>
            </Typography>
   })
   return (
     <div>
+      <Divider className={classes.dividerContainer}/>
       {platforms}
     </div>
   );

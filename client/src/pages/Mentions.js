@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Card, CardContent, CardMedia, Typography, Paper, Tabs, Tab } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 function Mentions(props) {
   const classes = useStyles();
   const mentions = props.mentions.map((mention, i) => {
-    return <Card className={classes.cardContainer}>
+    return <Card className={classes.cardContainer} key={i}>
              <CardMedia
                component="img"
                alt="Stock image"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { AppBar, Toolbar, InputBase, Paper, Typography, IconButton } from "@material-ui/core";
 import SettingsIcon from '@material-ui/icons/Settings';

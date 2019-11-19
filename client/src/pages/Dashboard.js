@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Grid, Divider } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 import Mentions from "./Mentions";
