@@ -4,28 +4,33 @@ import { Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 import Mentions from "./Mentions";
-import PlatformList from "./PlatformList";
+import Platforms from "./Platforms";
 
 const dashboardStyle = theme => ({
-  landingContainer: {
+  dashboardContainer: {
 
   }
 });
 
 class Dashboard extends Component {
   state = {
-    platforms: [{name: "Reddit", inUse: true},
-                {name: "Twitter", inUse: true},
-                {name: "Facebook", inUse: true},
-                {name: "Amazon", inUse: true},
-                {name: "Forbes", inUse: true},
-                {name: "Shopify", inUse: true},
-                {name: "Business Insider", inUse: true}]
+    platforms: [
+      {name: "Reddit", inUse: true},
+      {name: "Twitter", inUse: true},
+      {name: "Facebook", inUse: true},
+      {name: "Amazon", inUse: true},
+      {name: "Forbes", inUse: true},
+      {name: "Shopify", inUse: true},
+      {name: "Business Insider", inUse: true}
+    ],
+    mentions: [
+      {title: 'thing happened', platform: 'Reddit', desc: 'qwerty'},
+      {title: 'consume', platform: 'Forbes', desc: '12345'},
+      {title: 'buy', platform: 'Shopify', desc: 'abc123'},
+      {title: 'do', platform: 'Business Insider', desc: 'aedsfadwsf'}
+    ],
+    sortByRecent: true
   };
-
-  componentDidMount() {
-
-  }
 
   handlePlatformChange = (key) => {
     this.setState(prevState => {
@@ -42,16 +47,18 @@ class Dashboard extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.landingContainer}>
+      <div className={classes.dashboardContainer}>
         <Grid container spacing={0}>
           <Grid item xs={4}>
-            <PlatformList
+            <Platforms
               platforms={this.state.platforms}
               handleChange={this.handlePlatformChange}
             />
           </Grid>
           <Grid item xs={8}>
             <Mentions
+              sortByRecent={this.state.sortByRecent}
+              mentions={this.state.mentions}
             />
           </Grid>
         </Grid>

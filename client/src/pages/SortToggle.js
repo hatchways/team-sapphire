@@ -5,8 +5,11 @@ import React, { useState, useEffect } from "react";
 function SortToggle(props) {
   return (
     <div>
-      <Typography>my mentions</Typography>
-      <Switch/>
+      <Typography variant="h4">
+        My mentions
+        <Switch/>
+      </Typography>
+
     </div>
   );
 }

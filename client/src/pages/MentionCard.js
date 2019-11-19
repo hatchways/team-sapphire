@@ -1,12 +1,22 @@
-import { Card } from "@material-ui/core";
+import { Card, CardContent, Typography } from "@material-ui/core";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 function MentionCard(props) {
   return (
-    <div>
-      
-    </div>
+    <Card>
+      <CardContent>
+        <Typography>
+          {props.title}
+        </Typography>
+        <Typography>
+          {props.platform}
+        </Typography>
+        <Typography>
+          {props.desc}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 }
 
