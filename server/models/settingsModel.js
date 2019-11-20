@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const SettingSchema = new Schema({
   _id: Schema.ObjectId,
   email: String,
-  companies: [],
+  companies: [String],
   reddit: Boolean,
   twitter: Boolean,
   facebook: Boolean,

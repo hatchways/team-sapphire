@@ -23,16 +23,25 @@ database.once("open", () => {
     databaseConnection = "Connected to Database";
 });
 
+const saveSettings = (settings, res) => {
+  settings.save((err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+  res.send({ error: false, settings });
+}
+
 router.post("/settings/:email", (req, res) => {
-  SettingsModel.find({ email: req.params.email },
+  SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
-        console.log(err)
+        console.log(err);
       }
       if (settings) {
-        res.send({ error: true })
+        res.send({ error: true });
       } else {
-        let settings = {
+        let settings = new SettingsModel({
           _id: mongoose.Types.ObjectId(),
           email: req.params.email,
           companies: [req.body.company],
@@ -43,28 +52,69 @@ router.post("/settings/:email", (req, res) => {
           forbes: true,
           shopify: true,
           businessInsider: true
-        }
-        let settingsModel = new SettingsModel(settings);
-        settingsModel.save((err) => {
-          if (err) {
-            console.log(err);
-          }
         });
-        res.send({ error: false, settings })
+        saveSettings(settings, res);
       }
     })
 })
 
-router.put("/settings/:email", (req, res) => {
+router.put("/settings/:email/:company", (req, res) => {
+  SettingsModel.findOne({ email: req.params.email },
+    (err, settings) => {
+      if (err) {
+        console.log(err);
+      }
+      if (settings) {
+        settings.companies = settings.companies.concat(req.params.company);
+        saveSettings(settings, res);
+      } else {
+        res.send({ error: true });
+      }
+    })
+})
 
+router.put("/settings/:email/:platform", (req, res) => {
+  SettingsModel.findOne({ email: req.params.email },
+    (err, settings) => {
+      if (err) {
+        console.log(err);
+      }
+      if (settings) {
+        settings[req.params.platform] = !settings[req.params.platform];
+        saveSettings(settings, res);
+      } else {
+        res.send({ error: true });
+      }
+    })
 })
 
 router.get("/settings/:email", (req, res) => {
-
+  SettingsModel.findOne({ email: req.params.email },
+    (err, settings) => {
+      if (err) {
+        console.log(err);
+      }
+      if (settings) {
+        res.send({ error: false, settings });
+      } else {
+        res.send({ error: true });
+      }
+    })
 })
 
-router.delete("/settings/:email", (req, res) => {
-
+router.delete("/settings/:email/:company", (req, res) => {
+  SettingsModel.findOne({ email: req.params.email },
+    (err, settings) => {
+      if (err) {
+        console.log(err);
+      }
+      if (settings) {
+        settings.companies = settings.companies.filter(company => company !== req.params.company);
+        saveSettings(settings, res);
+      } else {
+        res.send({ error: true });
+      }
+    })
 })
 
 module.exports = router;
