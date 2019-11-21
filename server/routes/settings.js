@@ -45,20 +45,22 @@ router.post("/settings/:email", (req, res) => {
           _id: mongoose.Types.ObjectId(),
           email: req.params.email,
           companies: [req.body.company],
-          reddit: true,
-          twitter: true,
-          facebook: true,
-          amazon: true,
-          forbes: true,
-          shopify: true,
-          businessInsider: true
+          platforms: {
+            reddit: true,
+            twitter: true,
+            facebook: true,
+            amazon: true,
+            forbes: true,
+            shopify: true,
+            businessInsider: true
+          }
         });
         saveSettings(settings, res);
       }
     })
 })
 
-router.put("/settings/:email/:company", (req, res) => {
+router.put("/settings/:email/company/:company", (req, res) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
@@ -73,14 +75,14 @@ router.put("/settings/:email/:company", (req, res) => {
     })
 })
 
-router.put("/settings/:email/:platform", (req, res) => {
+router.put("/settings/:email/platform/:platform", (req, res) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
         console.log(err);
       }
       if (settings) {
-        settings[req.params.platform] = !settings[req.params.platform];
+        settings.platforms[req.params.platform] = !settings.platforms[req.params.platform];
         saveSettings(settings, res);
       } else {
         res.send({ error: true });
@@ -102,7 +104,7 @@ router.get("/settings/:email", (req, res) => {
     })
 })
 
-router.delete("/settings/:email/:company", (req, res) => {
+router.delete("/settings/:email/company/:company", (req, res) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
