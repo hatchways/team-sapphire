@@ -1,18 +1,11 @@
-// import createError from "http-errors";
-// import express, { json, urlencoded } from "express";
-// import { join } from "path";
-// import cookieParser from "cookie-parser";
-// import logger from "morgan";
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-
-
-const indexRouter = require('./routes/index');
-const pingRouter = require('./routes/ping');
+const indexRouter = require("./routes/index");
+const pingRouter = require("./routes/ping");
 const authRoutes = require("./routes/auth").router;
 
 const app = express();
@@ -22,7 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
 
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
