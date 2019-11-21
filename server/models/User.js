@@ -13,10 +13,6 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
-  },
-  companies: {
-    type: Array,
-    default: []
   }
 });
 

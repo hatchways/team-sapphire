@@ -3,54 +3,46 @@ const router = express.Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { validateRegistration } = require("../utils/authUtils");
 
-function validateRegistration(request) {
-  if (request.username.trim().length === 0) {
-    return "Please enter a username";
-  }
-  if (request.password.trim().length < 6) {
-    return "Password must be at least 6 characters long";
-  }
-  // Use if repeat password verificatin is required
-  // if(request.password !== request.repeatPassword){
-  //     return "Passwords don't match"
-  // }
-}
-
-router.post("/register", async (req, res) => {
+router.post("/register", async (req, res, next) => {
   let errorMessage = validateRegistration(req.body);
   if (errorMessage) {
-    res.send({ error: errorMessage });
+    next(errorMessage);
+  } else {
+    User.findOne({ username: req.body.username }, async (err, user) => {
+      if (user) {
+        errorMessage = "Username taken";
+        next(errorMessage);
+      } else {
+        let hash = await bcrypt.hash(req.body.password, 10);
+        let newUser = new User({
+          username: req.body.username,
+          password: hash
+        });
+        newUser.save(function(err, user) {
+          if (err) {
+            next(err);
+          }
+          console.log("New user created!");
+          res.send({ success: true });
+        });
+      }
+    });
   }
-  User.findOne({ username: req.body.username }, async (err, user) => {
-    if (user) {
-      res.send({ success: false, message: "Username taken" });
-    } else {
-      let hash = await bcrypt.hash(req.body.password, 10);
-      let newUser = new User({
-        username: req.body.username,
-        password: hash
-      });
-      newUser.save(function(err, user) {
-        if (err) {
-          res.send({ success: false, error: err });
-        }
-        console.log("New user created!");
-        res.send({ success: true });
-        // res.redirect("/login");
-      });
-    }
-  });
 });
 
 router.post("/login", async (req, res, next) => {
+  let errorMessage;
   User.findOne({ username: req.body.username }, async function(err, user) {
     if (!user) {
-      res.status(401).send({ success: false, message: "Incorrect username" });
+      errorMessage = "Incorrect username";
+      next(errorMessage);
     } else {
       let match = await bcrypt.compare(req.body.password, user.password);
       if (!match) {
-        res.status(401).send({ success: false, message: "Incorrect password" });
+        errorMessage = "Incorrect password";
+        next(errorMessage);
       } else {
         let token = jwt.sign({ userId: user._id }, process.env.SECRET, {
           expiresIn: "24h"
@@ -62,22 +54,4 @@ router.post("/login", async (req, res, next) => {
   });
 });
 
-function jwtVerify(req, res, next) {
-  try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    const userId = decodedToken.userId;
-    if (req.body.userId && req.body.userId !== userId) {
-      throw "Invalid user ID";
-    } else {
-      next();
-    }
-  } catch {
-    res.status(401).send({ error: "Invalid Request" });
-  }
-}
-
-module.exports = {
-    router,
-    jwtVerify
-}
+module.exports = router;
