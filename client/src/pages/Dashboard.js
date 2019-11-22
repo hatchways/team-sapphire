@@ -58,7 +58,6 @@ class Dashboard extends Component {
     return (
       <div className={classes.dashboardContainer}>
         <Navbar
-          where="dashboard"
         />
         <Grid container spacing={0}>
           <Grid item xs={4}>

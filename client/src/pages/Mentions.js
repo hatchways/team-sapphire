@@ -50,7 +50,6 @@ function Mentions(props) {
                  </Typography>
                </CardContent>
              </div>
-
            </Card>
   })
   return (

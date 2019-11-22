@@ -29,34 +29,45 @@ const useStyles = makeStyles(theme => ({
 
 function Navbar(props) {
   const classes = useStyles();
-  if (props.where === "dashboard") {
-    return (
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" noWrap className={classes.title}>
-            mentions<span className={classes.titlePart}>crawler</span>
-          </Typography>
-          <Paper component="form" className={classes.search}>
-            <InputBase
-              placeholder="Search Company Name..."
-              className={classes.input}
-            />
-            <IconButton type="submit" aria-label="search">
-              <SearchIcon />
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" noWrap className={classes.title}>
+          mentions<span className={classes.titlePart}>crawler</span>
+        </Typography>
+        {props.loggedIn ?
+          <>
+            <Paper component="form" className={classes.search}>
+              <InputBase
+                placeholder="Search Company Name..."
+                className={classes.input}
+              />
+              <IconButton type="submit" aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+            <IconButton className={classes.settings}>
+              <SettingsIcon />
             </IconButton>
-          </Paper>
-          <IconButton className={classes.settings}>
-            <SettingsIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    );
-  } else {
-    return (
-      <div>
-      </div>
-    );
-  }
+          </>
+        :
+          <>
+            <Paper component="form" className={classes.search}>
+              <InputBase
+                placeholder="Search Company Name..."
+                className={classes.input}
+              />
+              <IconButton type="submit" aria-label="search">
+                <SearchIcon />
+              </IconButton>
+            </Paper>
+            <IconButton className={classes.settings}>
+              <SettingsIcon />
+            </IconButton>
+          </>}
+      </Toolbar>
+    </AppBar>
+  );
 }
 
 export default Navbar;
