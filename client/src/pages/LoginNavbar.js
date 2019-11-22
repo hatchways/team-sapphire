@@ -1,15 +1,6 @@
 import React from "react";
 
-import {
-  AppBar,
-  Toolbar,
-  InputBase,
-  Paper,
-  Typography,
-  IconButton
-} from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-import SearchIcon from "@material-ui/icons/Search";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
