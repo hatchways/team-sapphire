@@ -10,9 +10,8 @@ const r = new snoowrap({
 });
 
 router.get("/search", (req, res, next) => {
-  r.getSubreddit('all')
-    .search({query: 'company', sort: 'new'})
-    .then(console.log)
+  const search = r.getSubreddit('all').search({query: 'company', sort: 'new'});
+  console.log(search);
 });
 
 module.exports = router;
