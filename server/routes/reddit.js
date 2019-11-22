@@ -4,18 +4,35 @@ const snoowrap = require('snoowrap');
 
 const r = new snoowrap({
   userAgent: 'mentionscrawler',
-  clientId: 'zib4JtksPnuuTQ',
-  clientSecret: 'CgQwwVAhymykGF4W5-LtQgBgeSw',
-  refreshToken: '27776375-KsPMTA18nr9euoXz9ZuJwu6FIuU',
-  accessToken: '27776375-0sx19eJqWpqnbQ_L2Ac-lwqp150'
+  clientId: process.env.REDDIT_CLIENT_ID,
+  clientSecret: process.env.REDDIT_CLIENT_SECRET,
+  refreshToken: process.env.REDDIT_REFRESH_TOKEN
 });
 
-const search = r.getSubreddit('all').search({query: 'company', sort: 'new'});
-console.log(search);
+//example to check if reddit mentions work
+// r.search({query: 'microsoft', sort: 'top'})
+//   .then(res => {
+//     console.log(res[0]);
+//     res.forEach((submission, i) => {
+//       console.log(submission.title);
+//       console.log(submission.subreddit_name_prefixed)
+//       console.log(submission.permalink);
+//       console.log(submission.thumbnail);
+//       console.log(submission.selftext);
+//     });
+//   });
 
-router.get("/search", (req, res, next) => {
-  const search = r.getSubreddit('all').search({query: 'company', sort: 'new'});
-  console.log(search);
+router.get("/search/new/:company", (req, res, next) => {
+  r.search({query: req.params.company, sort: 'new'})
+    .then(res => {
+      res.forEach((submission, i) => {
+        console.log(submission.title);
+        console.log(submission.subreddit_name_prefixed)
+        console.log(submission.permalink);
+        console.log(submission.thumbnail);
+        console.log(submission.selftext);
+      });
+    });
 });
 
 module.exports = router;
