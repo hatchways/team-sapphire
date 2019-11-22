@@ -35,36 +35,48 @@ function Navbar(props) {
         <Typography variant="h6" noWrap className={classes.title}>
           mentions<span className={classes.titlePart}>crawler</span>
         </Typography>
-        {props.loggedIn ?
-          <>
-            <Paper component="form" className={classes.search}>
-              <InputBase
-                placeholder="Search Company Name..."
-                className={classes.input}
-              />
-              <IconButton type="submit" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-            <IconButton className={classes.settings}>
-              <SettingsIcon />
+        {props.loggedIn && <>
+          <Paper component="form" className={classes.search}>
+            <InputBase
+              placeholder="Search Company Name..."
+              className={classes.input}
+            />
+            <IconButton type="submit" aria-label="search">
+              <SearchIcon />
             </IconButton>
-          </>
-        :
-          <>
-            <Paper component="form" className={classes.search}>
-              <InputBase
-                placeholder="Search Company Name..."
-                className={classes.input}
-              />
-              <IconButton type="submit" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-            </Paper>
-            <IconButton className={classes.settings}>
-              <SettingsIcon />
+          </Paper>
+          <IconButton className={classes.settings}>
+            <SettingsIcon />
+          </IconButton>
+        </>}
+        {!props.loggedIn && props.loginToggle && <>
+          <Paper component="form" className={classes.search}>
+            <InputBase
+              placeholder="Search Company Name..."
+              className={classes.input}
+            />
+            <IconButton type="submit" aria-label="search">
+              <SearchIcon />
             </IconButton>
-          </>}
+          </Paper>
+          <IconButton className={classes.settings}>
+            <SettingsIcon />
+          </IconButton>
+        </>}
+        {!props.loggedIn && !props.loginToggle && <>
+          <Paper component="form" className={classes.search}>
+            <InputBase
+              placeholder="Search Company Name..."
+              className={classes.input}
+            />
+            <IconButton type="submit" aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+          <IconButton className={classes.settings}>
+            <SettingsIcon />
+          </IconButton>
+        </>}
       </Toolbar>
     </AppBar>
   );
