@@ -34,7 +34,7 @@ function Dashboard() {
 
   const handlePlatformChange = (key) => {
     let updatedPlatforms = [...platforms];
-    updatedPlatforms[key] = !updatedPlatforms[key];
+    updatedPlatforms[key].inUse = !updatedPlatforms[key].inUse;
     setPlatforms(updatedPlatforms);
   }
 
