@@ -7,6 +7,7 @@ import LandingPage from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Settings from "./pages/Settings";
 
 import "./App.css";
 
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/settings" component={Settings} />
       </BrowserRouter>
     </MuiThemeProvider>
   );
