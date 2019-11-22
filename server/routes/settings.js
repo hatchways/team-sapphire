@@ -17,7 +17,7 @@ const saveSettings = (settings, res) => {
 }
 
 router.post("/settings/:email", jwtVerify, (req, res, next) => {
-  UserModel.findOne({ username: req.params.email }
+  UserModel.findOne({ username: req.params.email },
     (err, user) => {
       if (err) {
         console.log(err);
