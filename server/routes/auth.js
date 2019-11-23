@@ -4,6 +4,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validateRegistration } = require("../utils/authUtils");
+const sgMail = require('@sendgrid/mail');
 
 router.post("/register", async (req, res, next) => {
   let errorMessage = validateRegistration(req.body);
@@ -25,6 +26,15 @@ router.post("/register", async (req, res, next) => {
             next(err);
           }
           console.log("New user created!");
+          sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+          const msg = {
+            to: user.username,
+            from: 'welcom@mentionscrawler.com',
+            subject: 'Welcome to the MentionsCrawler Website!',
+            text: 'Find mentions of your companies through platforms like Reddit and Twitter!',
+            html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+          };
+          sgMail.send(msg);
           res.status(201).send({ success: true });
         });
       }
