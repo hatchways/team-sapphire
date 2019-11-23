@@ -83,7 +83,18 @@ router.put("/settings/:email/platform/:platform", jwtVerify, (req, res, next) =>
         console.log(err);
       }
       if (settings) {
-        settings.platforms[req.params.platform] = !settings.platforms[req.params.platform];
+        //create a new copy of platforms while maintaining the same order (Object.create()) does not keep the same order
+        const platforms = {
+          reddit: settings.platforms.reddit,
+          twitter: settings.platforms.twitter,
+          facebook: settings.platforms.facebook,
+          amazon: settings.platforms.amazon,
+          forbes: settings.platforms.forbes,
+          shopify: settings.platforms.shopify,
+          businessInsider: settings.platforms.businessInsider
+        };
+        platforms[req.params.platform] = !platforms[req.params.platform];
+        settings.platforms = platforms;
         saveSettings(settings, res);
       } else {
         res.send({ error: true });
