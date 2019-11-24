@@ -15,7 +15,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  settings: {
+  settings_id: {
     type: Schema.Types.ObjectId,
     ref: 'setting'
   }

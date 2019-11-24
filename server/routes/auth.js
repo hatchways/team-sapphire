@@ -39,7 +39,7 @@ router.post("/register", async (req, res, next) => {
           let newUser = new User({
             username: req.body.username,
             password: hash,
-            settings: settings._id
+            settings_id: settings._id
           });
           newUser.save(function(err, user) {
             if (err) {
