@@ -1,8 +1,13 @@
 import React from "react";
 
-import { AppBar, Toolbar, Typography, Button, Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { withTheme } from "@material-ui/styles";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Grid,
+  makeStyles
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -10,19 +15,6 @@ const useStyles = makeStyles(theme => ({
   },
   titlePart: {
     color: "#30336b"
-  },
-  search: {
-    width: "50%",
-    height: "90%",
-    borderRadius: "50px",
-    margin: "auto"
-  },
-  input: {
-    width: "calc(100% - 58px)",
-    marginLeft: "10px"
-  },
-  settings: {
-    float: "right"
   },
   loginRegisterButton: {
     border: "1px solid white",
