@@ -10,7 +10,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true  });
 const saveSettings = (settings, res) => {
   settings.save((err) => {
     if (err) {
-      console.log(err);
+      next(err);
     }
   });
   res.send({ error: false, settings });
@@ -20,13 +20,13 @@ router.post("/settings/:email", jwtVerify, (req, res, next) => {
   UserModel.findOne({ username: req.params.email },
     (err, user) => {
       if (err) {
-        console.log(err);
+        next(err);
       }
       if (user) {
         SettingsModel.findOne({ email: req.params.email },
           (err, settings) => {
             if (err) {
-              console.log(err);
+              next(err);
             }
             if (settings) {
               res.send({ error: true });
@@ -48,7 +48,7 @@ router.post("/settings/:email", jwtVerify, (req, res, next) => {
               user.settings = settings;
               user.save((err) => {
                 if (err) {
-                  console.log(err);
+                  next(err);
                 }
               });
               saveSettings(settings, res);
@@ -65,7 +65,7 @@ router.put("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
-        console.log(err);
+        next(err);
       }
       if (settings) {
         settings.companies = settings.companies.concat(req.params.company);
@@ -80,7 +80,7 @@ router.put("/settings/:email/platform/:platform", jwtVerify, (req, res, next) =>
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
-        console.log(err);
+        next(err);
       }
       if (settings) {
         //create a new copy of platforms while maintaining the same order (Object.create()) does not keep the same order
@@ -106,7 +106,7 @@ router.get("/settings/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
-        console.log(err);
+        next(err);
       }
       if (settings) {
         res.send({ error: false, settings });
@@ -120,7 +120,7 @@ router.delete("/settings/:email/company/:company", jwtVerify, (req, res, next) =
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (err) {
-        console.log(err);
+        next(err);
       }
       if (settings) {
         settings.companies = settings.companies.filter(company => company !== req.params.company);
