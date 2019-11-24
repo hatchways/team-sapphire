@@ -64,12 +64,13 @@ const Register = () => {
             Let's Get Started!
           </Typography>
           <Typography component="h1">Create an account</Typography>
-          <form className={classes.form} noValidate onSubmit={onSubmitHandler}>
+          <form className={classes.form} onSubmit={onSubmitHandler}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
+              type="email"
               id="email"
               label="Email Address"
               name="email"
@@ -100,6 +101,7 @@ const Register = () => {
               id="password"
               autoComplete="current-password"
               className={classes.formInput}
+              inputProps={{ minLength: 6 }}
             />
 
             <Button

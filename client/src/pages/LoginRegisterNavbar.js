@@ -46,7 +46,7 @@ const LoginNavbar = ({ showRegister = false }) => {
           <Grid container justify="space-between">
             <Grid item>
               <Typography variant="h6" noWrap className={classes.title}>
-                mentions<span className={classes.titlePart}>crawler</span>
+                mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
             </Grid>
             <Grid item>
