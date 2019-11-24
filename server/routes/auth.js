@@ -54,7 +54,7 @@ router.post("/register", async (req, res, next) => {
                 next(err);
               }
               console.log("New user created!");
-              res.send({ success: true });
+              res.status(201).send({ success: true });
             });
           }
         })
@@ -83,6 +83,11 @@ router.post("/login", async (req, res, next) => {
       }
     }
   });
+});
+
+router.post("/logout", async (req, res, next) => {
+  res.clearCookie("token", { httpOnly: true, sameSite: true });
+  res.status(200).send({ success: true, message: "User logged out"});
 });
 
 module.exports = router;
