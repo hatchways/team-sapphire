@@ -29,7 +29,7 @@ router.post("/settings/:email", jwtVerify, (req, res, next) => {
               next(err);
             }
             if (settings) {
-              res.send({ error: true });
+              next("Settings for this user already exist!");
             } else {
               let settings = new SettingsModel({
                 _id: mongoose.Types.ObjectId(),
@@ -55,7 +55,7 @@ router.post("/settings/:email", jwtVerify, (req, res, next) => {
             }
           })
       } else {
-        res.send({ error: true });
+        next("User doesn't exist!");
       }
     })
 
@@ -71,7 +71,7 @@ router.put("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
         settings.companies = settings.companies.concat(req.params.company);
         saveSettings(settings, res);
       } else {
-        res.send({ error: true });
+        next("User settings doesn't exist!");
       }
     })
 })
@@ -97,7 +97,7 @@ router.put("/settings/:email/platform/:platform", jwtVerify, (req, res, next) =>
         settings.platforms = platforms;
         saveSettings(settings, res);
       } else {
-        res.send({ error: true });
+        next("User settings doesn't exist!");
       }
     })
 })
@@ -111,7 +111,7 @@ router.get("/settings/:email", jwtVerify, (req, res, next) => {
       if (settings) {
         res.send({ error: false, settings });
       } else {
-        res.send({ error: true });
+        next("User settings doesn't exist!");
       }
     })
 })
@@ -126,7 +126,7 @@ router.delete("/settings/:email/company/:company", jwtVerify, (req, res, next) =
         settings.companies = settings.companies.filter(company => company !== req.params.company);
         saveSettings(settings, res);
       } else {
-        res.send({ error: true });
+        next("User settings doesn't exist!");
       }
     })
 })
