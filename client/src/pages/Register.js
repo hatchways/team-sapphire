@@ -1,12 +1,10 @@
 import React from "react";
+import axios from "axios";
 import LoginRegisterNavbar from "./LoginRegisterNavbar";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -45,6 +43,16 @@ const useStyles = makeStyles(theme => ({
 
 const Register = () => {
   const classes = useStyles();
+
+  const onSubmitHandler = event => {
+    event.preventDefault();
+
+    axios.post("http://localhost:4000/register", {
+      username: event.target.email.value,
+      password: event.target.password.value
+    });
+  };
+
   return (
     <div>
       <LoginRegisterNavbar showRegister={true} />
@@ -56,7 +64,7 @@ const Register = () => {
             Let's Get Started!
           </Typography>
           <Typography component="h1">Create an account</Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={onSubmitHandler}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -105,7 +113,6 @@ const Register = () => {
             </Button>
           </form>
         </div>
-        <Box mt={8}></Box>
       </Container>
     </div>
   );
