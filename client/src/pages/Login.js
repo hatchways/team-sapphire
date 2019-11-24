@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -41,14 +42,21 @@ const useStyles = makeStyles(theme => ({
     [`& fieldset`]: {
       borderRadius: "25px"
     }
+  },
+  error: {
+    color: "red",
+    display: "flex",
+    justifyContent: "center"
   }
 }));
 
 const Login = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [loginError, setLoginError] = useState("");
 
   const onSubmitHandler = event => {
+    setLoginError("");
     event.preventDefault();
 
     axios
@@ -60,7 +68,8 @@ const Login = () => {
         if (res.data.success) {
           history.push("/dashboard");
         }
-      });
+      })
+      .catch(() => setLoginError("Please check your email and password"));
   };
   return (
     <div>
@@ -99,6 +108,7 @@ const Login = () => {
               className={classes.formInput}
               InputProps={{ endAdornment: <Button>Forgot?</Button> }}
             />
+            <p className={classes.error}>{loginError}</p>
 
             <Button
               type="submit"

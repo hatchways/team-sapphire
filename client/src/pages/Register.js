@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LoginRegisterNavbar from "./LoginRegisterNavbar";
@@ -39,14 +39,21 @@ const useStyles = makeStyles(theme => ({
     [`& fieldset`]: {
       borderRadius: "25px"
     }
+  },
+  error: {
+    color: "red",
+    display: "flex",
+    justifyContent: "center"
   }
 }));
 
 const Register = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [registerError, setRegisterError] = useState("");
 
   const onSubmitHandler = event => {
+    setRegisterError();
     event.preventDefault();
 
     axios
@@ -58,7 +65,8 @@ const Register = () => {
         if (res.data.success) {
           history.push("/settings");
         }
-      });
+      })
+      .catch(() => setRegisterError("Sorry, this email already exists."));
   };
 
   return (
@@ -111,6 +119,7 @@ const Register = () => {
               className={classes.formInput}
               inputProps={{ minLength: 6 }}
             />
+            <p className={classes.error}>{registerError}</p>
 
             <Button
               type="submit"
