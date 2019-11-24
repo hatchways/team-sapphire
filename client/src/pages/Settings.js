@@ -4,8 +4,8 @@ import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Navbar from "./Navbar";
-import SettingsRightBar from "./SettingsRightBar";
-import SettingsLeftBar from "./SettingsLeftBar";
+import SettingsBody from "./SettingsBody";
+import LefSidetBar from "./LefSidetBar";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
@@ -21,10 +21,10 @@ const Settings = () => {
       <Navbar where="dashboard" />
       <Grid container spacing={0}>
         <Grid item xs={4}>
-          <SettingsLeftBar />
+          <LefSidetBar />
         </Grid>
         <Grid item xs={8} className={classes.rightGridContainer}>
-          <SettingsRightBar />
+          <SettingsBody />
         </Grid>
       </Grid>
     </div>

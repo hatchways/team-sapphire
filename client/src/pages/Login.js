@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import LoginRegisterNavbar from "./LoginRegisterNavbar";
 
@@ -44,10 +46,25 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const onSubmitHandler = event => {
+    event.preventDefault();
+
+    axios
+      .post("http://localhost:4000/login", {
+        username: event.target.email.value,
+        password: event.target.password.value
+      })
+      .then(res => {
+        if (res.data.success) {
+          history.push("/dashboard");
+        }
+      });
+  };
   return (
     <div>
       <LoginRegisterNavbar />
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -55,7 +72,7 @@ const Login = () => {
             Welcome Back!
           </Typography>
           <Typography component="h1">Login to your account</Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={onSubmitHandler}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -64,6 +81,7 @@ const Login = () => {
               id="email"
               label="Email Address"
               name="email"
+              type="email"
               autoComplete="email"
               autoFocus
               className={classes.formInput}
