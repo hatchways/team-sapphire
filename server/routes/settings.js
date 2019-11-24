@@ -13,7 +13,7 @@ const saveSettings = (settings, res) => {
       next(err);
     }
   });
-  res.send({ error: false, settings });
+  res.send({ success: true, settings });
 }
 
 router.post("/settings/:email", jwtVerify, (req, res, next) => {
@@ -109,7 +109,7 @@ router.get("/settings/:email", jwtVerify, (req, res, next) => {
         next(err);
       }
       if (settings) {
-        res.send({ error: false, settings });
+        res.send({ success: true, settings });
       } else {
         next("User settings doesn't exist!");
       }
