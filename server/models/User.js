@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const connect = process.env.MONGO_URL;
+const SettingsModel = require("./Settings");
 const Schema = mongoose.Schema;
 
 mongoose.connect(connect, { useNewUrlParser: true });
@@ -13,6 +14,10 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  settings_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'setting'
   }
 });
 
