@@ -3,13 +3,14 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import LoginRegisterNavbar from "./LoginRegisterNavbar";
 
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import {
+  Button,
+  CssBaseline,
+  TextField,
+  Typography,
+  makeStyles,
+  Container
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -53,7 +54,7 @@ const Register = () => {
   const [registerError, setRegisterError] = useState("");
 
   const onSubmitHandler = event => {
-    setRegisterError();
+    setRegisterError("");
     event.preventDefault();
 
     axios
@@ -67,6 +68,10 @@ const Register = () => {
         }
       })
       .catch(() => setRegisterError("Sorry, this email already exists."));
+  };
+
+  const onClickHandler = () => {
+    setRegisterError("");
   };
 
   return (
@@ -123,6 +128,7 @@ const Register = () => {
 
             <Button
               type="submit"
+              onClick={onClickHandler}
               fullWidth
               variant="contained"
               color="primary"

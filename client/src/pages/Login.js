@@ -4,15 +4,15 @@ import { useHistory } from "react-router-dom";
 
 import LoginRegisterNavbar from "./LoginRegisterNavbar";
 
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import {
+  Button,
+  CssBaseline,
+  TextField,
+  Box,
+  Typography,
+  makeStyles,
+  Container
+} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -71,6 +71,11 @@ const Login = () => {
       })
       .catch(() => setLoginError("Please check your email and password"));
   };
+
+  const onClickHandler = () => {
+    setLoginError("");
+  };
+
   return (
     <div>
       <LoginRegisterNavbar />
@@ -112,6 +117,7 @@ const Login = () => {
 
             <Button
               type="submit"
+              onClick={onClickHandler}
               fullWidth
               variant="contained"
               color="primary"
