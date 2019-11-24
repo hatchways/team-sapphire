@@ -6,6 +6,9 @@ const SettingsModel = require("./../models/Settings");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validateRegistration } = require("../utils/authUtils");
+const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.post("/register", async (req, res, next) => {
   let errorMessage = validateRegistration(req.body);
@@ -46,6 +49,14 @@ router.post("/register", async (req, res, next) => {
               next(err);
             }
             console.log("New user created!");
+            const msg = {
+              to: user.username,
+              from: 'welcome@mentionscrawler.com',
+              subject: 'Thanks for registering for MentionsCrawler!',
+              text: 'Find mentions of your companies through platforms like Reddit and Twitter!',
+              html: '<strong>Find mentions of your companies through platforms like Reddit and Twitter!</strong>',
+            };
+            sgMail.send(msg);
             res.status(201).send({ success: true });
           });
         });
