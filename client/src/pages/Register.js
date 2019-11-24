@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import LoginRegisterNavbar from "./LoginRegisterNavbar";
 
 import Button from "@material-ui/core/Button";
@@ -43,14 +44,21 @@ const useStyles = makeStyles(theme => ({
 
 const Register = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const onSubmitHandler = event => {
     event.preventDefault();
 
-    axios.post("http://localhost:4000/register", {
-      username: event.target.email.value,
-      password: event.target.password.value
-    });
+    axios
+      .post("http://localhost:4000/register", {
+        username: event.target.email.value,
+        password: event.target.password.value
+      })
+      .then(res => {
+        if (res.data.success) {
+          history.push("/settings");
+        }
+      });
   };
 
   return (
