@@ -16,53 +16,6 @@ const saveSettings = (settings, res) => {
   res.send({ success: true, settings });
 }
 
-// now is being done on auth.js after registration
-//
-// router.post("/settings/:email", jwtVerify, (req, res, next) => {
-//   UserModel.findOne({ username: req.params.email },
-//     (err, user) => {
-//       if (err) {
-//         next(err);
-//       }
-//       if (user) {
-//         SettingsModel.findOne({ email: req.params.email },
-//           (err, settings) => {
-//             if (err) {
-//               next(err);
-//             }
-//             if (settings) {
-//               next("Settings for this user already exist!");
-//             } else {
-//               let settings = new SettingsModel({
-//                 _id: mongoose.Types.ObjectId(),
-//                 email: req.params.email,
-//                 companies: [req.body.company],
-//                 platforms: {
-//                   reddit: true,
-//                   twitter: true,
-//                   facebook: true,
-//                   amazon: true,
-//                   forbes: true,
-//                   shopify: true,
-//                   businessInsider: true
-//                 }
-//               });
-//               user.settings = settings;
-//               user.save((err) => {
-//                 if (err) {
-//                   next(err);
-//                 }
-//               });
-//               saveSettings(settings, res);
-//             }
-//           })
-//       } else {
-//         next("User doesn't exist!");
-//       }
-//     })
-//
-// })
-
 router.put("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
