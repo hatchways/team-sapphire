@@ -18,46 +18,37 @@ router.post("/register", async (req, res, next) => {
         next(errorMessage);
       } else {
         let hash = await bcrypt.hash(req.body.password, 10);
-        SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
+        let settings = new SettingsModel({
+          _id: mongoose.Types.ObjectId(),
+          email: req.body.username,
+          companies: [req.body.company],
+          platforms: {
+            reddit: true,
+            twitter: true,
+            facebook: true,
+            amazon: true,
+            forbes: true,
+            shopify: true,
+            businessInsider: true
+          }
+        });
+        settings.save((err) => {
           if (err) {
             next(err);
           }
-          if (settings) {
-            next("Settings for this user already exist!");
-          } else {
-            let settings = new SettingsModel({
-              _id: mongoose.Types.ObjectId(),
-              email: req.body.username,
-              companies: [req.body.company],
-              platforms: {
-                reddit: true,
-                twitter: true,
-                facebook: true,
-                amazon: true,
-                forbes: true,
-                shopify: true,
-                businessInsider: true
-              }
-            });
-            settings.save((err) => {
-              if (err) {
-                next(err);
-              }
-            });
-            let newUser = new User({
-              username: req.body.username,
-              password: hash,
-              settings
-            });
-            newUser.save(function(err, user) {
-              if (err) {
-                next(err);
-              }
-              console.log("New user created!");
-              res.status(201).send({ success: true });
-            });
-          }
-        })
+          let newUser = new User({
+            username: req.body.username,
+            password: hash,
+            settings: settings._id
+          });
+          newUser.save(function(err, user) {
+            if (err) {
+              next(err);
+            }
+            console.log("New user created!");
+            res.status(201).send({ success: true });
+          });
+        });
       }
     });
   }
