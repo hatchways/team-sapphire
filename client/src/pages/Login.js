@@ -1,6 +1,6 @@
 import React from "react";
 
-import LoginNavbar from "./LoginNavbar";
+import LoginRegisterNavbar from "./LoginRegisterNavbar";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -34,7 +34,13 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    borderRadius: "25px"
+  },
+  formInput: {
+    [`& fieldset`]: {
+      borderRadius: "25px"
+    }
   }
 }));
 
@@ -42,7 +48,7 @@ const Login = () => {
   const classes = useStyles();
   return (
     <div>
-      <LoginNavbar />
+      <LoginRegisterNavbar />
 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -62,6 +68,7 @@ const Login = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              className={classes.formInput}
             />
             <TextField
               variant="outlined"
@@ -73,6 +80,8 @@ const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              className={classes.formInput}
+              InputProps={{ endAdornment: <Button>Forgot?</Button> }}
             />
 
             <Button
@@ -84,19 +93,6 @@ const Login = () => {
             >
               Login
             </Button>
-
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
         <Box mt={8}></Box>

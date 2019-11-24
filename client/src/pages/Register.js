@@ -1,5 +1,5 @@
 import React from "react";
-import LoginNavbar from "./LoginNavbar";
+import LoginRegisterNavbar from "./LoginRegisterNavbar";
 
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -33,7 +33,13 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    borderRadius: "25px"
+  },
+  formInput: {
+    [`& fieldset`]: {
+      borderRadius: "25px"
+    }
   }
 }));
 
@@ -41,7 +47,7 @@ const Register = () => {
   const classes = useStyles();
   return (
     <div>
-      <LoginNavbar />
+      <LoginRegisterNavbar showRegister={true} />
 
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -61,6 +67,7 @@ const Register = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              className={classes.formInput}
             />
             <TextField
               variant="outlined"
@@ -72,6 +79,7 @@ const Register = () => {
               type="company-name"
               id="company-name"
               autoComplete="current-company-name"
+              className={classes.formInput}
             />
             <TextField
               variant="outlined"
@@ -83,6 +91,7 @@ const Register = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              className={classes.formInput}
             />
 
             <Button
@@ -94,14 +103,6 @@ const Register = () => {
             >
               Create
             </Button>
-
-            <Grid container>
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  {"Already have an account? Login"}
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
         <Box mt={8}></Box>
