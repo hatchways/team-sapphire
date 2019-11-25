@@ -9,7 +9,6 @@ import LeftSideBar from "./LeftSideBar";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
-    borderLeft: "1px solid black",
     height: "100%"
   }
 }));
@@ -18,7 +17,7 @@ const Settings = () => {
   const classes = useStyles();
   return (
     <div className={classes.dashboardContainer}>
-      <Navbar where="dashboard" />
+      <Navbar showSearch={true} />
       <Grid container spacing={0}>
         <Grid item xs={4}>
           <LeftSideBar />

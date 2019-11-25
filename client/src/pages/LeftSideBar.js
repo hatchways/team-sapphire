@@ -1,9 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import {
   Switch,
   Icon,
   Typography,
+  Tab,
+  Tabs,
   Grid,
   IconButton,
   Link
@@ -23,14 +26,32 @@ const useStyles = makeStyles(theme => ({
     color: "#3f51b5"
   },
   titleContainer: {
-    justifyContent: "center",
+    paddingLeft: "30px",
+    // justifyContent: "center",
     alignItems: "center",
-    paddingTop: "60px"
+    paddingTop: "40px"
+  },
+  companyTitle: {
+    paddingLeft: "30px",
+    paddingTop: "40px"
+  },
+  sideBarContainer: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  sideBarContents: {
+    fontWeight: "bold"
   }
 }));
 
 const LeftSideBar = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const onClickHandler = event => {
+    event.preventDefault();
+    history.push("/login");
+  };
   return (
     <div>
       <Grid container className={classes.titleContainer}>
@@ -39,15 +60,15 @@ const LeftSideBar = () => {
           <SettingsIcon />
         </IconButton>
       </Grid>
-      <div>
-        <Link href="/login" variant="body2">
-          {"Company"}
-        </Link>
+      <Grid className={classes.sideBarContainer}>
+        <Tab label="Company" className={classes.sideBarContents} />
 
-        <Link href="/login" variant="body2">
-          {"Log out"}
-        </Link>
-      </div>
+        <Tab
+          label="Logout"
+          className={classes.sideBarContents}
+          onClick={onClickHandler}
+        />
+      </Grid>
     </div>
   );
 };
