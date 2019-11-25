@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import LoginRegisterNavbar from "./LoginRegisterNavbar";
+import Navbar from "./Navbar";
 
 import {
   Button,
@@ -72,7 +72,7 @@ const Register = () => {
 
   return (
     <div>
-      <LoginRegisterNavbar showRegister={true} />
+      <Navbar showRegister={true} loggedIn={false} />
 
       <Container component="main" maxWidth="xs">
         <CssBaseline />

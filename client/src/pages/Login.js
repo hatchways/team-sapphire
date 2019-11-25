@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-import LoginRegisterNavbar from "./LoginRegisterNavbar";
+import Navbar from "./Navbar";
 
 import {
   Button,
@@ -78,7 +78,7 @@ const Login = () => {
 
   return (
     <div>
-      <LoginRegisterNavbar />
+      <Navbar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
