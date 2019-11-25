@@ -1,9 +1,13 @@
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-require('dotenv').config();
+require("dotenv").config();
+const corsOptions = {
+  origin: "http://localhost:3000"
+};
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
@@ -13,6 +17,7 @@ const settingsRouter = require("./routes/settings");
 
 const app = express();
 
+app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,7 +32,7 @@ app.use("/settings", settingsRouter);
 
 // Error handler
 app.use(function(err, req, res, next) {
-  res.status(401).send({ success: false, error: err })
+  res.status(401).send({ success: false, error: err });
 });
 
 app.listen(4000, () => {
