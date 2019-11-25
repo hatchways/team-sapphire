@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Navbar from "./Navbar";
 import SettingsBody from "./SettingsBody";
-import LeftSidetBar from "./LeftSidetBar";
+import LeftSideBar from "./LeftSideBar";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
@@ -21,7 +21,7 @@ const Settings = () => {
       <Navbar where="dashboard" />
       <Grid container spacing={0}>
         <Grid item xs={4}>
-          <LeftSidetBar />
+          <LeftSideBar />
         </Grid>
         <Grid item xs={8} className={classes.rightGridContainer}>
           <SettingsBody />
