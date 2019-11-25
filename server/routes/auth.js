@@ -6,7 +6,7 @@ const SettingsModel = require("./../models/Settings");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validateRegistration } = require("../utils/authUtils");
-const sgMail = require('@sendgrid/mail');
+const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -35,7 +35,7 @@ router.post("/register", async (req, res, next) => {
             businessInsider: true
           }
         });
-        settings.save((err) => {
+        settings.save(err => {
           if (err) {
             next(err);
           }
@@ -51,13 +51,19 @@ router.post("/register", async (req, res, next) => {
             console.log("New user created!");
             const msg = {
               to: user.username,
-              from: 'welcome@mentionscrawler.com',
-              subject: 'Thanks for registering for MentionsCrawler!',
-              text: 'Find mentions of your companies through platforms like Reddit and Twitter!',
-              html: '<strong>Find mentions of your companies through platforms like Reddit and Twitter!</strong>',
+              from: "welcome@mentionscrawler.com",
+              subject: "Thanks for registering for MentionsCrawler!",
+              text:
+                "Find mentions of your companies through platforms like Reddit and Twitter!",
+              html:
+                "<strong>Find mentions of your companies through platforms like Reddit and Twitter!</strong>"
             };
             sgMail.send(msg);
-            res.status(201).send({ success: true });
+            let token = jwt.sign({ userId: user._id }, process.env.SECRET, {
+              expiresIn: "24h"
+            });
+            res.cookie("token", token, { httpOnly: true, sameSite: true });
+            res.status(201).send({ success: true, token });
           });
         });
       }
@@ -89,7 +95,7 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/logout", async (req, res, next) => {
   res.clearCookie("token", { httpOnly: true, sameSite: true });
-  res.status(200).send({ success: true, message: "User logged out"});
+  res.status(200).send({ success: true, message: "User logged out" });
 });
 
 module.exports = router;
