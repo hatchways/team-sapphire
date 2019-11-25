@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "20px"
   },
   settings: {
-    color: "#3f51b5"
+    color: "#6583f2"
   },
   titleContainer: {
     paddingLeft: "30px",
@@ -38,6 +38,7 @@ const useStyles = makeStyles(theme => ({
   sideBarContainer: {
     display: "flex",
     flexDirection: "column"
+    // alignItems: "flex-start"
   },
   sideBarContents: {
     fontWeight: "bold"
@@ -60,6 +61,7 @@ const LeftSideBar = () => {
           <SettingsIcon />
         </IconButton>
       </Grid>
+
       <Grid className={classes.sideBarContainer}>
         <Tab label="Company" className={classes.sideBarContents} />
 
