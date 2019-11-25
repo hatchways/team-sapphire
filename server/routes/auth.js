@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 const User = require("../models/User");
+const SettingsModel = require("./../models/Settings");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validateRegistration } = require("../utils/authUtils");
+const sgMail = require("@sendgrid/mail");
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.post("/register", async (req, res, next) => {
   let errorMessage = validateRegistration(req.body);
@@ -16,16 +21,50 @@ router.post("/register", async (req, res, next) => {
         next(errorMessage);
       } else {
         let hash = await bcrypt.hash(req.body.password, 10);
-        let newUser = new User({
-          username: req.body.username,
-          password: hash
+        let settings = new SettingsModel({
+          _id: mongoose.Types.ObjectId(),
+          email: req.body.username,
+          companies: [req.body.company],
+          platforms: {
+            reddit: true,
+            twitter: true,
+            facebook: true,
+            amazon: true,
+            forbes: true,
+            shopify: true,
+            businessInsider: true
+          }
         });
-        newUser.save(function(err, user) {
+        settings.save(err => {
           if (err) {
             next(err);
           }
-          console.log("New user created!");
-          res.status(201).send({ success: true });
+          let newUser = new User({
+            username: req.body.username,
+            password: hash,
+            settings_id: settings._id
+          });
+          newUser.save(function(err, user) {
+            if (err) {
+              next(err);
+            }
+            console.log("New user created!");
+            const msg = {
+              to: user.username,
+              from: "welcome@mentionscrawler.com",
+              subject: "Thanks for registering for MentionsCrawler!",
+              text:
+                "Find mentions of your companies through platforms like Reddit and Twitter!",
+              html:
+                "<strong>Find mentions of your companies through platforms like Reddit and Twitter!</strong>"
+            };
+            sgMail.send(msg);
+            let token = jwt.sign({ userId: user._id }, process.env.SECRET, {
+              expiresIn: "24h"
+            });
+            res.cookie("token", token, { httpOnly: true, sameSite: true });
+            res.status(201).send({ success: true, token });
+          });
         });
       }
     });
