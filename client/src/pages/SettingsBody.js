@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center"
   },
   companyTitle: {
-    fontSize: "25px"
+    fontSize: "20px"
   },
   userEmailInput: {
     display: "flex",
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
   emailTitle: {
     marginleft: "1vh",
-    fontSize: "25px"
+    fontSize: "20px"
   },
   companyNameInput: {
     border: "none",
@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
     borderStyle: "inset",
     padding: "4px",
     width: "600px",
-    marginLeft: "266px"
+    marginLeft: "258px"
   },
   error: {
     color: "red",
@@ -78,6 +78,13 @@ const useStyles = makeStyles(theme => ({
     outline: "none",
     borderStyle: "inset",
     borderRadius: "25px"
+  },
+  saveButton: {
+    backgroundColor: "#6583f2 ",
+    borderRadius: "25px",
+    color: "white",
+    fontSize: "24px",
+    marginLeft: "5vh"
   }
 }));
 const SettingsBody = () => {
@@ -129,6 +136,8 @@ const SettingsBody = () => {
   };
   const onRemoveHandler = name => {
     setCompanyNames(companyNames.filter(item => item.name !== name));
+    setCompanyNameError("");
+    setCompanyNameSaveError("");
   };
 
   return (
@@ -176,7 +185,7 @@ const SettingsBody = () => {
 
       <div className={classes.userEmailInput}>
         {" "}
-        <b className={classes.emailTitle}>Weekly Report </b>
+        <b className={classes.emailTitle}>Weekly report </b>
         <input
           name="company-email"
           label=""
@@ -189,7 +198,7 @@ const SettingsBody = () => {
       </div>
 
       <p className={classes.error}>{companyNameSaveError}</p>
-      <button onClick={onClickHandler} className={classes.buttonAdornment}>
+      <button onClick={onClickHandler} className={classes.saveButton}>
         Save
       </button>
     </div>
