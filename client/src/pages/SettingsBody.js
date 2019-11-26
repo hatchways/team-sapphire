@@ -9,32 +9,76 @@ const useStyles = makeStyles(theme => ({
     height: "100vh",
     padding: "5vh"
   },
+  companyContainer: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  companyTitle: {
+    fontSize: "25px"
+  },
+  userEmailInput: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: "5vh"
+  },
+  emailTitle: {
+    marginleft: "1vh",
+    fontSize: "25px"
+  },
   companyNameInput: {
-    borderRadius: "25px"
-    // backgroundColor: "white"
+    border: "none",
+    width: "600px",
+    outline: "none"
   },
   companyNamesContainer: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    marginTop: "2vh",
+    width: "600px"
   },
   buttonAdornment: {
     backgroundColor: "#6583f2 ",
     borderRadius: "25px",
     color: "white"
   },
+  companyInputForm: {
+    borderRadius: "25px",
+    backgroundColor: "white",
+    display: "flex",
+    justifyContent: "space-between",
+    margin: "1vh",
+    borderStyle: "inset",
+    padding: "4px",
+    width: "600px"
+    // marginLeft: "200px"
+  },
   listOfCompanies: {
-    borderRadius: "25px"
+    borderRadius: "25px",
+    backgroundColor: "white",
+    display: "flex",
+    justifyContent: "space-between",
+    margin: "1vh",
+    borderStyle: "inset",
+    padding: "4px",
+    width: "600px",
+    marginLeft: "266px"
   },
   error: {
     color: "red",
     display: "flex",
     justifyContent: "center"
+  },
+  listOfInputs: {
+    display: "flex",
+    flexDirection: "column"
   }
 }));
 const SettingsBody = () => {
   const classes = useStyles();
   const history = useHistory();
   const [companyNameSaveError, setCompanyNameSaveError] = useState("");
+  const [companyNameError, setCompanyNameError] = useState("");
   const [companyNames, setCompanyNames] = useState([]);
   const [companyNameInput, setCompanyNameInput] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -67,59 +111,60 @@ const SettingsBody = () => {
 
   return (
     <div className={classes.bodyContainer}>
-      <div>
-        {" "}
-        <b>Your company</b>
-      </div>
-      <div>
-        <form onSubmit={onSubmitHandler}>
-          <input
-            type="text"
-            placeholder="Add Company name"
-            title="Add a tag"
-            value={companyNameInput}
-            id="companyName"
-            onChange={event => setCompanyNameInput(event.target.value)}
-            className={classes.companyNameInput}
-          />
-
-          <button onClick={onAddHandler} className={classes.buttonAdornment}>
-            Add
-          </button>
-        </form>
+      <div className={classes.companyContainer}>
+        <div className={classes.companyTitle}>
+          <b>Your company</b>
+        </div>
 
         <div className={classes.companyNamesContainer}>
-          {companyNames.length > 0 &&
-            companyNames.map((company, index) => {
-              return (
-                <div>
-                  <span className={classes.listOfCompanies} key={index}>
-                    {company.name}
-                  </span>
-                  <button
-                    onClick={() => onRemoveHandler(company.name)}
-                    className={classes.buttonAdornment}
-                  >
-                    Remove
-                  </button>
-                </div>
-              );
-            })}
+          <form onSubmit={onSubmitHandler} className={classes.companyInputForm}>
+            <input
+              type="text"
+              placeholder="Add Company name"
+              title="Add a tag"
+              value={companyNameInput}
+              id="companyName"
+              onChange={event => setCompanyNameInput(event.target.value)}
+              className={classes.companyNameInput}
+            />
+
+            <button onClick={onAddHandler} className={classes.buttonAdornment}>
+              Add
+            </button>
+          </form>
         </div>
       </div>
-      <div>
+      {companyNames.length > 0 &&
+        companyNames.map((company, index) => {
+          return (
+            <div className={classes.listOfCompanies}>
+              <span className="" key={index}>
+                {company.name}
+              </span>
+              <button
+                onClick={() => onRemoveHandler(company.name)}
+                className={classes.buttonAdornment}
+              >
+                Remove
+              </button>
+            </div>
+          );
+        })}
+
+      <div className={classes.userEmailInput}>
         {" "}
-        <b>Weekly Report </b>
+        <b className={classes.emailTitle}>Weekly Report </b>
+        <input
+          name="company-email"
+          label=""
+          type="text"
+          id="company-email"
+          value={userEmail}
+          onChange={event => setUserEmail(event.target.value)}
+          className={classes.companyNameInput}
+        />
       </div>
-      <input
-        name="company-email"
-        label=""
-        type="text"
-        id="company-email"
-        value={userEmail}
-        onChange={event => setUserEmail(event.target.value)}
-        className={classes.companyNameInput}
-      />
+
       <p className={classes.error}>{companyNameSaveError}</p>
       <button onClick={onClickHandler} className={classes.buttonAdornment}>
         Save
