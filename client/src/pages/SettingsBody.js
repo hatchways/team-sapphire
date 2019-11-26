@@ -51,7 +51,6 @@ const useStyles = makeStyles(theme => ({
     borderStyle: "inset",
     padding: "4px",
     width: "600px"
-    // marginLeft: "200px"
   },
   listOfCompanies: {
     borderRadius: "25px",
@@ -72,6 +71,13 @@ const useStyles = makeStyles(theme => ({
   listOfInputs: {
     display: "flex",
     flexDirection: "column"
+  },
+  companyEmailInput: {
+    border: "inset",
+    width: "600px",
+    outline: "none",
+    borderStyle: "inset",
+    borderRadius: "25px"
   }
 }));
 const SettingsBody = () => {
@@ -82,6 +88,17 @@ const SettingsBody = () => {
   const [companyNames, setCompanyNames] = useState([]);
   const [companyNameInput, setCompanyNameInput] = useState("");
   const [userEmail, setUserEmail] = useState("");
+
+  const checkCompanyNameUnique = name => {
+    let found = false;
+    for (let companyName of companyNames) {
+      if (companyName.name === name) {
+        found = true;
+        break;
+      }
+    }
+    return found;
+  };
 
   const onClickHandler = event => {
     event.preventDefault();
@@ -94,15 +111,20 @@ const SettingsBody = () => {
   const onSubmitHandler = event => {
     event.preventDefault();
     event.persist();
+    if (checkCompanyNameUnique(event.target.companyName.value)) {
+      setCompanyNameError("Company Name already exists");
+    } else {
+      setCompanyNames([
+        ...companyNames,
+        { name: event.target.companyName.value }
+      ]);
+    }
 
-    setCompanyNames([
-      ...companyNames,
-      { name: event.target.companyName.value }
-    ]);
     setCompanyNameInput("");
   };
 
   const onAddHandler = () => {
+    setCompanyNameError("");
     setCompanyNameSaveError("");
   };
   const onRemoveHandler = name => {
@@ -150,6 +172,7 @@ const SettingsBody = () => {
             </div>
           );
         })}
+      <p className={classes.error}>{companyNameError}</p>
 
       <div className={classes.userEmailInput}>
         {" "}
@@ -161,7 +184,7 @@ const SettingsBody = () => {
           id="company-email"
           value={userEmail}
           onChange={event => setUserEmail(event.target.value)}
-          className={classes.companyNameInput}
+          className={classes.companyEmailInput}
         />
       </div>
 
