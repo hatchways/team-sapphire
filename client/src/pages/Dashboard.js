@@ -33,7 +33,7 @@ function Dashboard() {
   const [sort, setSort] = useState(0);
   useEffect(() => {
     axios
-      .put(`/settings/settings/${email}`)
+      .get(`/settings/settings/${email}`)
       .then(res => {
         if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
@@ -44,7 +44,7 @@ function Dashboard() {
       })
 
     axios
-      .put(`/reddit/search/new/${company}`)
+      .get(`/reddit/search/new/${company}`)
       .then(res => {
         if (res.data.success) {
           setMentions(res.data.submissions);
