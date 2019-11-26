@@ -60,12 +60,13 @@ const Login = () => {
     event.preventDefault();
 
     axios
-      .post("http://localhost:4000/login", {
+      .post("/login", {
         username: event.target.email.value,
         password: event.target.password.value
       })
       .then(res => {
         if (res.data.success) {
+          localStorage.setItem("email", res.data.user.username);
           history.push("/dashboard");
         }
       })

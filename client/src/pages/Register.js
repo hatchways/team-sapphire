@@ -54,12 +54,14 @@ const Register = () => {
     event.preventDefault();
 
     axios
-      .post("http://localhost:4000/register", {
+      .post("/register", {
         username: event.target.email.value,
-        password: event.target.password.value
+        password: event.target.password.value,
+        company: event.target.company.value
       })
       .then(res => {
         if (res.data.success) {
+          localStorage.setItem("email", res.data.user.username);
           history.push("/settings");
         }
       })
@@ -100,10 +102,10 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
-              name="company-name"
+              name="company"
               label="Company Name"
-              type="company-name"
-              id="company-name"
+              type="company"
+              id="company"
               autoComplete="current-company-name"
               className={classes.formInput}
             />

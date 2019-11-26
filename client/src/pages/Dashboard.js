@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -15,27 +16,64 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Dashboard() {
-  const [platforms, setPlatforms] = useState([
-    { name: "Reddit", inUse: true },
-    { name: "Twitter", inUse: true },
-    { name: "Facebook", inUse: true },
-    { name: "Amazon", inUse: true },
-    { name: "Forbes", inUse: true },
-    { name: "Shopify", inUse: true },
-    { name: "Business Insider", inUse: true }
-  ]);
-  const [mentions, setMentions] = useState([
-    { title: "thing happened", platform: "Reddit", desc: "qwerty" },
-    { title: "consume", platform: "Forbes", desc: "12345" },
-    { title: "buy", platform: "Shopify", desc: "abc123" },
-    { title: "do", platform: "Business Insider", desc: "aedsfadwsf" }
-  ]);
+  const history = useHistory();
+  if (!localStorage.getItem("email")) {
+    history.push("/register");
+  }
+  const [platforms, setPlatforms] = useState({
+    Reddit: true,
+    Twitter: true,
+    Facebook: true,
+    Amazon: true,
+    Forbes: true ,
+    Shopify: true,
+    "Business Insider": true
+  });
+  const [mentions, setMentions] = useState([]);
+  // { title: "example title", platform: "Reddit", desc: "qwerty" },
+  // { title: "example title", platform: "Forbes", desc: "12345" },
+  // { title: "example title", platform: "Shopify", desc: "abc123" },
+  // { title: "example title", platform: "Business Insider", desc: "aedsfadwsf" }
+  const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
+  useEffect(() => {
+    axios
+      .get(`/settings/${localStorage.getItem("email")}`)
+      .then(res => {
+        if (res.data.success) {
+          setPlatforms(res.data.settings.platforms);
+          setCompanies(res.data.settings.companies);
+          res.data.settings.companies.forEach(company => {
+            axios
+              .get(`/reddit/search/new/${company}`)
+              .then(res => {
+                if (res.data.success) {
+                  setMentions(res.data.submissions);
+                }
+              })
+              .catch(error => {
+                console.error(error)
+              })
+          })
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }, []);
 
-  const handlePlatformChange = key => {
-    let updatedPlatforms = [...platforms];
-    updatedPlatforms[key].inUse = !updatedPlatforms[key].inUse;
-    setPlatforms(updatedPlatforms);
+  const handlePlatformChange = platform => {
+    axios
+      .put(`/settings/${localStorage.getItem("email")}/platform/${platform}`)
+      .then(res => {
+        if (res.data.success) {
+          setPlatforms(res.data.settings.platforms);
+          console.log(platforms)
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
   };
 
   const handleSortChange = (event, sort) => {
