@@ -60,7 +60,7 @@ const Login = () => {
     event.preventDefault();
 
     axios
-      .post("http://localhost:4000/login", {
+      .post("/login", {
         username: event.target.email.value,
         password: event.target.password.value
       })

@@ -26,13 +26,13 @@ router.post("/register", async (req, res, next) => {
           email: req.body.username,
           companies: [req.body.company],
           platforms: {
-            reddit: true,
-            twitter: true,
-            facebook: true,
-            amazon: true,
-            forbes: true,
-            shopify: true,
-            businessInsider: true
+            Reddit: true,
+            Twitter: true,
+            Facebook: true,
+            Amazon: true,
+            Forbes: true,
+            Shopify: true,
+            "Business Insider": true
           }
         });
         settings.save(err => {

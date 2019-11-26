@@ -60,15 +60,15 @@ const useStyles = makeStyles(theme => ({
 
 function Platforms(props) {
   const classes = useStyles();
-  const platforms = props.platforms.map((platform, i) => {
+  const platforms = Object.keys(props.platforms).map((platform, i) => {
     return <Typography className={classes.platformContainer} key={i}>
               <Icon className={classes.iconContainer}>
                 info
               </Icon>
-              {platform.name}
+              {platform}
               <Switch
-                checked={platform.inUse}
-                onChange={() => props.handleChange(i)}
+                checked={platforms[platform]}
+                onChange={() => props.handleChange(platform)}
                 color="primary"
                 className={classes.toggleContainer}
                 classes={{

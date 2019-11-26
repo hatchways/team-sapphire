@@ -40,13 +40,13 @@ router.put("/settings/:email/platform/:platform", jwtVerify, (req, res, next) =>
       if (settings) {
         //create a new copy of platforms while maintaining the same order (Object.create()) does not keep the same order
         const platforms = {
-          reddit: settings.platforms.reddit,
-          twitter: settings.platforms.twitter,
-          facebook: settings.platforms.facebook,
-          amazon: settings.platforms.amazon,
-          forbes: settings.platforms.forbes,
-          shopify: settings.platforms.shopify,
-          businessInsider: settings.platforms.businessInsider
+          Reddit: settings.platforms.Reddit,
+          Twitter: settings.platforms.Twitter,
+          Facebook: settings.platforms.Facebook,
+          Amazon: settings.platforms.Amazon,
+          Forbes: settings.platforms.Forbes,
+          Shopify: settings.platforms.Shopify,
+          "Business Insider": settings.platforms["Business Insider"]
         };
         platforms[req.params.platform] = !platforms[req.params.platform];
         settings.platforms = platforms;
