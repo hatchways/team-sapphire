@@ -100,16 +100,16 @@ const SettingsBody = () => {
   const [companyNameInput, setCompanyNameInput] = useState("");
   const [userEmail, setUserEmail] = useState("");
 
-  const checkCompanyNameUnique = name => {
-    let found = false;
-    for (let companyName of companyNames) {
-      if (companyName.name === name) {
-        found = true;
-        break;
-      }
-    }
-    return found;
-  };
+  // const checkCompanyNameUnique = name => {
+  //   let found = false;
+  //   for (let companyName of companyNames) {
+  //     if (companyName.name === name) {
+  //       found = true;
+  //       break;
+  //     }
+  //   }
+  //   return found;
+  // };
 
   const onClickHandler = event => {
     event.preventDefault();
@@ -122,13 +122,10 @@ const SettingsBody = () => {
   const onSubmitHandler = event => {
     event.preventDefault();
     event.persist();
-    if (checkCompanyNameUnique(event.target.companyName.value)) {
+    if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company Name already exists");
     } else {
-      setCompanyNames([
-        ...companyNames,
-        { name: event.target.companyName.value }
-      ]);
+      setCompanyNames([...companyNames, event.target.companyName.value]);
     }
 
     setCompanyNameInput("");
@@ -139,7 +136,7 @@ const SettingsBody = () => {
     setCompanyNameSaveError("");
   };
   const onRemoveHandler = name => {
-    setCompanyNames(companyNames.filter(item => item.name !== name));
+    setCompanyNames(companyNames.filter(item => item !== name));
     setCompanyNameError("");
     setCompanyNameSaveError("");
   };
@@ -174,10 +171,10 @@ const SettingsBody = () => {
           return (
             <div className={classes.listOfCompanies}>
               <span className="" key={index}>
-                {company.name}
+                {company}
               </span>
               <button
-                onClick={() => onRemoveHandler(company.name)}
+                onClick={() => onRemoveHandler(company)}
                 className={classes.buttonAdornment}
               >
                 Remove

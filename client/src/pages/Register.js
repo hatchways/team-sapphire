@@ -54,7 +54,7 @@ const Register = () => {
     event.preventDefault();
 
     axios
-      .post("http://localhost:4000/register", {
+      .post("/register", {
         username: event.target.email.value,
         password: event.target.password.value
       })
