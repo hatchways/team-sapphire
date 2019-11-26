@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -48,7 +49,8 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
     margin: "1vh",
-    borderStyle: "inset",
+    // borderStyle: "inset",
+    border: "1px solid #eeeeef",
     padding: "4px",
     width: "600px"
   },
@@ -58,7 +60,8 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
     margin: "1vh",
-    borderStyle: "inset",
+    // borderStyle: "inset",
+    border: "1px solid #eeeeef",
     padding: "4px",
     width: "600px",
     marginLeft: "258px"
@@ -73,10 +76,11 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column"
   },
   companyEmailInput: {
-    border: "inset",
+    // border: "inset",
     width: "600px",
     outline: "none",
-    borderStyle: "inset",
+    // borderStyle: "inset",
+    border: "1px solid #eeeeef",
     borderRadius: "25px"
   },
   saveButton: {
