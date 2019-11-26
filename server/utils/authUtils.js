@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 function validateRegistration(request) {
   if (request.username.trim().length === 0) {
     return "Please enter a username";
@@ -7,8 +9,8 @@ function validateRegistration(request) {
   }
 }
 
-function jwtVerify(req, res, next) {
-  try {
+async function jwtVerify(req, res, next) {
+  if (req.cookies) {
     const token = req.cookies.token;
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken.userId;
@@ -17,7 +19,7 @@ function jwtVerify(req, res, next) {
     } else {
       next();
     }
-  } catch {
+  } else {
     res.status(401).send({ error: "Invalid Request" });
   }
 }

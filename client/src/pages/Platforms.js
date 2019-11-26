@@ -67,7 +67,7 @@ function Platforms(props) {
               </Icon>
               {platform}
               <Switch
-                checked={platforms[platform]}
+                checked={props.platforms[platform]}
                 onChange={() => props.handleChange(platform)}
                 color="primary"
                 className={classes.toggleContainer}

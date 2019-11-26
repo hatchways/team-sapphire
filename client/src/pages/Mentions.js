@@ -28,13 +28,12 @@ const useStyles = makeStyles(theme => ({
 
 function Mentions(props) {
   const classes = useStyles();
-  const stockImage = "https://media.istockphoto.com/photos/business-people-using-pentabletnotebook-are-planning-a-marketing-plan-picture-id881542122?k=6&m=881542122&s=612x612&w=0&h=Sc70smgI-QSn1gLFO2UdAZIb8F9LKptDH8AujitIXBk=";
   const mentions = props.mentions.map((mention, i) => {
     return <Card className={classes.cardContainer} key={i}>
              <CardMedia
                component="img"
                alt="image"
-               image={mention.image ? mention.image : stockImage}
+               image={mention.image}
                title="Image"
                className={classes.cardImage}
              />
