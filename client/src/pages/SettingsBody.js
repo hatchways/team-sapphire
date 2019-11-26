@@ -2,15 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  CssBaseline,
-  TextField,
-  Box,
-  Typography,
-  Container
-} from "@material-ui/core";
-import color from "@material-ui/core/colors/grey";
 
 const useStyles = makeStyles(theme => ({
   bodyContainer: {
@@ -46,6 +37,7 @@ const SettingsBody = () => {
   const [companyNameSaveError, setCompanyNameSaveError] = useState("");
   const [companyNames, setCompanyNames] = useState([]);
   const [companyNameInput, setCompanyNameInput] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
   const onClickHandler = event => {
     event.preventDefault();
@@ -59,12 +51,18 @@ const SettingsBody = () => {
     event.preventDefault();
     event.persist();
 
-    setCompanyNames([...companyNames, event.target.fruitName.value]);
+    setCompanyNames([
+      ...companyNames,
+      { name: event.target.companyName.value }
+    ]);
     setCompanyNameInput("");
   };
 
   const onAddHandler = () => {
     setCompanyNameSaveError("");
+  };
+  const onRemoveHandler = name => {
+    setCompanyNames(companyNames.filter(item => item.name !== name));
   };
 
   return (
@@ -80,7 +78,7 @@ const SettingsBody = () => {
             placeholder="Add Company name"
             title="Add a tag"
             value={companyNameInput}
-            id="fruitName"
+            id="companyName"
             onChange={event => setCompanyNameInput(event.target.value)}
             className={classes.companyNameInput}
           />
@@ -89,53 +87,43 @@ const SettingsBody = () => {
             Add
           </button>
         </form>
-        {/* <TextField
-          variant="outlined"
-          margin="normal"
-          // required
-          name="company-name"
-          value={companyNameInput}
-          label=""
-          type="text"
-          id="company-name"
-          className={classes.companyNameInput}
-          onChange={event => setCompanyNameInput(event.target.value)}
-          InputProps={{
-            endAdornment: (
-              <Button onAdd={onAddHandler} className={classes.buttonAdornment}>
-                Add
-              </Button>
-            )
-          }}
-        /> */}
+
         <div className={classes.companyNamesContainer}>
           {companyNames.length > 0 &&
-            companyNames.map((companyName, index) => (
-              <span className={classes.listOfCompanies} key={index}>
-                {" "}
-                {companyName}
-              </span>
-            ))}
+            companyNames.map((company, index) => {
+              return (
+                <div>
+                  <span className={classes.listOfCompanies} key={index}>
+                    {company.name}
+                  </span>
+                  <button
+                    onClick={() => onRemoveHandler(company.name)}
+                    className={classes.buttonAdornment}
+                  >
+                    Remove
+                  </button>
+                </div>
+              );
+            })}
         </div>
       </div>
       <div>
         {" "}
         <b>Weekly Report </b>
       </div>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
+      <input
         name="company-email"
         label=""
         type="text"
         id="company-email"
+        value={userEmail}
+        onChange={event => setUserEmail(event.target.value)}
         className={classes.companyNameInput}
       />
       <p className={classes.error}>{companyNameSaveError}</p>
-      <Button onClick={onClickHandler} className={classes.buttonAdornment}>
+      <button onClick={onClickHandler} className={classes.buttonAdornment}>
         Save
-      </Button>
+      </button>
     </div>
   );
 };
