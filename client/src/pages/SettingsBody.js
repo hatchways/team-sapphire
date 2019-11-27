@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   companyNameInput: {
     border: "none",
     width: "600px",
-    outline: "none"
+    outline: "none",
+    height: "25px"
   },
   companyNamesContainer: {
     display: "flex",
@@ -41,7 +42,9 @@ const useStyles = makeStyles(theme => ({
   buttonAdornment: {
     backgroundColor: "#6583f2 ",
     borderRadius: "25px",
-    color: "white"
+    color: "white",
+    width: "70px",
+    height: "30px"
   },
   companyInputForm: {
     borderRadius: "25px",
@@ -49,10 +52,10 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
     margin: "1vh",
-    // borderStyle: "inset",
     border: "1px solid #eeeeef",
-    padding: "4px",
-    width: "600px"
+    padding: "10px",
+    width: "600px",
+    alignItems: "center"
   },
   listOfCompanies: {
     borderRadius: "25px",
@@ -60,11 +63,11 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "space-between",
     margin: "1vh",
-    // borderStyle: "inset",
     border: "1px solid #eeeeef",
-    padding: "4px",
+    padding: " 10px ",
     width: "600px",
-    marginLeft: "258px"
+    marginLeft: "258px",
+    alignItems: "center"
   },
   error: {
     color: "red",
@@ -76,19 +79,23 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column"
   },
   companyEmailInput: {
-    // border: "inset",
     width: "600px",
     outline: "none",
-    // borderStyle: "inset",
+    backgroundColor: "white",
+    height: "25px",
     border: "1px solid #eeeeef",
-    borderRadius: "25px"
+    borderRadius: "25px",
+    alignItems: "center",
+    padding: "10px"
   },
   saveButton: {
     backgroundColor: "#6583f2 ",
     borderRadius: "25px",
     color: "white",
-    fontSize: "24px",
-    marginLeft: "5vh"
+    fontSize: "15px",
+    marginLeft: "5vh",
+    width: "90px",
+    height: "35px"
   }
 }));
 
@@ -162,7 +169,7 @@ const SettingsBody = () => {
             />
 
             <button onClick={onAddHandler} className={classes.buttonAdornment}>
-              Add
+              <b> ADD</b>
             </button>
           </form>
         </div>
@@ -178,7 +185,7 @@ const SettingsBody = () => {
                 onClick={() => onRemoveHandler(company)}
                 className={classes.buttonAdornment}
               >
-                Remove
+                <b> REMOVE</b>
               </button>
             </div>
           );
@@ -196,7 +203,7 @@ const SettingsBody = () => {
 
       <p className={classes.error}>{companyNameSaveError}</p>
       <button onClick={onClickHandler} className={classes.saveButton}>
-        Save
+        <b> SAVE</b>
       </button>
     </div>
   );
