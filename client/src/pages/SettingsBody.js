@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { withSnackbar } from "notistack";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -99,7 +100,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SettingsBody = () => {
+const SettingsBody = ({ enqueueSnackbar }) => {
   const classes = useStyles();
   const history = useHistory();
   const [companyNameSaveError, setCompanyNameSaveError] = useState("");
@@ -127,11 +128,14 @@ const SettingsBody = () => {
     if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company Name already exists");
     } else {
-      axios.put(
-        `/settings/${localStorage.getItem("email")}/company/${
-          event.target.companyName.value
-        }`
-      );
+      axios
+        .put(
+          `/settings/${localStorage.getItem("email")}/company/${
+            event.target.companyName.value
+          }`
+        )
+        .then(() => enqueueSnackbar("Successfully fetched the data."))
+        .catch(() => enqueueSnackbar("Failed fetching data."));
       setCompanyNames([...companyNames, event.target.companyName.value]);
     }
 
@@ -209,4 +213,4 @@ const SettingsBody = () => {
   );
 };
 
-export default SettingsBody;
+export default withSnackbar(SettingsBody);
