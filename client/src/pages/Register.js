@@ -68,11 +68,6 @@ const Register = () => {
       })
 
       .catch(() => setRegisterError("Sorry, this email already exists."));
-    axios.put(
-      `/settings/${localStorage.getItem("email")}/company/${
-        event.target.company.value
-      }`
-    );
   };
 
   const onClickHandler = () => {
