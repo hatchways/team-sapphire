@@ -9,19 +9,13 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true  });
 
 const saveSettings = (settings, res) => {
   settings.save((err) => {
-    if (err) {
-      next(err);
-    }
+    res.send({ success: true, settings });
   });
-  res.send({ success: true, settings });
 }
 
-router.put("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
+router.put("/:email/company/:company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
-      if (err) {
-        next(err);
-      }
       if (settings) {
         settings.companies = settings.companies.concat(req.params.company);
         saveSettings(settings, res);
@@ -31,23 +25,11 @@ router.put("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
     })
 })
 
-router.put("/settings/:email/platform/:platform", jwtVerify, (req, res, next) => {
+router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
-      if (err) {
-        next(err);
-      }
       if (settings) {
-        //create a new copy of platforms while maintaining the same order (Object.create()) does not keep the same order
-        const platforms = {
-          reddit: settings.platforms.reddit,
-          twitter: settings.platforms.twitter,
-          facebook: settings.platforms.facebook,
-          amazon: settings.platforms.amazon,
-          forbes: settings.platforms.forbes,
-          shopify: settings.platforms.shopify,
-          businessInsider: settings.platforms.businessInsider
-        };
+        let platforms = {...settings.platforms};
         platforms[req.params.platform] = !platforms[req.params.platform];
         settings.platforms = platforms;
         saveSettings(settings, res);
@@ -57,12 +39,9 @@ router.put("/settings/:email/platform/:platform", jwtVerify, (req, res, next) =>
     })
 })
 
-router.get("/settings/:email", jwtVerify, (req, res, next) => {
+router.get("/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
-      if (err) {
-        next(err);
-      }
       if (settings) {
         res.send({ success: true, settings });
       } else {
@@ -71,12 +50,9 @@ router.get("/settings/:email", jwtVerify, (req, res, next) => {
     })
 })
 
-router.delete("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
+router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
-      if (err) {
-        next(err);
-      }
       if (settings) {
         settings.companies = settings.companies.filter(company => company !== req.params.company);
         saveSettings(settings, res);

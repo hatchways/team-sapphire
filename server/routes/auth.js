@@ -5,7 +5,7 @@ const User = require("../models/User");
 const SettingsModel = require("./../models/Settings");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { validateRegistration } = require("../utils/authUtils");
+const { validateRegistration, jwtVerify } = require("../utils/authUtils");
 const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -26,13 +26,13 @@ router.post("/register", async (req, res, next) => {
           email: req.body.username,
           companies: [req.body.company],
           platforms: {
-            reddit: true,
-            twitter: true,
-            facebook: true,
-            amazon: true,
-            forbes: true,
-            shopify: true,
-            businessInsider: true
+            Reddit: true,
+            Twitter: true,
+            Facebook: true,
+            Amazon: true,
+            Forbes: true,
+            Shopify: true,
+            "Business Insider": true
           }
         });
         settings.save(err => {
@@ -58,12 +58,12 @@ router.post("/register", async (req, res, next) => {
               html:
                 "<strong>Find mentions of your companies through platforms like Reddit and Twitter!</strong>"
             };
-            sgMail.send(msg);
+            // sgMail.send(msg);
             let token = jwt.sign({ userId: user._id }, process.env.SECRET, {
               expiresIn: "24h"
             });
             res.cookie("token", token, { httpOnly: true, sameSite: true });
-            res.status(201).send({ success: true, token });
+            res.status(201).send({ success: true, token, user });
           });
         });
       }
@@ -87,7 +87,7 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "24h"
         });
         res.cookie("token", token, { httpOnly: true, sameSite: true });
-        res.status(200).send({ success: true, token: token, user: user });
+        res.status(200).send({ success: true, token, user });
       }
     }
   });

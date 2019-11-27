@@ -32,9 +32,9 @@ function Mentions(props) {
     return <Card className={classes.cardContainer} key={i}>
              <CardMedia
                component="img"
-               alt="Stock image"
-               image="https://media.istockphoto.com/photos/business-people-using-pentabletnotebook-are-planning-a-marketing-plan-picture-id881542122?k=6&m=881542122&s=612x612&w=0&h=Sc70smgI-QSn1gLFO2UdAZIb8F9LKptDH8AujitIXBk="
-               title="Stock Business Image"
+               alt="image"
+               image={mention.image}
+               title="Image"
                className={classes.cardImage}
              />
              <div>
@@ -43,7 +43,7 @@ function Mentions(props) {
                    {mention.title}
                  </Typography>
                  <Typography>
-                   {mention.platform}
+                   {mention.platform} / {mention.link}
                  </Typography>
                  <Typography>
                    {mention.desc}
