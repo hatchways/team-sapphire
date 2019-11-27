@@ -134,8 +134,12 @@ const SettingsBody = ({ enqueueSnackbar }) => {
             event.target.companyName.value
           }`
         )
-        .then(() => enqueueSnackbar("Successfully fetched the data."))
-        .catch(() => enqueueSnackbar("Failed fetching data."));
+        .then(() =>
+          enqueueSnackbar("Company has been added", { variant: "success" })
+        )
+        .catch(() =>
+          enqueueSnackbar("Company was not added", { variant: "error" })
+        );
       setCompanyNames([...companyNames, event.target.companyName.value]);
     }
 
@@ -148,7 +152,14 @@ const SettingsBody = ({ enqueueSnackbar }) => {
   };
   const onRemoveHandler = name => {
     setCompanyNames(companyNames.filter(item => item !== name));
-    axios.delete(`/settings/${localStorage.getItem("email")}/company/${name}`);
+    axios
+      .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
+      .then(() =>
+        enqueueSnackbar("Company has been removed", { variant: "success" })
+      )
+      .catch(() =>
+        enqueueSnackbar("Company was not removed", { variant: "error" })
+      );
     setCompanyNameError("");
     setCompanyNameSaveError("");
   };
