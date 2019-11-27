@@ -101,9 +101,11 @@ const SettingsBody = () => {
   const [companyNameInput, setCompanyNameInput] = useState("");
   const [userEmail, setUserEmail] = useState("");
 
-  // useEffect(() => {
-  //   axios.get().then(res => setCompanyNames(res.data));
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`/${localStorage.getItem("email")}/company`)
+      .then(res => setCompanyNames(res.data.companies));
+  }, []);
 
   const onClickHandler = event => {
     event.preventDefault();
@@ -119,7 +121,11 @@ const SettingsBody = () => {
     if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company Name already exists");
     } else {
-      axios.put(`/settings/:email/company/${event.target.companyName.value}`);
+      axios.put(
+        `/${localStorage.getItem("email")}/company/${
+          event.target.companyName.value
+        }`
+      );
       setCompanyNames([...companyNames, event.target.companyName.value]);
     }
 
@@ -132,6 +138,7 @@ const SettingsBody = () => {
   };
   const onRemoveHandler = name => {
     setCompanyNames(companyNames.filter(item => item !== name));
+    axios.delete(`/${localStorage.getItem("email")}/company/${name}`);
     setCompanyNameError("");
     setCompanyNameSaveError("");
   };
