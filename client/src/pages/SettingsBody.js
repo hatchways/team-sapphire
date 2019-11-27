@@ -126,7 +126,9 @@ const SettingsBody = ({ enqueueSnackbar }) => {
     event.preventDefault();
     event.persist();
     if (companyNames.includes(event.target.companyName.value)) {
-      setCompanyNameError("Company Name already exists");
+      setCompanyNameError("Company name already exists");
+    } else if (event.target.companyName.value === "") {
+      setCompanyNameError("Company name cannot be blank");
     } else {
       axios
         .put(
@@ -134,29 +136,29 @@ const SettingsBody = ({ enqueueSnackbar }) => {
             event.target.companyName.value
           }`
         )
-        .then(() =>
-          enqueueSnackbar("Company has been added", { variant: "success" })
-        )
+        .then(() => {
+          setCompanyNames([...companyNames, event.target.companyName.value]);
+          setCompanyNameInput("");
+          enqueueSnackbar("Company has been added", { variant: "success" });
+        })
         .catch(() =>
           enqueueSnackbar("Company was not added", { variant: "error" })
         );
-      setCompanyNames([...companyNames, event.target.companyName.value]);
     }
-
-    setCompanyNameInput("");
   };
 
   const onAddHandler = () => {
     setCompanyNameError("");
     setCompanyNameSaveError("");
   };
+
   const onRemoveHandler = name => {
-    setCompanyNames(companyNames.filter(item => item !== name));
     axios
       .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
-      .then(() =>
-        enqueueSnackbar("Company has been removed", { variant: "success" })
-      )
+      .then(() => {
+        enqueueSnackbar("Company has been removed", { variant: "success" });
+        setCompanyNames(companyNames.filter(item => item !== name));
+      })
       .catch(() =>
         enqueueSnackbar("Company was not removed", { variant: "error" })
       );

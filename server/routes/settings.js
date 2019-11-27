@@ -13,7 +13,7 @@ const saveSettings = (settings, res) => {
   });
 };
 
-router.get("/settings/:email/company", jwtVerify, (req, res, next) => {
+router.get("/:email/company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
     if (settings) {
       res.send({ companies: settings.companies });
@@ -23,7 +23,7 @@ router.get("/settings/:email/company", jwtVerify, (req, res, next) => {
   });
 });
 
-router.put("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
+router.put("/:email/company/:company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
     if (settings) {
       settings.companies = settings.companies.concat(req.params.company);
@@ -34,24 +34,20 @@ router.put("/settings/:email/company/:company", jwtVerify, (req, res, next) => {
   });
 });
 
-router.put(
-  "/settings/:email/platform/:platform",
-  jwtVerify,
-  (req, res, next) => {
-    SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
-      if (settings) {
-        let platforms = { ...settings.platforms };
-        platforms[req.params.platform] = !platforms[req.params.platform];
-        settings.platforms = platforms;
-        saveSettings(settings, res);
-      } else {
-        next("User settings doesn't exist!");
-      }
-    });
-  }
-);
+router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
+  SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
+    if (settings) {
+      let platforms = { ...settings.platforms };
+      platforms[req.params.platform] = !platforms[req.params.platform];
+      settings.platforms = platforms;
+      saveSettings(settings, res);
+    } else {
+      next("User settings doesn't exist!");
+    }
+  });
+});
 
-router.get("/settings/:email", jwtVerify, (req, res, next) => {
+router.get("/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
     if (settings) {
       res.send({ success: true, settings });
@@ -61,21 +57,17 @@ router.get("/settings/:email", jwtVerify, (req, res, next) => {
   });
 });
 
-router.delete(
-  "/settings/:email/company/:company",
-  jwtVerify,
-  (req, res, next) => {
-    SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
-      if (settings) {
-        settings.companies = settings.companies.filter(
-          company => company !== req.params.company
-        );
-        saveSettings(settings, res);
-      } else {
-        next("User settings doesn't exist!");
-      }
-    });
-  }
-);
+router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {
+  SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
+    if (settings) {
+      settings.companies = settings.companies.filter(
+        company => company !== req.params.company
+      );
+      saveSettings(settings, res);
+    } else {
+      next("User settings doesn't exist!");
+    }
+  });
+});
 
 module.exports = router;
