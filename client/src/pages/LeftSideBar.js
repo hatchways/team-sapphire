@@ -51,6 +51,7 @@ const LeftSideBar = () => {
 
   const onClickHandler = event => {
     event.preventDefault();
+    localStorage.clear();
     history.push("/login");
   };
   return (
