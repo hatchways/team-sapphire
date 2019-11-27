@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -91,6 +91,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "5vh"
   }
 }));
+
 const SettingsBody = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -100,16 +101,9 @@ const SettingsBody = () => {
   const [companyNameInput, setCompanyNameInput] = useState("");
   const [userEmail, setUserEmail] = useState("");
 
-  // const checkCompanyNameUnique = name => {
-  //   let found = false;
-  //   for (let companyName of companyNames) {
-  //     if (companyName.name === name) {
-  //       found = true;
-  //       break;
-  //     }
-  //   }
-  //   return found;
-  // };
+  // useEffect(() => {
+  //   axios.get().then(res => setCompanyNames(res.data));
+  // }, []);
 
   const onClickHandler = event => {
     event.preventDefault();
@@ -125,6 +119,7 @@ const SettingsBody = () => {
     if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company Name already exists");
     } else {
+      axios.put(`/settings/:email/company/${event.target.companyName.value}`);
       setCompanyNames([...companyNames, event.target.companyName.value]);
     }
 
