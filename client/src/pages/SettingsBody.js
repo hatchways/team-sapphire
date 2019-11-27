@@ -99,11 +99,10 @@ const SettingsBody = () => {
   const [companyNameError, setCompanyNameError] = useState("");
   const [companyNames, setCompanyNames] = useState([]);
   const [companyNameInput, setCompanyNameInput] = useState("");
-  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     axios
-      .get(`/${localStorage.getItem("email")}/company`)
+      .get(`/settings/${localStorage.getItem("email")}/company`)
       .then(res => setCompanyNames(res.data.companies));
   }, []);
 
@@ -122,7 +121,7 @@ const SettingsBody = () => {
       setCompanyNameError("Company Name already exists");
     } else {
       axios.put(
-        `/${localStorage.getItem("email")}/company/${
+        `/settings/${localStorage.getItem("email")}/company/${
           event.target.companyName.value
         }`
       );
@@ -138,7 +137,7 @@ const SettingsBody = () => {
   };
   const onRemoveHandler = name => {
     setCompanyNames(companyNames.filter(item => item !== name));
-    axios.delete(`/${localStorage.getItem("email")}/company/${name}`);
+    axios.delete(`/settings/${localStorage.getItem("email")}/company/${name}`);
     setCompanyNameError("");
     setCompanyNameSaveError("");
   };
@@ -189,15 +188,10 @@ const SettingsBody = () => {
       <div className={classes.userEmailInput}>
         {" "}
         <b className={classes.emailTitle}>Weekly report </b>
-        <input
-          name="company-email"
-          label=""
-          type="text"
-          id="company-email"
-          value={userEmail}
-          onChange={event => setUserEmail(event.target.value)}
-          className={classes.companyEmailInput}
-        />
+        <span className={classes.companyEmailInput}>
+          {" "}
+          {localStorage.getItem("email")}
+        </span>
       </div>
 
       <p className={classes.error}>{companyNameSaveError}</p>

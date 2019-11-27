@@ -62,10 +62,17 @@ const Register = () => {
       .then(res => {
         if (res.data.success) {
           localStorage.setItem("email", res.data.user.username);
+
           history.push("/settings");
         }
       })
+
       .catch(() => setRegisterError("Sorry, this email already exists."));
+    axios.put(
+      `/settings/${localStorage.getItem("email")}/company/${
+        event.target.company.value
+      }`
+    );
   };
 
   const onClickHandler = () => {
