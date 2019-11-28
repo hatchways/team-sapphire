@@ -18,8 +18,7 @@ const getNewestRedditPosts = async (company) => {
           platform: submission.subreddit_name_prefixed,
           link: "https://www.reddit.com" + submission.permalink,
           image: (submission.thumbnail !== "default" && submission.thumbnail !== "self") ? submission.thumbnail : "",
-          desc: submission.selftext,
-          source: "Reddit"
+          desc: submission.selftext
         });
       });
     });

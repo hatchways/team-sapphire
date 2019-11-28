@@ -30,10 +30,6 @@ function Dashboard() {
     "Business Insider": true
   });
   const [mentions, setMentions] = useState([]);
-  // { title: "example title", platform: "Reddit", desc: "qwerty" },
-  // { title: "example title", platform: "Forbes", desc: "12345" },
-  // { title: "example title", platform: "Shopify", desc: "abc123" },
-  // { title: "example title", platform: "Business Insider", desc: "aedsfadwsf" }
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
@@ -43,16 +39,7 @@ function Dashboard() {
         if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          axios
-            .get("/mentions/newest", { params: { companies: res.data.settings.companies }})
-            .then(res => {
-              if (res.data.success) {
-                setMentions(res.data.mentions);
-              }
-            })
-            .catch(error => {
-              console.error(error)
-            })
+          setMentions(res.data.mentions);
         }
       })
       .catch(error => {

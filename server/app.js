@@ -12,7 +12,6 @@ const corsOptions = {
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 const authRoutes = require("./routes/auth");
-const interfaceRouter = require("./routes/interface");
 const settingsRouter = require("./routes/settings");
 
 const app = express();
@@ -27,7 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use(authRoutes);
-app.use("/mentions", interfaceRouter);
 app.use("/settings", settingsRouter);
 
 // Error handler

@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const SettingsModel = require("./../models/Settings");
 const UserModel = require("./../models/User");
+const Interface = require("./../models/Interface");
 const { jwtVerify } = require("../utils/authUtils");
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true  });
@@ -43,7 +44,9 @@ router.get("/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
     (err, settings) => {
       if (settings) {
-        res.send({ success: true, settings });
+        let interface = Interface();
+        const mentions = interface.getNewestMentions(settings.companies);
+        res.send({ success: true, settings, mentions });
       } else {
         next("User settings doesn't exist!");
       }
