@@ -40,12 +40,12 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
     })
 })
 
-router.get("/:email", jwtVerify, (req, res, next) => {
+router.get("/:email", jwtVerify, async (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email },
-    (err, settings) => {
+    async (err, settings) => {
       if (settings) {
-        let interface = Interface();
-        const mentions = interface.getNewestMentions(settings.companies);
+        let interface = new Interface();
+        const mentions = await interface.getNewestMentions(settings.companies);
         res.send({ success: true, settings, mentions });
       } else {
         next("User settings doesn't exist!");
