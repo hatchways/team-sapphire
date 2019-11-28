@@ -16,7 +16,7 @@ const getNewestRedditPosts = async (company) => {
         submissions.push({
           title: submission.title,
           platform: submission.subreddit_name_prefixed,
-          link: submission.permalink,
+          link: "https://www.reddit.com" + submission.permalink,
           image: submission.thumbnail,
           desc: submission.selftext
         });
