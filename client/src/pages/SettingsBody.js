@@ -126,7 +126,7 @@ const SettingsBody = ({ enqueueSnackbar }) => {
   };
   const onSubmitHandler = event => {
     event.preventDefault();
-    // event.persist();
+    event.persist();
     if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company name already exists");
     } else if (event.target.companyName.value === "") {

@@ -112,7 +112,8 @@ const CompanyNameTextfield = ({
   const [companyNameInput, setCompanyNameInput] = useState(defaultCompanyName);
   const [isEdit, setIsEdit] = useState(false);
 
-  const onRemoveHandler = name => {
+  const onRemoveHandler = (name, event) => {
+    event.preventDefault();
     axios
       .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
       .then(() => {
@@ -154,7 +155,10 @@ const CompanyNameTextfield = ({
           }`
         )
         .then(() => {
-          setCompanyNames([...companyNames, event.target.companyName.value]);
+          // setCompanyNames([...companyNames, event.target.companyName.value]);
+          // setCompanyNames(
+          //   companyNames.filter(item => item !== defaultCompanyName)
+          // );
           setCompanyNameInput(event.target.companyName.value);
           setIsEdit(false);
           enqueueSnackbar("Company has been edited and added", {
@@ -181,7 +185,6 @@ const CompanyNameTextfield = ({
         ></input>
         {isEdit ? (
           <button
-            type="submit"
             onClick={() => onEditHandler()}
             className={classes.buttonAdornment}
           >
@@ -189,7 +192,7 @@ const CompanyNameTextfield = ({
           </button>
         ) : (
           <button
-            onClick={() => onRemoveHandler(companyNameInput)}
+            onClick={event => onRemoveHandler(companyNameInput, event)}
             className={classes.buttonAdornment}
           >
             <b> REMOVE</b>
