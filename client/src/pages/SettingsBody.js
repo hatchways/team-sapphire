@@ -126,7 +126,7 @@ const SettingsBody = ({ enqueueSnackbar }) => {
   };
   const onSubmitHandler = event => {
     event.preventDefault();
-    event.persist();
+    // event.persist();
     if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company name already exists");
     } else if (event.target.companyName.value === "") {
@@ -187,7 +187,11 @@ const SettingsBody = ({ enqueueSnackbar }) => {
               className={classes.companyNameInput}
             />
 
-            <button onClick={onAddHandler} className={classes.buttonAdornment}>
+            <button
+              type="submit"
+              onClick={onAddHandler}
+              className={classes.buttonAdornment}
+            >
               <b> ADD</b>
             </button>
           </form>
@@ -196,16 +200,16 @@ const SettingsBody = ({ enqueueSnackbar }) => {
       {companyNames.length > 0 &&
         companyNames.map((company, index) => {
           return (
-            <div key={index}>
-              <ComapnyNameTextfield
-                defaultCompanyName={company}
-                companyNames={companyNames}
-                setCompanyNames={setCompanyNames}
-                companyNameError={companyNameError}
-                setCompanyNameError={setCompanyNameError}
-                setCompanyNameSaveError={setCompanyNameSaveError}
-              />
-            </div>
+            <ComapnyNameTextfield
+              key={index}
+              defaultCompanyName={company}
+              companyNames={companyNames}
+              setCompanyNames={setCompanyNames}
+              companyNameError={companyNameError}
+              setCompanyNameError={setCompanyNameError}
+              setCompanyNameSaveError={setCompanyNameSaveError}
+            />
+
             // <div className={classes.listOfCompanies}>
             //   <span className="" key={index}>
             //     {company}

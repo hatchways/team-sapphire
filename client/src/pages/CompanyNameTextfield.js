@@ -54,7 +54,8 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid #eeeeef",
     padding: "10px",
     width: "600px",
-    alignItems: "center"
+    alignItems: "center",
+    marginLeft: "258px"
   },
   listOfCompanies: {
     borderRadius: "25px",
@@ -102,13 +103,15 @@ const CompanyNameTextfield = ({
   defaultCompanyName,
   setCompanyNames,
   companyNames,
-  setCompanyNameError,
   enqueueSnackbar,
+  setCompanyNameError,
   setCompanyNameSaveError
 }) => {
   const classes = useStyles();
 
-  const [companyName, setCompanyName] = useState(defaultCompanyName);
+  const [companyNameInput, setCompanyNameInput] = useState(defaultCompanyName);
+  const [isEdit, setIsEdit] = useState(false);
+
   const onRemoveHandler = name => {
     axios
       .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
@@ -125,24 +128,74 @@ const CompanyNameTextfield = ({
 
   const onChangeHandler = event => {
     event.preventDefault();
+    if (!isEdit) setIsEdit(true);
 
-    setCompanyName(event.target.value);
+    setCompanyNameInput(event.target.value);
+  };
+
+  const onEditHandler = () => {
+    setCompanyNameError("");
+    setCompanyNameSaveError("");
+  };
+
+  const onSubmitHandler = event => {
+    event.preventDefault();
+
+    event.persist();
+    if (companyNames.includes(event.target.companyName.value)) {
+      setCompanyNameError("Company name already exists");
+    } else if (event.target.companyName.value === "") {
+      setCompanyNameError("Company name cannot be blank");
+    } else {
+      axios
+        .put(
+          `/settings/${localStorage.getItem("email")}/company/${
+            event.target.companyName.value
+          }`
+        )
+        .then(() => {
+          setCompanyNames([...companyNames, event.target.companyName.value]);
+          setCompanyNameInput(event.target.companyName.value);
+          setIsEdit(false);
+          enqueueSnackbar("Company has been edited and added", {
+            variant: "success"
+          });
+        })
+        .catch(() =>
+          enqueueSnackbar("Company was not edited and added", {
+            variant: "error"
+          })
+        );
+    }
   };
 
   return (
-    <div className={classes.listOfCompanies}>
-      <input
-        type="text"
-        value={companyName}
-        onChange={onChangeHandler}
-        className={classes.companyNameInput}
-      ></input>
-      <button
-        onClick={() => onRemoveHandler(companyName)}
-        className={classes.buttonAdornment}
-      >
-        <b> REMOVE</b>
-      </button>
+    <div>
+      <form onSubmit={onSubmitHandler} className={classes.companyInputForm}>
+        <input
+          type="text"
+          id="companyName"
+          value={companyNameInput}
+          onChange={onChangeHandler}
+          className={classes.companyNameInput}
+        ></input>
+        {isEdit ? (
+          <button
+            type="submit"
+            onClick={() => onEditHandler()}
+            className={classes.buttonAdornment}
+          >
+            <b> SAVE</b>
+          </button>
+        ) : (
+          <button
+            onClick={() => onRemoveHandler(companyNameInput)}
+            className={classes.buttonAdornment}
+          >
+            <b> REMOVE</b>
+          </button>
+        )}
+      </form>
     </div>
   );
 };
