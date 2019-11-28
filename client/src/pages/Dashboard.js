@@ -43,18 +43,16 @@ function Dashboard() {
         if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          res.data.settings.companies.forEach(company => {
-            axios
-              .get(`/reddit/search/new/${company}`)
-              .then(res => {
-                if (res.data.success) {
-                  setMentions(res.data.submissions);
-                }
-              })
-              .catch(error => {
-                console.error(error)
-              })
-          })
+          axios
+            .get("/mentions/newest", { params: { companies: res.data.settings.companies }})
+            .then(res => {
+              if (res.data.success) {
+                setMentions(res.data.mentions);
+              }
+            })
+            .catch(error => {
+              console.error(error)
+            })
         }
       })
       .catch(error => {

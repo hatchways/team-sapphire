@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const snoowrap = require('snoowrap');
 
 const r = new snoowrap({
@@ -9,16 +8,11 @@ const r = new snoowrap({
   refreshToken: process.env.REDDIT_REFRESH_TOKEN
 });
 
-router.get("/search/new/:company", (req, res, next) => {
-  r.search({query: req.params.company, sort: 'new'})
+const getNewestRedditPosts = async (company) => {
+  let submissions = [];
+  await r.search({query: company, sort: 'new'})
     .then(posts => {
-      let submissions = [];
       posts.forEach((submission, i) => {
-        console.log(submission.title);
-        console.log(submission.subreddit_name_prefixed);
-        console.log(submission.permalink);
-        console.log(submission.thumbnail);
-        console.log(submission.selftext);
         submissions.push({
           title: submission.title,
           platform: submission.subreddit_name_prefixed,
@@ -27,8 +21,10 @@ router.get("/search/new/:company", (req, res, next) => {
           desc: submission.selftext
         });
       });
-      res.send({ success: true, submissions });
     });
-});
+  return submissions;
+}
 
-module.exports = router;
+module.exports = {
+  getNewestRedditPosts
+};
