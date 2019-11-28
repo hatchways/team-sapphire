@@ -5,6 +5,8 @@ import { withSnackbar } from "notistack";
 
 import { makeStyles } from "@material-ui/core/styles";
 
+import ComapnyNameTextfield from "./CompanyNameTextfield";
+
 const useStyles = makeStyles(theme => ({
   bodyContainer: {
     backgroundColor: "#fafbff",
@@ -152,19 +154,19 @@ const SettingsBody = ({ enqueueSnackbar }) => {
     setCompanyNameSaveError("");
   };
 
-  const onRemoveHandler = name => {
-    axios
-      .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
-      .then(() => {
-        enqueueSnackbar("Company has been removed", { variant: "success" });
-        setCompanyNames(companyNames.filter(item => item !== name));
-      })
-      .catch(() =>
-        enqueueSnackbar("Company was not removed", { variant: "error" })
-      );
-    setCompanyNameError("");
-    setCompanyNameSaveError("");
-  };
+  // const onRemoveHandler = name => {
+  //   axios
+  //     .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
+  //     .then(() => {
+  //       enqueueSnackbar("Company has been removed", { variant: "success" });
+  //       setCompanyNames(companyNames.filter(item => item !== name));
+  //     })
+  //     .catch(() =>
+  //       enqueueSnackbar("Company was not removed", { variant: "error" })
+  //     );
+  //   setCompanyNameError("");
+  //   setCompanyNameSaveError("");
+  // };
 
   return (
     <div className={classes.bodyContainer}>
@@ -194,17 +196,33 @@ const SettingsBody = ({ enqueueSnackbar }) => {
       {companyNames.length > 0 &&
         companyNames.map((company, index) => {
           return (
-            <div className={classes.listOfCompanies}>
-              <span className="" key={index}>
-                {company}
-              </span>
-              <button
-                onClick={() => onRemoveHandler(company)}
-                className={classes.buttonAdornment}
-              >
-                <b> REMOVE</b>
-              </button>
+            <div key={index}>
+              <ComapnyNameTextfield
+                defaultCompanyName={company}
+                companyNames={companyNames}
+                setCompanyNames={setCompanyNames}
+                companyNameError={companyNameError}
+                setCompanyNameError={setCompanyNameError}
+                setCompanyNameSaveError={setCompanyNameSaveError}
+              />
             </div>
+            // <div className={classes.listOfCompanies}>
+            //   <span className="" key={index}>
+            //     {company}
+            //   </span>
+            //   <button
+            //     onClick={() => onRemoveHandler(company)}
+            //     className={classes.buttonAdornment}
+            //   >
+            //     <b> EDIT</b>
+            //   </button>
+            //   <button
+            //     onClick={() => onRemoveHandler(company)}
+            //     className={classes.buttonAdornment}
+            //   >
+            //     <b> REMOVE</b>
+            //   </button>
+            // </div>
           );
         })}
       <p className={classes.error}>{companyNameError}</p>
