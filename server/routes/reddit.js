@@ -17,7 +17,7 @@ const getNewestRedditPosts = async (company) => {
           title: submission.title,
           platform: submission.subreddit_name_prefixed,
           link: "https://www.reddit.com" + submission.permalink,
-          image: (submission.thumbnail !== "default" && submission.thumbnail !== "self") ? submission.thumbnail : "",
+          image: (submission.thumbnail !== "default" && submission.thumbnail !== "self") ? submission.thumbnail : "https://zdnet2.cbsistatic.com/hub/i/r/2016/05/27/c16d537c-b457-4d84-9b88-8e97ede57180/thumbnail/770x578/f0b848edb037a70d6e0821c061087214/screen-shot-2016-05-27-at-09-25-51.jpg",
           desc: submission.selftext
         });
       });
