@@ -110,17 +110,10 @@ const SettingsBody = ({ enqueueSnackbar }) => {
   const [companyNames, setCompanyNames] = useState([]);
   const [companyNameInput, setCompanyNameInput] = useState("");
 
-  // const CancelToken = axios.CancelToken;
-  // const source = CancelToken.source();
-
   useEffect(() => {
     axios
       .get(`/settings/${localStorage.getItem("email")}/company`)
       .then(res => setCompanyNames(res.data.companies));
-
-    // return () => {
-    //   source.cancel();
-    // };
   }, []);
 
   const onClickHandler = event => {
@@ -133,7 +126,12 @@ const SettingsBody = ({ enqueueSnackbar }) => {
   };
   const onSubmitHandler = event => {
     event.preventDefault();
+
+    setCompanyNameError("");
+    setCompanyNameSaveError("");
+
     event.persist();
+
     if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company name already exists");
     } else if (event.target.companyName.value === "") {
@@ -156,25 +154,6 @@ const SettingsBody = ({ enqueueSnackbar }) => {
     }
   };
 
-  const onAddHandler = () => {
-    setCompanyNameError("");
-    setCompanyNameSaveError("");
-  };
-
-  // const onRemoveHandler = name => {
-  //   axios
-  //     .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
-  //     .then(() => {
-  //       enqueueSnackbar("Company has been removed", { variant: "success" });
-  //       setCompanyNames(companyNames.filter(item => item !== name));
-  //     })
-  //     .catch(() =>
-  //       enqueueSnackbar("Company was not removed", { variant: "error" })
-  //     );
-  //   setCompanyNameError("");
-  //   setCompanyNameSaveError("");
-  // };
-
   return (
     <div className={classes.bodyContainer}>
       <div className={classes.companyContainer}>
@@ -186,7 +165,7 @@ const SettingsBody = ({ enqueueSnackbar }) => {
           <form onSubmit={onSubmitHandler} className={classes.companyInputForm}>
             <input
               type="text"
-              placeholder="Add Company name"
+              placeholder="Add company name"
               title="Add a tag"
               value={companyNameInput}
               id="companyName"
@@ -194,12 +173,8 @@ const SettingsBody = ({ enqueueSnackbar }) => {
               className={classes.companyNameInput}
             />
 
-            <button
-              type="submit"
-              onClick={onAddHandler}
-              className={classes.buttonAdornment}
-            >
-              <b> ADD</b>
+            <button type="submit" className={classes.buttonAdornment}>
+              <b>ADD</b>
             </button>
           </form>
         </div>
@@ -209,6 +184,7 @@ const SettingsBody = ({ enqueueSnackbar }) => {
           return (
             <ComapnyNameTextfield
               key={index}
+              index={index}
               defaultCompanyName={company}
               companyNames={companyNames}
               setCompanyNames={setCompanyNames}
@@ -216,24 +192,6 @@ const SettingsBody = ({ enqueueSnackbar }) => {
               setCompanyNameError={setCompanyNameError}
               setCompanyNameSaveError={setCompanyNameSaveError}
             />
-
-            // <div className={classes.listOfCompanies}>
-            //   <span className="" key={index}>
-            //     {company}
-            //   </span>
-            //   <button
-            //     onClick={() => onRemoveHandler(company)}
-            //     className={classes.buttonAdornment}
-            //   >
-            //     <b> EDIT</b>
-            //   </button>
-            //   <button
-            //     onClick={() => onRemoveHandler(company)}
-            //     className={classes.buttonAdornment}
-            //   >
-            //     <b> REMOVE</b>
-            //   </button>
-            // </div>
           );
         })}
       <p className={classes.error}>{companyNameError}</p>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 import { makeStyles } from "@material-ui/core/styles";
@@ -100,6 +100,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CompanyNameTextfield = ({
+  index,
   defaultCompanyName,
   setCompanyNames,
   companyNames,
@@ -111,6 +112,10 @@ const CompanyNameTextfield = ({
 
   const [companyNameInput, setCompanyNameInput] = useState(defaultCompanyName);
   const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    setCompanyNameInput(defaultCompanyName);
+  }, [defaultCompanyName]);
 
   const onRemoveHandler = (name, event) => {
     event.preventDefault();
@@ -134,12 +139,10 @@ const CompanyNameTextfield = ({
     setCompanyNameInput(event.target.value);
   };
 
-  const onEditHandler = () => {
+  const onSubmitHandler = event => {
     setCompanyNameError("");
     setCompanyNameSaveError("");
-  };
 
-  const onSubmitHandler = event => {
     event.preventDefault();
 
     event.persist();
@@ -162,6 +165,14 @@ const CompanyNameTextfield = ({
           );
         })
         .then(() => {
+          setCompanyNameInput(event.target.companyName.value);
+
+          let updatedCompanyNames = [...companyNames];
+          updatedCompanyNames.splice(index, 1, event.target.companyName.value);
+
+          setCompanyNames(updatedCompanyNames);
+        })
+        .then(() => {
           enqueueSnackbar("Company has been edited and added", {
             variant: "success"
           });
@@ -171,10 +182,6 @@ const CompanyNameTextfield = ({
             variant: "error"
           })
         );
-
-      setCompanyNameInput(event.target.companyName.value);
-      setCompanyNames([...companyNames, event.target.companyName.value]);
-      setCompanyNames(companyNames.filter(item => item !== defaultCompanyName));
 
       setIsEdit(false);
     }
@@ -191,19 +198,15 @@ const CompanyNameTextfield = ({
           className={classes.companyNameInput}
         ></input>
         {isEdit ? (
-          <button
-            type="submit"
-            onClick={() => onEditHandler()}
-            className={classes.buttonAdornment}
-          >
-            <b> SAVE</b>
+          <button type="submit" className={classes.buttonAdornment}>
+            <b>SAVE</b>
           </button>
         ) : (
           <button
             onClick={event => onRemoveHandler(companyNameInput, event)}
             className={classes.buttonAdornment}
           >
-            <b> REMOVE</b>
+            <b>REMOVE</b>
           </button>
         )}
       </form>
