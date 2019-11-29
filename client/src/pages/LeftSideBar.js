@@ -50,14 +50,14 @@ const LeftSideBar = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleLogout = () => {
-    let response = axios.post("http://localhost:4000/logout");
+  const handleLogout = async () => {
+    let response = await axios.post("http://localhost:4000/logout");
     if (response.data.success) {
       localStorage.clear();
       history.push("/login");
     }
   };
-  
+
   return (
     <div>
       <Grid container className={classes.titleContainer}>

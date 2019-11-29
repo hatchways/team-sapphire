@@ -84,8 +84,8 @@ function Dashboard() {
     setSort(sort);
   };
 
-  const handleLogout = () => {
-    let response = axios.post("http://localhost:4000/logout");
+  const handleLogout = async () => {
+    let response = await axios.post("http://localhost:4000/logout");
     if (response.data.success) {
       localStorage.clear();
       history.push("/login");
