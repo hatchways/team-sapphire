@@ -36,6 +36,10 @@ function Dashboard() {
   // { title: "example title", platform: "Business Insider", desc: "aedsfadwsf" }
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
+  const [selectedCompany, setSelectedCompany] = useState("All Companies");
+  const [selectedPlatform, setSelectedPlatform] = useState("All Platforms");
+  const [isPlatformOpen, setPlatformOpen] = useState(false);
+  const [isCompanyOpen, setCompanyOpen] = useState(false);
   useEffect(() => {
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
@@ -62,7 +66,7 @@ function Dashboard() {
       })
   }, []);
 
-  const handlePlatformChange = platform => {
+  const handlePlatformToggle = platform => {
     axios
       .put(`/settings/${localStorage.getItem("email")}/platform/${platform}`)
       .then(res => {
@@ -80,15 +84,53 @@ function Dashboard() {
     setSort(sort);
   };
 
+  const handlePlatformClose = (event) => {
+    setPlatformOpen(false);
+  }
+
+  const handlePlatformOpen = (event) => {
+    setPlatformOpen(true);
+  }
+
+  const handlePlatformChange = (event) => {
+    setSelectedPlatform(event.target.value);
+  }
+
+  const handleCompanyClose = (event) => {
+    setCompanyOpen(false);
+  }
+
+  const handleCompanyOpen = (event) => {
+    setCompanyOpen(true);
+  }
+
+  const handleCompanyChange = (event) => {
+    setSelectedCompany(event.target.value);
+  }
+
   const classes = useStyles();
   return (
     <div className={classes.dashboardContainer}>
-      <Navbar showSearch={true} />
+      <Navbar
+        showSearch={true}
+        platforms={platforms}
+        selectedPlatform={selectedPlatform}
+        isPlatformOpen={isPlatformOpen}
+        handlePlatformClose = {handlePlatformClose}
+        handlePlatformOpen = {handlePlatformOpen}
+        handlePlatformChange = {handlePlatformChange}
+        companies={companies}
+        selectedCompany={selectedCompany}
+        isCompanyOpen={isCompanyOpen}
+        handleCompanyClose = {handleCompanyClose}
+        handleCompanyOpen = {handleCompanyOpen}
+        handleCompanyChange = {handleCompanyChange}
+      />
       <Grid container spacing={0}>
         <Grid item xs={4}>
           <Platforms
             platforms={platforms}
-            handleChange={handlePlatformChange}
+            handleChange={handlePlatformToggle}
           />
         </Grid>
         <Grid item xs={8} className={classes.rightGridContainer}>
