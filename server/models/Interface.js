@@ -8,7 +8,7 @@ const interface = class Interface {
 
   getNewestMentions = async (companies) => {
     for (const company of companies) {
-      this.mentions = await getNewestRedditPosts(company);
+      this.mentions = this.mentions.concat(await getNewestRedditPosts(company));
     }
     return this.mentions;
   }
