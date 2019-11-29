@@ -2,15 +2,20 @@ const express = require("express");
 const { getNewestRedditPosts } = require("./../routes/reddit");
 
 const interface = class Interface {
-  constructor() {
-    this.mentions = []
-  }
-
   getNewestMentions = async (companies) => {
+    let mentions = [];
+    let promises = [];
     for (const company of companies) {
-      this.mentions = this.mentions.concat(await getNewestRedditPosts(company));
+      promises.push(getNewestRedditPosts(company));
     }
-    return this.mentions;
+    await Promise
+      .all(promises)
+      .then(posts => {
+        for (const post of posts) {
+          mentions = mentions.concat(post);
+        }
+      })
+    return mentions;
   }
 }
 
