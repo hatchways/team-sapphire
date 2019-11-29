@@ -155,12 +155,13 @@ const CompanyNameTextfield = ({
           }`
         )
         .then(() => {
-          // setCompanyNames([...companyNames, event.target.companyName.value]);
-          // setCompanyNames(
-          //   companyNames.filter(item => item !== defaultCompanyName)
-          // );
-          setCompanyNameInput(event.target.companyName.value);
-          setIsEdit(false);
+          axios.delete(
+            `/settings/${localStorage.getItem(
+              "email"
+            )}/company/${defaultCompanyName}`
+          );
+        })
+        .then(() => {
           enqueueSnackbar("Company has been edited and added", {
             variant: "success"
           });
@@ -170,6 +171,12 @@ const CompanyNameTextfield = ({
             variant: "error"
           })
         );
+
+      setCompanyNameInput(event.target.companyName.value);
+      setCompanyNames([...companyNames, event.target.companyName.value]);
+      setCompanyNames(companyNames.filter(item => item !== defaultCompanyName));
+
+      setIsEdit(false);
     }
   };
 
@@ -185,6 +192,7 @@ const CompanyNameTextfield = ({
         ></input>
         {isEdit ? (
           <button
+            type="submit"
             onClick={() => onEditHandler()}
             className={classes.buttonAdornment}
           >

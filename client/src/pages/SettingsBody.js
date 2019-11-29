@@ -110,10 +110,17 @@ const SettingsBody = ({ enqueueSnackbar }) => {
   const [companyNames, setCompanyNames] = useState([]);
   const [companyNameInput, setCompanyNameInput] = useState("");
 
+  // const CancelToken = axios.CancelToken;
+  // const source = CancelToken.source();
+
   useEffect(() => {
     axios
       .get(`/settings/${localStorage.getItem("email")}/company`)
       .then(res => setCompanyNames(res.data.companies));
+
+    // return () => {
+    //   source.cancel();
+    // };
   }, []);
 
   const onClickHandler = event => {
