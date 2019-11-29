@@ -63,6 +63,8 @@ const Navbar = ({
   showRegister = false,
   loggedIn = false,
   loginToggle = false,
+  searchInput = "",
+  onSearchChange = () => {},
   companies = [],
   platforms = {},
   isCompanyOpen = false,
@@ -74,7 +76,8 @@ const Navbar = ({
   handlePlatformClose = () => {},
   handlePlatformOpen = () => {},
   handlePlatformChange = () => {},
-  selectedPlatform = "All Platforms"
+  selectedPlatform = "All Platforms",
+  handleSubmit = () => {}
 }) => {
   const classes = useStyles();
   return (
@@ -86,10 +89,14 @@ const Navbar = ({
               <Typography variant="h6" noWrap className={classes.title}>
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
-              <Paper component="form" className={classes.search}>
+              <Paper component="form" className={classes.search} onSubmit={handleSubmit}>
                 <InputBase
                   placeholder="Search Company Name..."
                   className={classes.input}
+                  value={searchInput}
+                  onChange={onSearchChange}
+                  id="searchfield"
+                  name="searchfield"
                 />
                 <Select
                   className={classes.select}
@@ -98,12 +105,14 @@ const Navbar = ({
                   onOpen={handleCompanyOpen}
                   value={selectedCompany}
                   onChange={handleCompanyChange}
+                  id="companyfield"
+                  name="companyfield"
                 >
                   <MenuItem value="All Companies">
                     <em>All Companies</em>
                   </MenuItem>
-                  {companies.map(company => {
-                    return <MenuItem value={company}>{company}</MenuItem>
+                  {companies.map((company, i) => {
+                    return <MenuItem value={company} key={i}>{company}</MenuItem>
                   })}
                 </Select>
                 <Select
@@ -113,15 +122,17 @@ const Navbar = ({
                   onOpen={handlePlatformOpen}
                   value={selectedPlatform}
                   onChange={handlePlatformChange}
+                  id="platformfield"
+                  name="platformfield"
                 >
                   <MenuItem value="All Platforms">
                     <em>All Platforms</em>
                   </MenuItem>
-                  {Object.keys(platforms).map(platform => {
-                    return <MenuItem value={platform}>{platform}</MenuItem>
+                  {Object.keys(platforms).map((platform, i) => {
+                    return <MenuItem value={platform} key={i}>{platform}</MenuItem>
                   })}
                 </Select>
-                <IconButton type="submit" aria-label="search">
+                <IconButton type="submit" aria-label="search" onSubmit={handleSubmit}>
                   <SearchIcon />
                 </IconButton>
               </Paper>

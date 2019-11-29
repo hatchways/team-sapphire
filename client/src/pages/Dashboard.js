@@ -30,12 +30,9 @@ function Dashboard() {
     "Business Insider": true
   });
   const [mentions, setMentions] = useState([]);
-  // { title: "example title", platform: "Reddit", desc: "qwerty" },
-  // { title: "example title", platform: "Forbes", desc: "12345" },
-  // { title: "example title", platform: "Shopify", desc: "abc123" },
-  // { title: "example title", platform: "Business Insider", desc: "aedsfadwsf" }
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
+  const [searchInput, setSearch] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("All Companies");
   const [selectedPlatform, setSelectedPlatform] = useState("All Platforms");
   const [isPlatformOpen, setPlatformOpen] = useState(false);
@@ -108,23 +105,36 @@ function Dashboard() {
     setSelectedCompany(event.target.value);
   }
 
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    console.log(event.target.searchfield.value, event.target.companyfield.value, event.target.platformfield.value);
+    setSearch("");
+  }
+
+  const onSearchChange = (event) => {
+    setSearch(event.target.value);
+  }
+
   const classes = useStyles();
   return (
     <div className={classes.dashboardContainer}>
       <Navbar
         showSearch={true}
+        searchInput={searchInput}
+        onSearchChange={onSearchChange}
         platforms={platforms}
         selectedPlatform={selectedPlatform}
         isPlatformOpen={isPlatformOpen}
-        handlePlatformClose = {handlePlatformClose}
-        handlePlatformOpen = {handlePlatformOpen}
-        handlePlatformChange = {handlePlatformChange}
+        handlePlatformClose={handlePlatformClose}
+        handlePlatformOpen={handlePlatformOpen}
+        handlePlatformChange={handlePlatformChange}
         companies={companies}
         selectedCompany={selectedCompany}
         isCompanyOpen={isCompanyOpen}
-        handleCompanyClose = {handleCompanyClose}
-        handleCompanyOpen = {handleCompanyOpen}
-        handleCompanyChange = {handleCompanyChange}
+        handleCompanyClose={handleCompanyClose}
+        handleCompanyOpen={handleCompanyOpen}
+        handleCompanyChange={handleCompanyChange}
+        handleSubmit={handleSearchSubmit}
       />
       <Grid container spacing={0}>
         <Grid item xs={4}>
