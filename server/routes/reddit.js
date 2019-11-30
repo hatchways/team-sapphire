@@ -12,24 +12,21 @@ const getNewestRedditPosts = async (company) => {
   let submissions = [];
   await r.search({query: company, sort: 'new'})
     .then(posts => {
-      posts.forEach((submission, i) => {
+      posts.forEach((submission) => {
+        let image = "https://a.thumbs.redditmedia.com/9EDGp3AsLDtCRvDUAjuQzNQSZPkvVmgesMjVxphosb0.jpg";
         if (submission.thumbnail === "image") {
-          submissions.push({
-            title: submission.title,
-            platform: submission.subreddit_name_prefixed,
-            link: "https://www.reddit.com" + submission.permalink,
-            image: submission.url,
-            desc: submission.selftext
-          });
-        } else {
-          submissions.push({
-            title: submission.title,
-            platform: submission.subreddit_name_prefixed,
-            link: submission.url,
-            image: (submission.thumbnail !== "default" && submission.thumbnail !== "self") ? submission.thumbnail : "https://a.thumbs.redditmedia.com/9EDGp3AsLDtCRvDUAjuQzNQSZPkvVmgesMjVxphosb0.jpg",
-            desc: submission.selftext
-          });
+          image = submission.url;
+        } else if (submission.thumbnail !== "default" && submission.thumbnail !== "self") {
+          image = submission.thumbnail;
+          console.log(submission.url, submission.thumbnail)
         }
+        submissions.push({
+          title: submission.title,
+          platform: submission.subreddit_name_prefixed,
+          link: "https://www.reddit.com" + submission.permalink,
+          image,
+          desc: submission.selftext
+        });
       });
     });
   return submissions;

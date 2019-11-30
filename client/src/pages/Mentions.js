@@ -43,7 +43,9 @@ function Mentions(props) {
              <div>
                <CardContent>
                  <Typography variant="h5" component="h2">
-                   {mention.title}
+                   <Link href={mention.link} rel="noopener">
+                     {mention.title}
+                   </Link>
                  </Typography>
                  <Typography>
                    <Link href={mention.link} rel="noopener">
