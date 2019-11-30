@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '10px'
   },
   dividerContainer: {
-    marginTop: '20px',
+    marginBottom: '30px',
     width: '97.5%'
   },
   iconContainer: {
@@ -61,26 +61,28 @@ const useStyles = makeStyles(theme => ({
 function Platforms(props) {
   const classes = useStyles();
   const platforms = Object.keys(props.platforms).map((platform, i) => {
-    return <Typography className={classes.platformContainer} key={i}>
-              <Icon className={classes.iconContainer}>
-                info
-              </Icon>
-              {platform}
-              <Switch
-                checked={props.platforms[platform]}
-                onChange={() => props.handleChange(platform)}
-                color="primary"
-                className={classes.toggleContainer}
-                classes={{
-                  root: classes.root,
-                  switchBase: classes.switchBase,
-                  thumb: classes.thumb,
-                  track: classes.track,
-                  checked: classes.checked,
-                }}
-              />
-            <Divider className={classes.dividerContainer}/>
-           </Typography>
+    return <div key={i}>
+            <Typography className={classes.platformContainer}>
+                <Icon className={classes.iconContainer}>
+                  info
+                </Icon>
+                {platform}
+                <Switch
+                  checked={props.platforms[platform]}
+                  onChange={() => props.handleChange(platform)}
+                  color="primary"
+                  className={classes.toggleContainer}
+                  classes={{
+                    root: classes.root,
+                    switchBase: classes.switchBase,
+                    thumb: classes.thumb,
+                    track: classes.track,
+                    checked: classes.checked,
+                  }}
+                />
+             </Typography>
+             <Divider className={classes.dividerContainer}/>
+           </div>
   })
   return (
     <div>

@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     color: "white"
   },
   search: {
-    width: "calc(100vh - 160px)",
+    width: "100vh",
     height: "90%",
     borderRadius: "50px",
     margin: "auto"
@@ -91,7 +91,7 @@ const Navbar = ({
               </Typography>
               <Paper component="form" className={classes.search} onSubmit={handleSubmit}>
                 <InputBase
-                  placeholder="Search Company Name..."
+                  placeholder="Search Contents..."
                   className={classes.input}
                   value={searchInput}
                   onChange={onSearchChange}
