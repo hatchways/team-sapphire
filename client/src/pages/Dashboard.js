@@ -17,15 +17,13 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard() {
   const history = useHistory();
-  if (!localStorage.getItem("email")) {
-    history.push("/register");
-  }
+  
   const [platforms, setPlatforms] = useState({
     Reddit: true,
     Twitter: true,
     Facebook: true,
     Amazon: true,
-    Forbes: true ,
+    Forbes: true,
     Shopify: true,
     "Business Insider": true
   });
@@ -36,33 +34,45 @@ function Dashboard() {
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
-        if (res.data.success) {
+        if (res.data.authenticated === false) {
+          handleLogout();
+        } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
           setMentions(res.data.mentions);
         }
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   }, []);
 
   const handlePlatformChange = platform => {
     axios
       .put(`/settings/${localStorage.getItem("email")}/platform/${platform}`)
       .then(res => {
-        if (res.data.success) {
+        if (res.data.authenticated === false) {
+          handleLogout();
+        } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
-          console.log(platforms)
+          console.log(platforms);
         }
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   };
 
   const handleSortChange = (event, sort) => {
     setSort(sort);
+  };
+
+  const handleLogout = async () => {
+    let response = await axios.post("http://localhost:4000/logout");
+    if (response.data.success) {
+      localStorage.clear();
+      history.push("/login");
+    }
   };
 
   const classes = useStyles();
