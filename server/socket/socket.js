@@ -1,9 +1,14 @@
-const { io } = require('../app');
+const { io } = require("../app");
 
-io.on('connection', (socket) => {
-  console.log('connected');
+io.on("connection", (socket) => {
+  console.log("connected");
+  socket.on("setId", (user) => {
+    socket.name = user;
+    socket.emit("setId");
+  })
 
-  socket.on('disconnect', () => {
+  socket.on("disconnect", () => {
+    const user = socket.name;
     console.log(`${user} disconnected`);
   });
 })

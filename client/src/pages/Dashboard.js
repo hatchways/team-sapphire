@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import socketIOClient from 'socket.io-client';
+import io from 'socket.io-client';
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,7 +17,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Dashboard() {
-  const socket = null;
+  const socket = io('', {
+    autoConnect: false
+  });
   const history = useHistory();
   if (!localStorage.getItem("email")) {
     history.push("/register");
@@ -43,7 +45,8 @@ function Dashboard() {
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
         if (res.data.success) {
-          socket = socketIOClient('');
+          socket.connect();
+          socket.emit("setId", res.data.settings.email);
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
           res.data.settings.companies.forEach(company => {
