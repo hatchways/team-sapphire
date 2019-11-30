@@ -20,6 +20,11 @@ function Dashboard() {
   const socket = io('', {
     autoConnect: false
   });
+
+  socket.on("setId", (userId) => {
+    console.log(userId);
+  })
+  
   const history = useHistory();
   if (!localStorage.getItem("email")) {
     history.push("/register");
