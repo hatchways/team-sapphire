@@ -18,7 +18,6 @@ const getNewestRedditPosts = async (company) => {
           image = submission.url;
         } else if (submission.thumbnail !== "default" && submission.thumbnail !== "self") {
           image = submission.thumbnail;
-          console.log(submission.url, submission.thumbnail)
         }
         submissions.push({
           title: submission.title,
