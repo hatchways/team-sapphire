@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 import {
   Switch,
@@ -49,11 +50,14 @@ const LeftSideBar = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const onClickHandler = event => {
-    event.preventDefault();
-    localStorage.clear();
-    history.push("/login");
+  const handleLogout = async () => {
+    let response = await axios.post("http://localhost:4000/logout");
+    if (response.data.success) {
+      localStorage.clear();
+      history.push("/login");
+    }
   };
+
   return (
     <div>
       <Grid container className={classes.titleContainer}>
@@ -69,7 +73,7 @@ const LeftSideBar = () => {
         <Tab
           label="Logout"
           className={classes.sideBarContents}
-          onClick={onClickHandler}
+          onClick={handleLogout}
         />
       </Grid>
     </div>
