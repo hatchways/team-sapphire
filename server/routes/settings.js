@@ -50,14 +50,14 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
 
 router.get("/:email", jwtVerify, async (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }, async (err, settings) => {
-      if (settings) {
-        const interface = new Interface();
-        const mentions = await interface.getNewestMentions(settings.companies);
-        res.send({ success: true, settings, mentions });
-      } else {
-        next("User settings doesn't exist!");
-      }
-    })
+    if (settings) {
+      const interface = new Interface();
+      const mentions = await interface.getNewestMentions(settings.companies);
+      res.send({ success: true, settings, mentions });
+    } else {
+      next("User settings doesn't exist!");
+    }
+  })
 })
 
 router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {
