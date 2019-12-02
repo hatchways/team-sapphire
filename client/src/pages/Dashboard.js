@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard() {
   const history = useHistory();
-  
+
   const [platforms, setPlatforms] = useState({
     Reddit: true,
     Twitter: true,
@@ -28,10 +28,6 @@ function Dashboard() {
     "Business Insider": true
   });
   const [mentions, setMentions] = useState([]);
-  // { title: "example title", platform: "Reddit", desc: "qwerty" },
-  // { title: "example title", platform: "Forbes", desc: "12345" },
-  // { title: "example title", platform: "Shopify", desc: "abc123" },
-  // { title: "example title", platform: "Business Insider", desc: "aedsfadwsf" }
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
@@ -43,20 +39,7 @@ function Dashboard() {
         } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          res.data.settings.companies.forEach(company => {
-            axios
-              .get(`/reddit/search/new/${company}`)
-              .then(res => {
-                if (res.data.authenticated === false) {
-                  handleLogout();
-                } else if (res.data.success) {
-                  setMentions(res.data.submissions);
-                }
-              })
-              .catch(error => {
-                console.error(error);
-              });
-          });
+          setMentions(res.data.mentions.Reddit);
         }
       })
       .catch(error => {
