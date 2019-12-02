@@ -5,7 +5,7 @@ import { withSnackbar } from "notistack";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import ComapnyNameTextfield from "./CompanyNameTextfield";
+import CompanyNameTextfield from "./CompanyNameTextfield";
 
 const useStyles = makeStyles(theme => ({
   bodyContainer: {
@@ -176,7 +176,7 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
       {companyNames.length > 0 &&
         companyNames.map((company, index) => {
           return (
-            <ComapnyNameTextfield
+            <CompanyNameTextfield
               key={index}
               index={index}
               defaultCompanyName={company}
