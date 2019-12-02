@@ -31,10 +31,11 @@ function Dashboard() {
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
+    if(!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
-        if (res.data.authenticated === false) {
+        if (!res.data.authenticated) {
           handleLogout();
         } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
