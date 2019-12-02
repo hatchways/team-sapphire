@@ -1,6 +1,10 @@
 const { io } = require("../app");
+const jwt = require("jsonwebtoken");
 
-io.on("connection", (socket) => {
+io.use((socket, next) => {
+  next();
+})
+.on("connection", (socket) => {
   console.log("connected");
   socket.on("setId", (user) => {
     socket.name = user;
