@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const SettingsModel = require("./../models/Settings");
 const UserModel = require("./../models/User");
+const Interface = require("./../models/Interface");
 const { jwtVerify } = require("../utils/authUtils");
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
@@ -47,15 +48,17 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
   });
 });
 
-router.get("/:email", jwtVerify, (req, res, next) => {
-  SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
+router.get("/:email", jwtVerify, async (req, res, next) => {
+  SettingsModel.findOne({ email: req.params.email }, async (err, settings) => {
     if (settings) {
-      res.send({ success: true, settings });
+      const interface = new Interface();
+      const mentions = await interface.getNewestMentions(settings.companies);
+      res.send({ success: true, settings, mentions });
     } else {
       next("User settings doesn't exist!");
     }
-  });
-});
+  })
+})
 
 router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }, (err, settings) => {

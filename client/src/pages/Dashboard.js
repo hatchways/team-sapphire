@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard() {
   const history = useHistory();
-  
+
   const [platforms, setPlatforms] = useState({
     Reddit: true,
     Twitter: true,
@@ -44,20 +44,7 @@ function Dashboard() {
         } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          res.data.settings.companies.forEach(company => {
-            axios
-              .get(`/reddit/search/new/${company}`)
-              .then(res => {
-                if (res.data.authenticated === false) {
-                  handleLogout();
-                } else if (res.data.success) {
-                  setMentions(res.data.submissions);
-                }
-              })
-              .catch(error => {
-                console.error(error);
-              });
-          });
+          setMentions(res.data.mentions.Reddit);
         }
       })
       .catch(error => {
