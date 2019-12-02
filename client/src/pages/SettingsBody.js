@@ -5,6 +5,8 @@ import { withSnackbar } from "notistack";
 
 import { makeStyles } from "@material-ui/core/styles";
 
+import CompanyNameTextfield from "./CompanyNameTextfield";
+
 const useStyles = makeStyles(theme => ({
   bodyContainer: {
     backgroundColor: "#fafbff",
@@ -100,19 +102,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SettingsBody = ({ enqueueSnackbar }) => {
+const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
   const classes = useStyles();
   const history = useHistory();
   const [companyNameSaveError, setCompanyNameSaveError] = useState("");
   const [companyNameError, setCompanyNameError] = useState("");
-  const [companyNames, setCompanyNames] = useState([]);
-  const [companyNameInput, setCompanyNameInput] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(`/settings/${localStorage.getItem("email")}/company`)
-      .then(res => setCompanyNames(res.data.companies));
-  }, []);
+  const [companyNameInput, setCompanyNameInput] = useState("");
 
   const onClickHandler = event => {
     event.preventDefault();
@@ -124,7 +120,12 @@ const SettingsBody = ({ enqueueSnackbar }) => {
   };
   const onSubmitHandler = event => {
     event.preventDefault();
+
+    setCompanyNameError("");
+    setCompanyNameSaveError("");
+
     event.persist();
+
     if (companyNames.includes(event.target.companyName.value)) {
       setCompanyNameError("Company name already exists");
     } else if (event.target.companyName.value === "") {
@@ -147,25 +148,6 @@ const SettingsBody = ({ enqueueSnackbar }) => {
     }
   };
 
-  const onAddHandler = () => {
-    setCompanyNameError("");
-    setCompanyNameSaveError("");
-  };
-
-  const onRemoveHandler = name => {
-    axios
-      .delete(`/settings/${localStorage.getItem("email")}/company/${name}`)
-      .then(() => {
-        enqueueSnackbar("Company has been removed", { variant: "success" });
-        setCompanyNames(companyNames.filter(item => item !== name));
-      })
-      .catch(() =>
-        enqueueSnackbar("Company was not removed", { variant: "error" })
-      );
-    setCompanyNameError("");
-    setCompanyNameSaveError("");
-  };
-
   return (
     <div className={classes.bodyContainer}>
       <div className={classes.companyContainer}>
@@ -177,7 +159,7 @@ const SettingsBody = ({ enqueueSnackbar }) => {
           <form onSubmit={onSubmitHandler} className={classes.companyInputForm}>
             <input
               type="text"
-              placeholder="Add Company name"
+              placeholder="Add company name"
               title="Add a tag"
               value={companyNameInput}
               id="companyName"
@@ -185,8 +167,8 @@ const SettingsBody = ({ enqueueSnackbar }) => {
               className={classes.companyNameInput}
             />
 
-            <button onClick={onAddHandler} className={classes.buttonAdornment}>
-              <b> ADD</b>
+            <button type="submit" className={classes.buttonAdornment}>
+              <b>ADD</b>
             </button>
           </form>
         </div>
@@ -194,17 +176,16 @@ const SettingsBody = ({ enqueueSnackbar }) => {
       {companyNames.length > 0 &&
         companyNames.map((company, index) => {
           return (
-            <div className={classes.listOfCompanies}>
-              <span className="" key={index}>
-                {company}
-              </span>
-              <button
-                onClick={() => onRemoveHandler(company)}
-                className={classes.buttonAdornment}
-              >
-                <b> REMOVE</b>
-              </button>
-            </div>
+            <CompanyNameTextfield
+              key={index}
+              index={index}
+              defaultCompanyName={company}
+              companyNames={companyNames}
+              setCompanyNames={setCompanyNames}
+              companyNameError={companyNameError}
+              setCompanyNameError={setCompanyNameError}
+              setCompanyNameSaveError={setCompanyNameSaveError}
+            />
           );
         })}
       <p className={classes.error}>{companyNameError}</p>
