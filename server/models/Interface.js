@@ -14,10 +14,9 @@ const interface = class Interface {
       .all(promises)
       .then(posts => {
         for (const post of posts) {
-          if (post[0].src === "Reddit") {
+          if (post[0].platform === "Reddit") {
             mentions.Reddit = mentions.Reddit = post;
           }
-
         }
       })
     return mentions;

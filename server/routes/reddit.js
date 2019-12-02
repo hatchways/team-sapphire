@@ -21,11 +21,10 @@ const getNewestRedditPosts = async (company) => {
         }
         submissions.push({
           title: submission.title,
-          platform: submission.subreddit_name_prefixed,
+          platform: "Reddit",
           link: "https://www.reddit.com" + submission.permalink,
           image,
-          desc: submission.selftext,
-          src: "Reddit"
+          desc: submission.selftext
         });
       });
     });
