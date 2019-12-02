@@ -35,7 +35,7 @@ function Dashboard() {
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
-        if (!res.data.authenticated) {
+        if (res.data.authenticated === false) {
           handleLogout();
         } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
