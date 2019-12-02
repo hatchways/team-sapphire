@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard() {
   const history = useHistory();
-  
+
   const [platforms, setPlatforms] = useState({
     Reddit: true,
     Twitter: true,
@@ -39,7 +39,7 @@ function Dashboard() {
         } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          setMentions(res.data.mentions);
+          setMentions(res.data.mentions.Reddit);
         }
       })
       .catch(error => {

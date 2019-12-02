@@ -3,7 +3,9 @@ const { getNewestRedditPosts } = require("./../routes/reddit");
 
 const interface = class Interface {
   getNewestMentions = async (companies) => {
-    let mentions = [];
+    let mentions = {
+      Reddit: []
+    };
     let promises = [];
     for (const company of companies) {
       promises.push(getNewestRedditPosts(company));
@@ -12,7 +14,10 @@ const interface = class Interface {
       .all(promises)
       .then(posts => {
         for (const post of posts) {
-          mentions = mentions.concat(post);
+          if (post[0].src === "Reddit") {
+            mentions.Reddit = mentions.Reddit = post;
+          }
+
         }
       })
     return mentions;
