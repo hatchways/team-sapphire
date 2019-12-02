@@ -102,19 +102,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SettingsBody = ({ enqueueSnackbar }) => {
+const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
   const classes = useStyles();
   const history = useHistory();
   const [companyNameSaveError, setCompanyNameSaveError] = useState("");
   const [companyNameError, setCompanyNameError] = useState("");
-  const [companyNames, setCompanyNames] = useState([]);
-  const [companyNameInput, setCompanyNameInput] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(`/settings/${localStorage.getItem("email")}/company`)
-      .then(res => setCompanyNames(res.data.companies));
-  }, []);
+  const [companyNameInput, setCompanyNameInput] = useState("");
 
   const onClickHandler = event => {
     event.preventDefault();
