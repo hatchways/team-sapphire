@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const findOrCreate = require("mongoose-findorcreate");
 
 const Schema = mongoose.Schema;
 
@@ -19,6 +20,8 @@ const CompanySchema = new Schema({
     ]
   }
 });
+
+CompanySchema.plugin(findOrCreate);
 
 const Company = mongoose.model("Company", CompanySchema);
 

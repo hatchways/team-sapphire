@@ -11,7 +11,18 @@ const SettingSchema = new Schema({
       ref: "Company"
     }
   ],
-  platforms: Object
+  platforms: {
+    type: Object,
+    default: {
+      Reddit: true,
+      Twitter: true,
+      Facebook: true,
+      Amazon: true,
+      Forbes: true,
+      Shopify: true,
+      "Business Insider": true
+    }
+  }
 });
 
 const SettingsModel = mongoose.model("setting", SettingSchema);
