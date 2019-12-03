@@ -32,6 +32,20 @@ const useStyles = makeStyles(theme => ({
 function Mentions(props) {
   const classes = useStyles();
   const mentions = props.mentions.map((mention, i) => {
+    let title = mention.title;
+    let desc = mention.desc;
+    const titleIndex = title.search(mention.company) > -1 ? title.search(mention.company) : title.search(mention.company.toLowerCase());
+    const descIndex = desc.search(mention.company) > -1 ? desc.search(mention.company) : desc.search(mention.company.toLowerCase());
+    if (desc.length > 200 && (descIndex + mention.company.length) >= 200) {
+      desc = "..." + desc.substring(descIndex - 100, descIndex + 100) + "...";
+    } else if (desc.length > 200 && (descIndex + mention.company.length) < 200) {
+      desc = desc.substring(0, 200) + "...";
+    }
+    if (title.length > 40 && (titleIndex + mention.company.length) >= 40) {
+      title = "..." + title.substring(titleIndex - 20, titleIndex + 20) + "...";
+    } else if (title.length > 40 && (titleIndex + mention.company.length) < 40) {
+      title = title.substring(0, 40) + "...";
+    }
     return <Card className={classes.cardContainer} key={i}>
              <CardMedia
                component="img"
@@ -44,7 +58,7 @@ function Mentions(props) {
                <CardContent>
                  <Typography variant="h5" component="h2">
                    <Link href={mention.link} rel="noopener">
-                     {mention.title}
+                     {title}
                    </Link>
                  </Typography>
                  <Typography>
@@ -53,7 +67,7 @@ function Mentions(props) {
                   </Link>
                  </Typography>
                  <Typography>
-                   {mention.desc}
+                   {desc}
                  </Typography>
                </CardContent>
              </div>
