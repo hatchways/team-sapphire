@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     margin: "1vh",
     border: "1px solid #eeeeef",
-    padding: "10px",
+    padding: "5px",
     width: "500px",
     alignItems: "center"
   },
@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid #eeeeef",
     borderRadius: "25px",
     alignItems: "center",
-    padding: "10px",
+    padding: "5px",
     fontSize: "small",
     fontWeight: "bold"
   },
@@ -92,6 +92,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: "40px",
     width: "110px",
     height: "35px"
+  },
+  userEmail: {
+    padding: "3px",
+    marginLeft: "8px"
   }
 }));
 
@@ -187,8 +191,9 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
         {" "}
         <b className={classes.emailTitle}>Weekly report </b>
         <div className={classes.companyEmailInput}>
-          {" "}
-          {localStorage.getItem("email")}
+          <div className={classes.userEmail}>
+            {localStorage.getItem("email")}
+          </div>
         </div>
       </div>
 

@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     border: "none",
     width: "500px",
     outline: "none",
-    height: "25px",
+    height: "18px",
     fontWeight: "bold",
     marginLeft: "10px",
     fontSize: "small"
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     margin: "1vh",
     border: "1px solid #eeeeef",
-    padding: "10px",
+    padding: "5px",
     width: "500px",
     alignItems: "center",
     marginLeft: "131px"
