@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 import { Grid } from "@material-ui/core";
@@ -66,11 +67,21 @@ const Settings = () => {
   }
 
   const classes = useStyles();
+  const history = useHistory();
   useEffect(() => {
+    if(!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}/company`)
       .then(res => setCompanyNames(res.data.companies));
   }, []);
+
+  const handleLogout = async () => {
+    let response = await axios.post("http://localhost:4000/logout");
+    if (response.data.success) {
+      localStorage.clear();
+      history.push("/login");
+    }
+  };
 
   return (
     <div className={classes.dashboardContainer}>

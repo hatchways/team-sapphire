@@ -36,6 +36,7 @@ function Dashboard() {
   const [isPlatformOpen, setPlatformOpen] = useState(false);
   const [isCompanyOpen, setCompanyOpen] = useState(false);
   useEffect(() => {
+    if(!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { withSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
 import Navbar from "./Navbar";
 
@@ -44,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Register = () => {
+const Register = ({ enqueueSnackbar }) => {
   const classes = useStyles();
   const history = useHistory();
   const [registerError, setRegisterError] = useState("");
@@ -67,7 +68,15 @@ const Register = () => {
         }
       })
 
-      .catch(() => setRegisterError("Sorry, this email already exists."));
+      .catch(err => {
+        if (err.response.status === 500) {
+          enqueueSnackbar("Something went wrong, Please try again", {
+            variant: "error"
+          });
+        } else {
+          setRegisterError("Sorry, this email already exists.");
+        }
+      });
   };
 
   const onClickHandler = () => {
@@ -142,4 +151,4 @@ const Register = () => {
     </div>
   );
 };
-export default Register;
+export default withSnackbar(Register);

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -82,6 +82,7 @@ const Navbar = ({
   handleSubmit = () => {}
 }) => {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <div>
       <AppBar position="static">
