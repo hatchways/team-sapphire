@@ -59,12 +59,14 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
 });
 
 
-// Gets users settings, will have to update to send mentions as well since used in Dashboard
+// Gets users settings
 router.get("/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }).populate('companies').exec((err, settings) => {
     if (settings) {
+      let companyNames = [];
+      settings.companies.forEach(company => companyNames.push(company.name));
       const interface = new Interface();
-      const mentions = await interface.getNewestMentions(settings.companies);
+      const mentions = await interface.getNewestMentions(companyNames);
       res.send({ success: true, settings, mentions });
     } else {
       next("User settings doesn't exist!");
