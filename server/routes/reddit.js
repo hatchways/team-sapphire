@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const snoowrap = require('snoowrap');
 
 const r = new snoowrap({
@@ -9,21 +8,29 @@ const r = new snoowrap({
   refreshToken: process.env.REDDIT_REFRESH_TOKEN
 });
 
-router.get("/search/new/:company", (req, res, next) => {
-  r.search({query: req.params.company, sort: 'new'})
+const getNewestRedditPosts = async (company) => {
+  let submissions = [];
+  await r.search({query: company, sort: 'new'})
     .then(posts => {
-      let submissions = [];
-      posts.forEach((submission, i) => {
+      posts.forEach((submission) => {
+        let image = "https://a.thumbs.redditmedia.com/9EDGp3AsLDtCRvDUAjuQzNQSZPkvVmgesMjVxphosb0.jpg";
+        if (submission.thumbnail === "image") {
+          image = submission.url;
+        } else if (submission.thumbnail !== "default" && submission.thumbnail !== "self") {
+          image = submission.thumbnail;
+        }
         submissions.push({
           title: submission.title,
-          platform: submission.subreddit_name_prefixed,
-          link: submission.permalink,
-          image: submission.thumbnail,
+          platform: "Reddit",
+          link: "https://www.reddit.com" + submission.permalink,
+          image,
           desc: submission.selftext
         });
       });
-      res.send({ success: true, submissions });
     });
-});
+  return submissions;
+}
 
-module.exports = router;
+module.exports = {
+  getNewestRedditPosts
+};
