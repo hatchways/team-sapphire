@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const SettingsModel = require("./../models/Settings");
+const Company = require("./../models/Company");
 const UserModel = require("./../models/User");
 const Interface = require("./../models/Interface");
 const { jwtVerify } = require("../utils/authUtils");
@@ -14,27 +15,36 @@ const saveSettings = (settings, res) => {
   });
 };
 
+// Get company names of a given user
 router.get("/:email/company", jwtVerify, (req, res, next) => {
-  SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
-    if (settings) {
-      res.send({ companies: settings.companies });
-    } else {
-      next("User settings doesn't exist!");
-    }
-  });
+  SettingsModel.findOne({ email: req.params.email })
+    .populate("companies")
+    .exec((err, settings) => {
+      if (settings) {
+        let companyNames = [];
+        settings.companies.forEach(company => companyNames.push(company.name));
+        res.send({ companies: companyNames });
+      } else {
+        next("User settings doesn't exist!");
+      }
+    });
 });
 
+// Adds a company to a users company list; if company doesn't exist, create on and then add
 router.put("/:email/company/:company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
     if (settings) {
-      settings.companies = settings.companies.concat(req.params.company);
-      saveSettings(settings, res);
+      Company.findOrCreate({ name: req.params.company }, (err, company) => {
+        settings.companies = settings.companies.concat(company._id);
+        saveSettings(settings, res);
+      });
     } else {
       next("User settings doesn't exist!");
     }
   });
 });
 
+// Updates platforms user wants to search
 router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
     if (settings) {
@@ -48,11 +58,15 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
   });
 });
 
-router.get("/:email", jwtVerify, async (req, res, next) => {
-  SettingsModel.findOne({ email: req.params.email }, async (err, settings) => {
+
+// Gets users settings
+router.get("/:email", jwtVerify, (req, res, next) => {
+  SettingsModel.findOne({ email: req.params.email }).populate('companies').exec(async (err, settings) => {
     if (settings) {
+      let companyNames = [];
+      settings.companies.forEach(company => companyNames.push(company.name));
       const interface = new Interface();
-      const mentions = await interface.getNewestMentions(settings.companies);
+      const mentions = await interface.getNewestMentions(companyNames);
       res.send({ success: true, settings, mentions });
     } else {
       next("User settings doesn't exist!");
@@ -60,11 +74,12 @@ router.get("/:email", jwtVerify, async (req, res, next) => {
   })
 })
 
+// Deletes a company from a users list of tracked companies
 router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {
-  SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
+  SettingsModel.findOne({ email: req.params.email }).populate('companies').exec((err, settings) => {
     if (settings) {
       settings.companies = settings.companies.filter(
-        company => company !== req.params.company
+        company => company.name !== req.params.company
       );
       saveSettings(settings, res);
     } else {
