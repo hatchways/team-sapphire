@@ -21,10 +21,6 @@ function Dashboard() {
     autoConnect: false
   });
 
-  socket.on("setId", (userId) => {
-    console.log(userId);
-  })
-  
   const history = useHistory();
   if (!localStorage.getItem("email")) {
     history.push("/register");
@@ -51,7 +47,6 @@ function Dashboard() {
       .then(res => {
         if (res.data.success) {
           socket.connect();
-          socket.emit("setId", res.data.settings.email);
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
           res.data.settings.companies.forEach(company => {
