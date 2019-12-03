@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
   companyContainer: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "flex-start",
     alignItems: "center"
   },
   companyTitle: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
   userEmailInput: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "flex-start",
     marginTop: "5vh"
   },
   emailTitle: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   companyNameInput: {
     border: "none",
-    width: "600px",
+    width: "500px",
     outline: "none",
     height: "25px"
   },
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     marginTop: "2vh",
-    width: "600px"
+    width: "500px"
   },
   buttonAdornment: {
     backgroundColor: "#6583f2 ",
@@ -53,9 +53,9 @@ const useStyles = makeStyles(theme => ({
     margin: "1vh",
     border: "1px solid #eeeeef",
     padding: "10px",
-    width: "600px",
+    width: "500px",
     alignItems: "center",
-    marginLeft: "258px"
+    marginLeft: "131px"
   },
   listOfCompanies: {
     borderRadius: "25px",
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     margin: "1vh",
     border: "1px solid #eeeeef",
     padding: " 10px ",
-    width: "600px",
+    width: "500px",
     marginLeft: "258px",
     alignItems: "center"
   },
@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column"
   },
   companyEmailInput: {
-    width: "600px",
+    width: "500px",
     outline: "none",
     backgroundColor: "white",
     height: "25px",
