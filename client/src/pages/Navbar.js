@@ -114,9 +114,9 @@ const Navbar = ({
                   name="companyfield"
                 >
                   {companies.map((company, i) => {
-                    return <MenuItem value={company} key={i}>
-                             <Checkbox checked={selectedCompanies.indexOf(company) > -1} />
-                             <ListItemText primary={company} />
+                    return <MenuItem value={company.name} key={i}>
+                             <Checkbox checked={selectedCompanies.indexOf(company.name) > -1} />
+                             <ListItemText primary={company.name} />
                            </MenuItem>
                   })}
                 </Select>
