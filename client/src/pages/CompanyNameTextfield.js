@@ -10,7 +10,8 @@ const useStyles = makeStyles(theme => ({
     outline: "none",
     height: "25px",
     fontWeight: "bold",
-    marginLeft: "15px"
+    marginLeft: "10px",
+    fontSize: "small"
   },
   buttonAdornment: {
     backgroundColor: "#6583f2 ",
