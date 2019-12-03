@@ -20,7 +20,7 @@ const Settings = () => {
   const classes = useStyles();
   const history = useHistory();
   useEffect(() => {
-    if(!localStorage.getItem("email")) handleLogout();
+    if (!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}/company`)
       .then(res => setCompanyNames(res.data.companies));
@@ -38,10 +38,10 @@ const Settings = () => {
     <div className={classes.dashboardContainer}>
       <Navbar showSearch={true} />
       <Grid container spacing={0}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <LeftSideBar />
         </Grid>
-        <Grid item xs={8} className={classes.rightGridContainer}>
+        <Grid item xs={9} className={classes.rightGridContainer}>
           <SettingsBody
             companyNames={companyNames}
             setCompanyNames={setCompanyNames}
