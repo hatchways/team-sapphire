@@ -26,8 +26,8 @@ const Settings = () => {
     "Business Insider": true
   });
   const [searchInput, setSearch] = useState("");
-  const [selectedCompany, setSelectedCompany] = useState("All Companies");
-  const [selectedPlatform, setSelectedPlatform] = useState("All Platforms");
+  const [selectedCompanies, setSelectedCompanies] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [isPlatformOpen, setPlatformOpen] = useState(false);
   const [isCompanyOpen, setCompanyOpen] = useState(false);
 
@@ -40,7 +40,7 @@ const Settings = () => {
   }
 
   const handlePlatformChange = (event) => {
-    setSelectedPlatform(event.target.value);
+    setSelectedPlatforms(event.target.value);
   }
 
   const handleCompanyClose = (event) => {
@@ -52,7 +52,7 @@ const Settings = () => {
   }
 
   const handleCompanyChange = (event) => {
-    setSelectedCompany(event.target.value);
+    setSelectedCompanies(event.target.value);
   }
 
   const handleSearchSubmit = (event) => {
@@ -79,13 +79,13 @@ const Settings = () => {
         searchInput={searchInput}
         onSearchChange={onSearchChange}
         platforms={platforms}
-        selectedPlatform={selectedPlatform}
+        selectedPlatforms={selectedPlatforms}
         isPlatformOpen={isPlatformOpen}
         handlePlatformClose={handlePlatformClose}
         handlePlatformOpen={handlePlatformOpen}
         handlePlatformChange={handlePlatformChange}
         companies={companyNames}
-        selectedCompany={selectedCompany}
+        selectedCompanies={selectedCompanies}
         isCompanyOpen={isCompanyOpen}
         handleCompanyClose={handleCompanyClose}
         handleCompanyOpen={handleCompanyOpen}
