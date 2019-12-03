@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     width: "97.5%"
   },
   settingsTitle: {
-    fontSize: "20px"
+    fontSize: "20px",
+    color: "#141414"
   },
   settings: {
     color: "#6583f2"
@@ -38,10 +39,30 @@ const useStyles = makeStyles(theme => ({
   },
   sideBarContainer: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    marginLeft: "10px"
+  },
+  sideBarContentsCompany: {
+    fontWeight: "bold",
+    borderLeft: "5px solid #6583f2",
+    padding: "6px",
+    color: "#6583f2",
+    marginLeft: "8px",
+    marginBottom: "30px",
+    marginTop: "30px",
+    "&:hover": {
+      cursor: "pointer"
+    }
   },
   sideBarContents: {
-    fontWeight: "bold"
+    fontWeight: "bold",
+    borderLeft: "5px solid white",
+    padding: "6px",
+    marginLeft: "8px",
+    color: "#141414",
+    "&:hover": {
+      cursor: "pointer"
+    }
   }
 }));
 
@@ -73,13 +94,17 @@ const LeftSideBar = ({ enqueueSnackbar }) => {
       </Grid>
 
       <Grid className={classes.sideBarContainer}>
-        <Tab label="Company" className={classes.sideBarContents} />
+        <div label="Company" className={classes.sideBarContentsCompany}>
+          Company
+        </div>
 
-        <Tab
+        <div
           label="Logout"
           className={classes.sideBarContents}
           onClick={handleLogout}
-        />
+        >
+          Logout
+        </div>
       </Grid>
     </div>
   );

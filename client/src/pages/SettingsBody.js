@@ -11,36 +11,41 @@ const useStyles = makeStyles(theme => ({
   bodyContainer: {
     backgroundColor: "#fafbff",
     height: "100vh",
-    padding: "5vh"
+    paddingTop: "30px",
+    paddingLeft: "70px"
   },
   companyContainer: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "flex-start",
     alignItems: "center"
   },
   companyTitle: {
-    fontSize: "20px"
+    marginRight: "20px",
+    fontSize: "15px"
   },
   userEmailInput: {
     display: "flex",
-    justifyContent: "space-around",
-    marginTop: "5vh"
+    justifyContent: "flex-start",
+    marginTop: "5vh",
+    alignItems: "center"
   },
   emailTitle: {
-    marginleft: "1vh",
-    fontSize: "20px"
+    marginRight: "4vh",
+    fontSize: "15px"
   },
   companyNameInput: {
     border: "none",
-    width: "600px",
+    width: "500px",
     outline: "none",
-    height: "25px"
+    height: "25px",
+    marginLeft: "10px",
+    fontSize: "small"
   },
   companyNamesContainer: {
     display: "flex",
     flexDirection: "column",
     marginTop: "2vh",
-    width: "600px"
+    width: "500px"
   },
   buttonAdornment: {
     backgroundColor: "#6583f2 ",
@@ -56,49 +61,41 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     margin: "1vh",
     border: "1px solid #eeeeef",
-    padding: "10px",
-    width: "600px",
+    padding: "5px",
+    width: "500px",
     alignItems: "center"
   },
-  listOfCompanies: {
-    borderRadius: "25px",
-    backgroundColor: "white",
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1vh",
-    border: "1px solid #eeeeef",
-    padding: " 10px ",
-    width: "600px",
-    marginLeft: "258px",
-    alignItems: "center"
-  },
+
   error: {
     color: "red",
     display: "flex",
     justifyContent: "center"
   },
-  listOfInputs: {
-    display: "flex",
-    flexDirection: "column"
-  },
+
   companyEmailInput: {
-    width: "600px",
+    width: "500px",
     outline: "none",
     backgroundColor: "white",
     height: "25px",
     border: "1px solid #eeeeef",
     borderRadius: "25px",
     alignItems: "center",
-    padding: "10px"
+    padding: "5px",
+    fontSize: "small",
+    fontWeight: "bold"
   },
-  saveButton: {
+  dashboardButton: {
     backgroundColor: "#6583f2 ",
     borderRadius: "25px",
     color: "white",
     fontSize: "15px",
-    marginLeft: "5vh",
-    width: "90px",
+    marginTop: "40px",
+    width: "110px",
     height: "35px"
+  },
+  userEmail: {
+    padding: "3px",
+    marginLeft: "8px"
   }
 }));
 
@@ -159,7 +156,7 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
           <form onSubmit={onSubmitHandler} className={classes.companyInputForm}>
             <input
               type="text"
-              placeholder="Add company name"
+              placeholder="Company name"
               title="Add a tag"
               value={companyNameInput}
               id="companyName"
@@ -193,15 +190,16 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
       <div className={classes.userEmailInput}>
         {" "}
         <b className={classes.emailTitle}>Weekly report </b>
-        <span className={classes.companyEmailInput}>
-          {" "}
-          {localStorage.getItem("email")}
-        </span>
+        <div className={classes.companyEmailInput}>
+          <div className={classes.userEmail}>
+            {localStorage.getItem("email")}
+          </div>
+        </div>
       </div>
 
       <p className={classes.error}>{companyNameSaveError}</p>
-      <button onClick={onClickHandler} className={classes.saveButton}>
-        <b> SAVE</b>
+      <button onClick={onClickHandler} className={classes.dashboardButton}>
+        <b>Dashboard</b>
       </button>
     </div>
   );
