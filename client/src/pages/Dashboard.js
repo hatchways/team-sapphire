@@ -31,6 +31,7 @@ function Dashboard() {
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
+    if(!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
