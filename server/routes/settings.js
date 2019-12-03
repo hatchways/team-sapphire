@@ -61,7 +61,7 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
 
 // Gets users settings
 router.get("/:email", jwtVerify, (req, res, next) => {
-  SettingsModel.findOne({ email: req.params.email }).populate('companies').exec((err, settings) => {
+  SettingsModel.findOne({ email: req.params.email }).populate('companies').exec(async (err, settings) => {
     if (settings) {
       let companyNames = [];
       settings.companies.forEach(company => companyNames.push(company.name));
