@@ -4,28 +4,6 @@ import { withSnackbar } from "notistack";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  bodyContainer: {
-    backgroundColor: "#fafbff",
-    height: "100vh",
-    padding: "5vh"
-  },
-  companyContainer: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center"
-  },
-  companyTitle: {
-    fontSize: "20px"
-  },
-  userEmailInput: {
-    display: "flex",
-    justifyContent: "flex-start",
-    marginTop: "5vh"
-  },
-  emailTitle: {
-    marginleft: "1vh",
-    fontSize: "20px"
-  },
   companyNameInput: {
     border: "none",
     width: "500px",
@@ -33,12 +11,6 @@ const useStyles = makeStyles(theme => ({
     height: "25px",
     fontWeight: "bold",
     marginLeft: "15px"
-  },
-  companyNamesContainer: {
-    display: "flex",
-    flexDirection: "column",
-    marginTop: "2vh",
-    width: "500px"
   },
   buttonAdornment: {
     backgroundColor: "#6583f2 ",
@@ -59,45 +31,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     marginLeft: "131px"
   },
-  listOfCompanies: {
-    borderRadius: "25px",
-    backgroundColor: "white",
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1vh",
-    border: "1px solid #eeeeef",
-    padding: " 10px ",
-    width: "500px",
-    marginLeft: "258px",
-    alignItems: "center"
-  },
   error: {
     color: "red",
     display: "flex",
     justifyContent: "center"
-  },
-  listOfInputs: {
-    display: "flex",
-    flexDirection: "column"
-  },
-  companyEmailInput: {
-    width: "500px",
-    outline: "none",
-    backgroundColor: "white",
-    height: "25px",
-    border: "1px solid #eeeeef",
-    borderRadius: "25px",
-    alignItems: "center",
-    padding: "10px"
-  },
-  saveButton: {
-    backgroundColor: "#6583f2 ",
-    borderRadius: "25px",
-    color: "white",
-    fontSize: "15px",
-    marginLeft: "5vh",
-    width: "90px",
-    height: "35px"
   }
 }));
 

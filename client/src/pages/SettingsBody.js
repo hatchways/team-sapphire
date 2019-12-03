@@ -64,27 +64,13 @@ const useStyles = makeStyles(theme => ({
     width: "500px",
     alignItems: "center"
   },
-  listOfCompanies: {
-    borderRadius: "25px",
-    backgroundColor: "white",
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "1vh",
-    border: "1px solid #eeeeef",
-    padding: " 10px ",
-    width: "500px",
-    marginLeft: "258px",
-    alignItems: "center"
-  },
+
   error: {
     color: "red",
     display: "flex",
     justifyContent: "center"
   },
-  listOfInputs: {
-    display: "flex",
-    flexDirection: "column"
-  },
+
   companyEmailInput: {
     width: "500px",
     outline: "none",
@@ -97,7 +83,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "small",
     fontWeight: "bold"
   },
-  saveButton: {
+  dashboardButton: {
     backgroundColor: "#6583f2 ",
     borderRadius: "25px",
     color: "white",
@@ -206,7 +192,7 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
       </div>
 
       <p className={classes.error}>{companyNameSaveError}</p>
-      <button onClick={onClickHandler} className={classes.saveButton}>
+      <button onClick={onClickHandler} className={classes.dashboardButton}>
         <b>Dashboard</b>
       </button>
     </div>
