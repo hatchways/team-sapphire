@@ -37,7 +37,8 @@ const useStyles = makeStyles(theme => ({
     border: "none",
     width: "500px",
     outline: "none",
-    height: "25px"
+    height: "25px",
+    marginLeft: "15px"
   },
   companyNamesContainer: {
     display: "flex",
@@ -92,7 +93,9 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid #eeeeef",
     borderRadius: "25px",
     alignItems: "center",
-    padding: "10px"
+    padding: "10px",
+    fontSize: "small",
+    fontWeight: "bold"
   },
   saveButton: {
     backgroundColor: "#6583f2 ",

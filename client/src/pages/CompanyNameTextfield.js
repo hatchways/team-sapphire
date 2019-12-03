@@ -30,7 +30,9 @@ const useStyles = makeStyles(theme => ({
     border: "none",
     width: "500px",
     outline: "none",
-    height: "25px"
+    height: "25px",
+    fontWeight: "bold",
+    marginLeft: "15px"
   },
   companyNamesContainer: {
     display: "flex",
