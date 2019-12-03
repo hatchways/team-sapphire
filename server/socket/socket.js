@@ -10,10 +10,8 @@ const getDecodedToken = (socket) => {
 }
 
 io.use((socket, next) => {
-  if (socket.handshake.headers && socket.handshake.headers.cookie) {
-    if (getDecodedToken(socket)) {
-      next();
-    }
+  if (getDecodedToken(socket)) {
+    next();
   }
 })
 .on("connection", (socket) => {

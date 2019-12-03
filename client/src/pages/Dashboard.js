@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import io from 'socket.io-client';
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Dashboard() {
-  const socket = io('', {
+  const socket = window.io('', {
     autoConnect: false
   });
 
@@ -76,6 +75,7 @@ function Dashboard() {
   const handleLogout = async () => {
     let response = await axios.post("http://localhost:4000/logout");
     if (response.data.success) {
+      socket.disconnect();
       localStorage.clear();
       history.push("/login");
     }
