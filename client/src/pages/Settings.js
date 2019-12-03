@@ -84,7 +84,7 @@ const Settings = () => {
         handlePlatformClose={handlePlatformClose}
         handlePlatformOpen={handlePlatformOpen}
         handlePlatformChange={handlePlatformChange}
-        companies={companies}
+        companies={companyNames}
         selectedCompany={selectedCompany}
         isCompanyOpen={isCompanyOpen}
         handleCompanyClose={handleCompanyClose}

@@ -31,8 +31,8 @@ function Dashboard() {
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   const [searchInput, setSearch] = useState("");
-  const [selectedCompany, setSelectedCompany] = useState("All Companies");
-  const [selectedPlatform, setSelectedPlatform] = useState("All Platforms");
+  const [selectedCompanies, setSelectedCompanies] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [isPlatformOpen, setPlatformOpen] = useState(false);
   const [isCompanyOpen, setCompanyOpen] = useState(false);
   useEffect(() => {
@@ -81,7 +81,7 @@ function Dashboard() {
   }
 
   const handlePlatformChange = (event) => {
-    setSelectedPlatform(event.target.value);
+    setSelectedPlatforms(event.target.value);
   }
 
   const handleCompanyClose = (event) => {
@@ -93,7 +93,7 @@ function Dashboard() {
   }
 
   const handleCompanyChange = (event) => {
-    setSelectedCompany(event.target.value);
+    setSelectedCompanies(event.target.value);
   }
 
   const handleSearchSubmit = (event) => {
@@ -105,7 +105,7 @@ function Dashboard() {
   const onSearchChange = (event) => {
     setSearch(event.target.value);
   }
-  
+
   const handleLogout = async () => {
     let response = await axios.post("http://localhost:4000/logout");
     if (response.data.success) {
@@ -122,13 +122,13 @@ function Dashboard() {
         searchInput={searchInput}
         onSearchChange={onSearchChange}
         platforms={platforms}
-        selectedPlatform={selectedPlatform}
+        selectedPlatforms={selectedPlatforms}
         isPlatformOpen={isPlatformOpen}
         handlePlatformClose={handlePlatformClose}
         handlePlatformOpen={handlePlatformOpen}
         handlePlatformChange={handlePlatformChange}
         companies={companies}
-        selectedCompany={selectedCompany}
+        selectedCompanies={selectedCompanies}
         isCompanyOpen={isCompanyOpen}
         handleCompanyClose={handleCompanyClose}
         handleCompanyOpen={handleCompanyOpen}

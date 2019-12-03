@@ -10,7 +10,9 @@ import {
   Paper,
   IconButton,
   Select,
-  MenuItem
+  MenuItem,
+  Checkbox,
+  ListItemText
 } from "@material-ui/core";
 
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -71,12 +73,12 @@ const Navbar = ({
   handleCompanyClose = () => {},
   handleCompanyOpen = () => {},
   handleCompanyChange = () => {},
-  selectedCompany = "All Companies",
+  selectedCompanies = [],
   isPlatformOpen = false,
   handlePlatformClose = () => {},
   handlePlatformOpen = () => {},
   handlePlatformChange = () => {},
-  selectedPlatform = "All Platforms",
+  selectedPlatforms = [],
   handleSubmit = () => {}
 }) => {
   const classes = useStyles();
@@ -99,37 +101,41 @@ const Navbar = ({
                   name="searchfield"
                 />
                 <Select
+                  multiple
                   className={classes.select}
                   open={isCompanyOpen}
                   onClose={handleCompanyClose}
                   onOpen={handleCompanyOpen}
-                  value={selectedCompany}
+                  renderValue={selected => selected.join(', ')}
+                  value={selectedCompanies}
                   onChange={handleCompanyChange}
                   id="companyfield"
                   name="companyfield"
                 >
-                  <MenuItem value="All Companies">
-                    <em>All Companies</em>
-                  </MenuItem>
                   {companies.map((company, i) => {
-                    return <MenuItem value={company} key={i}>{company}</MenuItem>
+                    return <MenuItem value={company} key={i}>
+                             <Checkbox checked={selectedCompanies.indexOf(company) > -1} />
+                             <ListItemText primary={company} />
+                           </MenuItem>
                   })}
                 </Select>
                 <Select
+                  multiple
                   className={classes.select}
                   open={isPlatformOpen}
                   onClose={handlePlatformClose}
                   onOpen={handlePlatformOpen}
-                  value={selectedPlatform}
+                  renderValue={selected => selected.join(', ')}
+                  value={selectedPlatforms}
                   onChange={handlePlatformChange}
                   id="platformfield"
                   name="platformfield"
                 >
-                  <MenuItem value="All Platforms">
-                    <em>All Platforms</em>
-                  </MenuItem>
                   {Object.keys(platforms).map((platform, i) => {
-                    return <MenuItem value={platform} key={i}>{platform}</MenuItem>
+                    return <MenuItem value={platform} key={i}>
+                             <Checkbox checked={selectedPlatforms.indexOf(platform) > -1} />
+                             <ListItemText primary={platform} />
+                           </MenuItem>
                   })}
                 </Select>
                 <IconButton type="submit" aria-label="search" onSubmit={handleSubmit}>
