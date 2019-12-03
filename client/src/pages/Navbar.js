@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -55,6 +55,7 @@ const Navbar = ({
   loginToggle = false
 }) => {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <div>
       <AppBar position="static">
@@ -120,7 +121,7 @@ const Navbar = ({
                   </Paper>
                 </Grid>
                 <Grid item>
-                  <IconButton className={classes.settings}>
+                  <IconButton className={classes.settings} onClick={() => history.push('/settings')}>
                     <SettingsIcon />
                   </IconButton>
                 </Grid>

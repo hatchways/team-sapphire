@@ -15,12 +15,12 @@ async function jwtVerify(req, res, next) {
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken.userId;
     if (req.body.userId && req.body.userId !== userId) {
-      throw "Invalid user ID";
+      res.status(401).send({ authenticated: false });
     } else {
       next();
     }
   } else {
-    res.status(401).send({ error: "Invalid Request" });
+    res.status(401).send({ authenticated: false });
   }
 }
 

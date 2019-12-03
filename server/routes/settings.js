@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const SettingsModel = require("./../models/Settings");
 const Company = require("./../models/Company");
 const UserModel = require("./../models/User");
+const Interface = require("./../models/Interface");
 const { jwtVerify } = require("../utils/authUtils");
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
@@ -57,16 +58,19 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
   });
 });
 
+
 // Gets users settings, will have to update to send mentions as well since used in Dashboard
 router.get("/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }).populate('companies').exec((err, settings) => {
     if (settings) {
-      res.send({ success: true, settings });
+      const interface = new Interface();
+      const mentions = await interface.getNewestMentions(settings.companies);
+      res.send({ success: true, settings, mentions });
     } else {
       next("User settings doesn't exist!");
     }
-  });
-});
+  })
+})
 
 // Deletes a company from a users list of tracked companies
 router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {

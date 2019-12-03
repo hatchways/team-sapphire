@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, CardContent, CardMedia, Typography, Paper, Tabs, Tab } from "@material-ui/core";
+import { Card, CardContent, CardMedia, Typography, Paper, Tabs, Tab, Link } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -16,13 +16,16 @@ const useStyles = makeStyles(theme => ({
   },
   cardContainer: {
     marginBottom: '10px',
-    display: 'flex'
+    display: 'flex',
+    height: '18vh',
+    maxHeight: '18vh'
   },
   cardImage: {
     width: '30%'
   },
   header: {
-    marginBottom: '20px'
+    marginBottom: '20px',
+    height: (window.innerWidth > 1024) ? '50px' : '100px'
   }
 }));
 
@@ -40,10 +43,14 @@ function Mentions(props) {
              <div>
                <CardContent>
                  <Typography variant="h5" component="h2">
-                   {mention.title}
+                   <Link href={mention.link} rel="noopener">
+                     {mention.title}
+                   </Link>
                  </Typography>
                  <Typography>
-                   {mention.platform} / {mention.link}
+                   <Link href={mention.link} rel="noopener">
+                    {mention.platform}
+                  </Link>
                  </Typography>
                  <Typography>
                    {mention.desc}
@@ -62,6 +69,7 @@ function Mentions(props) {
             onChange={props.handleChange}
             indicatorColor="primary"
             textColor="primary"
+            variant="fullWidth"
             className={classes.sortToggleContainer}
           >
             <Tab label="Most recent" className={classes.sortToggleContainer}/>
