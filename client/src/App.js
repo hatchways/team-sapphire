@@ -9,7 +9,6 @@ import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Settings from "./pages/Settings";
-import SingleMention from "./pages/SingleMention";
 
 import "./App.css";
 
@@ -23,7 +22,6 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/settings" component={Settings} />
-          <Route exact path="/mentions/:id" component={SingleMention} />
         </BrowserRouter>
       </SnackbarProvider>
     </MuiThemeProvider>

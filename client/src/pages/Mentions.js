@@ -1,64 +1,80 @@
 import React from "react";
+import { Route, Link } from "react-router-dom";
 
-import { Card, CardContent, CardMedia, Typography, Paper, Tabs, Tab, Link } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Paper,
+  Tabs,
+  Tab
+  // Link
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   mentionsContainer: {
-    width: '75%',
-    margin: 'auto',
-    marginTop: '10px'
+    width: "75%",
+    margin: "auto",
+    marginTop: "10px"
   },
   sortToggleContainer: {
-    float: 'right',
-    borderRadius: '50px',
-    color: '#30336b'
+    float: "right",
+    borderRadius: "50px",
+    color: "#30336b"
   },
   cardContainer: {
-    marginBottom: '10px',
-    display: 'flex',
-    height: '18vh',
-    maxHeight: '18vh'
+    marginBottom: "10px",
+    display: "flex",
+    height: "18vh",
+    maxHeight: "18vh"
   },
   cardImage: {
-    width: '30%'
+    width: "30%"
   },
   header: {
-    marginBottom: '20px',
-    height: (window.innerWidth > 1024) ? '50px' : '100px'
+    marginBottom: "20px",
+    height: window.innerWidth > 1024 ? "50px" : "100px"
   }
 }));
+
+const SingleMention = ({ match }) => {
+  const mention = mentions.find(({ id }) => id === match.params.topicId);
+  return <div>hi</div>;
+};
 
 function Mentions(props) {
   const classes = useStyles();
   const mentions = props.mentions.map((mention, i) => {
-    return <Card className={classes.cardContainer} key={i}>
-             <CardMedia
-               component="img"
-               alt="image"
-               image={mention.image}
-               title="Image"
-               className={classes.cardImage}
-             />
-             <div>
-               <CardContent>
-                 <Typography variant="h5" component="h2">
-                   <Link href={mention.link} rel="noopener">
-                     {mention.title}
-                   </Link>
-                 </Typography>
-                 <Typography>
-                   <Link href={mention.link} rel="noopener">
-                    {mention.platform}
-                  </Link>
-                 </Typography>
-                 <Typography>
-                   {mention.desc}
-                 </Typography>
-               </CardContent>
-             </div>
-           </Card>
-  })
+    return (
+      <Card className={classes.cardContainer} key={i}>
+        <CardMedia
+          component="img"
+          alt="image"
+          image={mention.image}
+          title="Image"
+          className={classes.cardImage}
+        />
+        <div>
+          <CardContent>
+            <Link to={`/dashboard/mentions/${i}`}>{mention.title}</Link>
+            <Typography variant="h5" component="h2">
+              <Link href={mention.link} rel="noopener">
+                {mention.title}
+              </Link>
+            </Typography>
+            <Typography>
+              <Link href={mention.link} rel="noopener">
+                {mention.platform}
+              </Link>
+            </Typography>
+            <Typography>{mention.desc}</Typography>
+          </CardContent>
+        </div>
+      </Card>
+    );
+  });
   return (
     <div className={classes.mentionsContainer}>
       <Typography variant="h4" className={classes.header}>
@@ -72,12 +88,16 @@ function Mentions(props) {
             variant="fullWidth"
             className={classes.sortToggleContainer}
           >
-            <Tab label="Most recent" className={classes.sortToggleContainer}/>
-            <Tab label="Most popular" className={classes.sortToggleContainer}/>
+            <Tab label="Most recent" className={classes.sortToggleContainer} />
+            <Tab label="Most popular" className={classes.sortToggleContainer} />
           </Tabs>
         </Paper>
       </Typography>
       {mentions}
+      <Route
+        path={`/dashboard/mentions/:mentionId`}
+        component={SingleMention}
+      />
     </div>
   );
 }
