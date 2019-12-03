@@ -10,7 +10,7 @@ function validateRegistration(request) {
 }
 
 async function jwtVerify(req, res, next) {
-  if (req.cookies) {
+  if (req.cookies.token) {
     const token = req.cookies.token;
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken.userId;

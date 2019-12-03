@@ -18,6 +18,7 @@
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.11",
+    "mongoose-findorcreate": "^3.0.0",
     "morgan": "~1.9.1",
     "nodemon": "^1.19.1",
     "snoowrap": "^1.20.1"

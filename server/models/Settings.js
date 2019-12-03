@@ -5,10 +5,26 @@ const Schema = mongoose.Schema;
 const SettingSchema = new Schema({
   _id: Schema.ObjectId,
   email: String,
-  companies: [String],
-  platforms: Object
+  companies: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Company"
+    }
+  ],
+  platforms: {
+    type: Object,
+    default: {
+      Reddit: true,
+      Twitter: true,
+      Facebook: true,
+      Amazon: true,
+      Forbes: true,
+      Shopify: true,
+      "Business Insider": true
+    }
+  }
 });
 
-const SettingsModel = mongoose.model('setting', SettingSchema);
+const SettingsModel = mongoose.model("setting", SettingSchema);
 
 module.exports = SettingsModel;
