@@ -16,6 +16,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Dashboard() {
+  const socket = window.io('', {
+    autoConnect: false
+  });
+
   const history = useHistory();
 
   const [platforms, setPlatforms] = useState({
@@ -38,6 +42,7 @@ function Dashboard() {
         if (res.data.authenticated === false) {
           handleLogout();
         } else if (res.data.success) {
+          socket.connect();
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
           setMentions(res.data.mentions.Reddit);
@@ -71,6 +76,7 @@ function Dashboard() {
   const handleLogout = async () => {
     let response = await axios.post("http://localhost:4000/logout");
     if (response.data.success) {
+      socket.disconnect();
       localStorage.clear();
       history.push("/login");
     }

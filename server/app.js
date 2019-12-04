@@ -35,8 +35,15 @@ app.use(function(err, req, res, next) {
   res.status(401).send({ success: false, error: err });
 });
 
-app.listen(4000, () => {
+const server = app.listen(4000, () => {
   console.log("Server running on port 4000!");
 });
 
-module.exports = app;
+const io = require('socket.io')(server);
+
+module.exports = {
+  app,
+  io
+};
+
+require('./socket/socket');
