@@ -29,7 +29,7 @@ function Mentions(props) {
   const [open, setOpen] = useState(false);
 
   const mentions = props.mentions.map((mention, i) => {
-    return <Mention mention={mention} index={i} setOpen={setOpen} />;
+    return <Mention key={i} mention={mention} index={i} setOpen={setOpen} />;
   });
 
   return (
