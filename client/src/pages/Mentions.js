@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     marginTop: '10px'
   },
+  companyName: {
+    fontWeight: "bold"
+  },
   sortToggleContainer: {
     float: 'right',
     borderRadius: '50px',
@@ -48,7 +51,7 @@ function Mentions(props) {
     if (descIndex > -1) {
       desc = <span>
               {desc.substring(0, descIndex)}
-              <span style={{"font-weight": "bold"}}>
+              <span className={classes.companyName}>
                 {desc.substring(descIndex, descEnd)}
               </span>
               {desc.substring(descEnd)}
@@ -64,7 +67,7 @@ function Mentions(props) {
     if (titleIndex > -1) {
       title = <span>
                 {title.substring(0, titleIndex)}
-                <span style={{"font-weight": "bold"}}>
+                <span className={classes.companyName}>
                   {title.substring(titleIndex, titleEnd)}
                 </span>
                 {title.substring(titleEnd)}
