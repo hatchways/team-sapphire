@@ -1,21 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Card,
   CardContent,
+  DialogTitle,
   CardMedia,
+  Dialog,
   Typography,
-  Paper,
-  Tabs,
-  Tab,
   Link as LinkTo
 } from "@material-ui/core";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-
-import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   dialogContainer: {
@@ -89,7 +83,6 @@ const MentionDialog = ({ match, mentions, open, setOpen }) => {
 
   return (
     <div>
-      <br />
       <SimpleDialog open={open} onClose={handleClose} mention={mention} />
     </div>
   );

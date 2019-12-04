@@ -18,15 +18,6 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "50px",
     color: "#30336b"
   },
-  cardContainer: {
-    marginBottom: "10px",
-    display: "flex",
-    height: "18vh",
-    maxHeight: "18vh"
-  },
-  cardImage: {
-    width: "30%"
-  },
   header: {
     marginBottom: "20px",
     height: window.innerWidth > 1024 ? "50px" : "100px"

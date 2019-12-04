@@ -1,29 +1,16 @@
-import React, { useState } from "react";
-import { Route, Link } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
 import {
   Card,
   CardContent,
   CardMedia,
   Typography,
-  Paper,
-  Tabs,
-  Tab,
   Link as LinkTo
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  mentionsContainer: {
-    width: "75%",
-    margin: "auto",
-    marginTop: "10px"
-  },
-  sortToggleContainer: {
-    float: "right",
-    borderRadius: "50px",
-    color: "#30336b"
-  },
   cardContainer: {
     marginBottom: "10px",
     display: "flex",
@@ -32,10 +19,6 @@ const useStyles = makeStyles(theme => ({
   },
   cardImage: {
     width: "30%"
-  },
-  header: {
-    marginBottom: "20px",
-    height: window.innerWidth > 1024 ? "50px" : "100px"
   }
 }));
 
