@@ -18,28 +18,16 @@ import Dialog from "@material-ui/core/Dialog";
 import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
-  mentionsContainer: {
-    width: "75%",
-    margin: "auto",
-    marginTop: "10px"
-  },
-  sortToggleContainer: {
-    float: "right",
-    borderRadius: "50px",
-    color: "#30336b"
-  },
-  cardContainer: {
-    marginBottom: "10px",
-    display: "flex",
-    height: "18vh",
-    maxHeight: "18vh"
+  dialogContainer: {
+    width: "100%"
   },
   cardImage: {
-    width: "30%"
+    width: "50%"
   },
-  header: {
-    marginBottom: "20px",
-    height: window.innerWidth > 1024 ? "50px" : "100px"
+  mentionContents: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
   }
 });
 
@@ -57,6 +45,7 @@ function SimpleDialog(props) {
       onClose={handleClose}
       aria-labelledby="simple-dialog-title"
       open={open}
+      className={classes.dialogContainer}
     >
       <DialogTitle id="simple-dialog-title">
         <Typography variant="h5" component="h2">
@@ -65,24 +54,22 @@ function SimpleDialog(props) {
           </LinkTo>
         </Typography>
       </DialogTitle>
+      <CardContent>
+        <LinkTo href={mention.link} rel="noopener">
+          {mention.platform}
+        </LinkTo>
+      </CardContent>
 
-      <CardMedia
-        component="img"
-        alt="image"
-        image={mention.image}
-        title="Image"
-        className={classes.cardImage}
-      />
-      <div>
-        <CardContent>
-          <Typography>
-            <LinkTo href={mention.link} rel="noopener">
-              {mention.platform}
-            </LinkTo>
-          </Typography>
-          <Typography>{mention.desc}</Typography>
-        </CardContent>
-      </div>
+      <CardContent className={classes.mentionContents}>
+        <CardMedia
+          component="img"
+          alt="image"
+          image={mention.image}
+          title="Image"
+          className={classes.cardImage}
+        />
+        <Typography>{mention.desc}</Typography>
+      </CardContent>
     </Dialog>
   );
 }
