@@ -14,8 +14,6 @@ const pingRouter = require("./routes/ping");
 const authRoutes = require("./routes/auth");
 const settingsRouter = require("./routes/settings");
 const searchRouter = require("./routes/search");
-const twitterRouter = require("./routes/twitter");
-
 
 const app = express();
 
@@ -31,7 +29,6 @@ app.use("/ping", pingRouter);
 app.use(authRoutes);
 app.use("/settings", settingsRouter);
 app.use("/search", searchRouter);
-app.use("/twitter", twitterRouter);
 
 // Error handler
 app.use(function(err, req, res, next) {
