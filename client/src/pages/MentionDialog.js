@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
@@ -17,10 +17,11 @@ const useStyles = makeStyles({
 
 function SimpleDialog(props) {
   const classes = useStyles();
-  const { onClose, selectedValue, open, mention } = props;
+  const history = useHistory();
+  const { open, mention } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    history.push("/dashboard");
   };
 
   return (
@@ -35,7 +36,6 @@ function SimpleDialog(props) {
 }
 
 SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired
 };
 
