@@ -8,8 +8,8 @@ import {
   Typography,
   Paper,
   Tabs,
-  Tab
-  // Link
+  Tab,
+  Link as LinkTo
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -39,9 +39,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SingleMention = ({ match }) => {
-  const mention = mentions.find(({ id }) => id === match.params.topicId);
-  return <div>hi</div>;
+const MentionDialog = ({ match, mentions }) => {
+  const mention = mentions.find((mention, id) => {
+    console.log(id === Number(match.params.mentionId));
+    return id === Number(match.params.mentionId);
+  });
+  console.log(mention);
+  return <div>{mention.title}</div>;
 };
 
 function Mentions(props) {
@@ -60,14 +64,14 @@ function Mentions(props) {
           <CardContent>
             <Link to={`/dashboard/mentions/${i}`}>{mention.title}</Link>
             <Typography variant="h5" component="h2">
-              <Link href={mention.link} rel="noopener">
+              <LinkTo href={mention.link} rel="noopener">
                 {mention.title}
-              </Link>
+              </LinkTo>
             </Typography>
             <Typography>
-              <Link href={mention.link} rel="noopener">
+              <LinkTo href={mention.link} rel="noopener">
                 {mention.platform}
-              </Link>
+              </LinkTo>
             </Typography>
             <Typography>{mention.desc}</Typography>
           </CardContent>
@@ -75,6 +79,7 @@ function Mentions(props) {
       </Card>
     );
   });
+
   return (
     <div className={classes.mentionsContainer}>
       <Typography variant="h4" className={classes.header}>
@@ -96,7 +101,9 @@ function Mentions(props) {
       {mentions}
       <Route
         path={`/dashboard/mentions/:mentionId`}
-        component={SingleMention}
+        render={reactRouterPropss => (
+          <MentionDialog {...reactRouterPropss} mentions={props.mentions} />
+        )}
       />
     </div>
   );
