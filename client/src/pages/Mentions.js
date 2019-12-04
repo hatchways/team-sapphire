@@ -1,16 +1,10 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Paper,
-  Tabs,
-  Tab,
-  Link as LinkTo
-} from "@material-ui/core";
+import MentionDialog from "./MentionDialog";
+import Mention from "./Mention";
+
+import { Typography, Paper, Tabs, Tab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -39,45 +33,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MentionDialog = ({ match, mentions }) => {
-  const mention = mentions.find((mention, id) => {
-    console.log(id === Number(match.params.mentionId));
-    return id === Number(match.params.mentionId);
-  });
-  console.log(mention);
-  return <div>{mention.title}</div>;
-};
-
 function Mentions(props) {
   const classes = useStyles();
   const mentions = props.mentions.map((mention, i) => {
-    return (
-      <Card className={classes.cardContainer} key={i}>
-        <CardMedia
-          component="img"
-          alt="image"
-          image={mention.image}
-          title="Image"
-          className={classes.cardImage}
-        />
-        <div>
-          <CardContent>
-            <Link to={`/dashboard/mentions/${i}`}>{mention.title}</Link>
-            <Typography variant="h5" component="h2">
-              <LinkTo href={mention.link} rel="noopener">
-                {mention.title}
-              </LinkTo>
-            </Typography>
-            <Typography>
-              <LinkTo href={mention.link} rel="noopener">
-                {mention.platform}
-              </LinkTo>
-            </Typography>
-            <Typography>{mention.desc}</Typography>
-          </CardContent>
-        </div>
-      </Card>
-    );
+    return <Mention mention={mention} index={i} />;
   });
 
   return (
