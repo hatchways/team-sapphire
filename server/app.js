@@ -12,9 +12,9 @@ const corsOptions = {
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 const authRoutes = require("./routes/auth");
-const redditRouter = require("./routes/reddit");
 const settingsRouter = require("./routes/settings");
-const twitterRouter = require('./routes/twitter');
+const searchRouter = require("./routes/search");
+
 
 const app = express();
 
@@ -28,9 +28,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use(authRoutes);
-app.use("/reddit", redditRouter);
 app.use("/settings", settingsRouter);
-app.use('/twitter', twitterRouter);
+app.use("/search", searchRouter);
 
 // Error handler
 app.use(function(err, req, res, next) {

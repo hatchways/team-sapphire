@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { withSnackbar } from "notistack";
 
 import {
   Switch,
@@ -28,7 +29,6 @@ const useStyles = makeStyles(theme => ({
   },
   titleContainer: {
     paddingLeft: "30px",
-    // justifyContent: "center",
     alignItems: "center",
     paddingTop: "40px"
   },
@@ -39,25 +39,30 @@ const useStyles = makeStyles(theme => ({
   sideBarContainer: {
     display: "flex",
     flexDirection: "column"
-    // alignItems: "flex-start"
   },
   sideBarContents: {
     fontWeight: "bold"
   }
 }));
 
-const LeftSideBar = () => {
+const LeftSideBar = ({ enqueueSnackbar }) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleLogout = () => {
-    let response = axios.post("http://localhost:4000/logout");
-    if (response.data.success) {
-      localStorage.clear();
-      history.push("/login");
+  const handleLogout = async () => {
+    try {
+      let response = await axios.post("http://localhost:4000/logout");
+      if (response.data.success) {
+        localStorage.clear();
+        history.push("/login");
+      }
+    } catch (err) {
+      enqueueSnackbar("Something went wrong, Please try again", {
+        variant: "error"
+      });
     }
   };
-  
+
   return (
     <div>
       <Grid container className={classes.titleContainer}>
@@ -80,4 +85,4 @@ const LeftSideBar = () => {
   );
 };
 
-export default LeftSideBar;
+export default withSnackbar(LeftSideBar);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { withSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
 
 import Navbar from "./Navbar";
@@ -50,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = () => {
+const Login = ({ enqueueSnackbar }) => {
   const classes = useStyles();
   const history = useHistory();
   const [loginError, setLoginError] = useState("");
@@ -70,7 +71,15 @@ const Login = () => {
           history.push("/dashboard");
         }
       })
-      .catch(() => setLoginError("Please check your email and password"));
+      .catch(err => {
+        if (err.response.status === 500) {
+          enqueueSnackbar("Something went wrong, Please try again", {
+            variant: "error"
+          });
+        } else {
+          setLoginError("Please check your email and password");
+        }
+      });
   };
 
   const onClickHandler = () => {
@@ -134,4 +143,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withSnackbar(Login);

@@ -10,12 +10,12 @@ function validateRegistration(request) {
 }
 
 async function jwtVerify(req, res, next) {
-  if (req.cookies) {
+  if (req.cookies.token) {
     const token = req.cookies.token;
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken.userId;
     if (req.body.userId && req.body.userId !== userId) {
-      res.status(401).send({ autheticated: false });
+      res.status(401).send({ authenticated: false });
     } else {
       next();
     }
