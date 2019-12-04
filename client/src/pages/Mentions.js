@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route } from "react-router-dom";
 
 import MentionDialog from "./MentionDialog";
@@ -35,8 +35,10 @@ const useStyles = makeStyles(theme => ({
 
 function Mentions(props) {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
   const mentions = props.mentions.map((mention, i) => {
-    return <Mention mention={mention} index={i} />;
+    return <Mention mention={mention} index={i} setOpen={setOpen} />;
   });
 
   return (
@@ -60,9 +62,16 @@ function Mentions(props) {
       {mentions}
       <Route
         path={`/dashboard/mentions/:mentionId`}
-        render={reactRouterPropss => (
-          <MentionDialog {...reactRouterPropss} mentions={props.mentions} />
-        )}
+        render={reactRouterPropss => {
+          return (
+            <MentionDialog
+              {...reactRouterPropss}
+              mentions={props.mentions}
+              setOpen={setOpen}
+              open={open}
+            />
+          );
+        }}
       />
     </div>
   );

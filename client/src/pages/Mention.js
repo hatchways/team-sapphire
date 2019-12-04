@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Link } from "react-router-dom";
 
 import {
@@ -39,35 +39,44 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Mention = ({ mention, index }) => {
+const Mention = ({ mention, index, setOpen }) => {
   const classes = useStyles();
+  const handleClickOpen = event => {
+    setOpen(true);
+  };
+
   return (
     <div>
-      <Card className={classes.cardContainer} key={index}>
-        <CardMedia
-          component="img"
-          alt="image"
-          image={mention.image}
-          title="Image"
-          className={classes.cardImage}
-        />
-        <div>
-          <CardContent>
-            <Link to={`/dashboard/mentions/${index}`}>{mention.title}</Link>
-            <Typography variant="h5" component="h2">
-              <LinkTo href={mention.link} rel="noopener">
-                {mention.title}
-              </LinkTo>
-            </Typography>
-            <Typography>
-              <LinkTo href={mention.link} rel="noopener">
-                {mention.platform}
-              </LinkTo>
-            </Typography>
-            <Typography>{mention.desc}</Typography>
-          </CardContent>
-        </div>
-      </Card>
+      <Link to={`/dashboard/mentions/${index}`}>
+        <Card
+          className={classes.cardContainer}
+          key={index}
+          onClick={handleClickOpen}
+        >
+          <CardMedia
+            component="img"
+            alt="image"
+            image={mention.image}
+            title="Image"
+            className={classes.cardImage}
+          />
+          <div>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                <LinkTo href={mention.link} rel="noopener">
+                  {mention.title}
+                </LinkTo>
+              </Typography>
+              <Typography>
+                <LinkTo href={mention.link} rel="noopener">
+                  {mention.platform}
+                </LinkTo>
+              </Typography>
+              <Typography>{mention.desc}</Typography>
+            </CardContent>
+          </div>
+        </Card>
+      </Link>
     </div>
   );
 };
