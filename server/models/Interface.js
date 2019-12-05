@@ -16,9 +16,7 @@ const interface = class Interface {
     let posts = await Promise.all(promises);
 
     for (const post of posts) {
-      if (post[0].platform === "Reddit") {
-        mentions.Reddit = [...mentions.Reddit, ...post];
-      }
+      mentions[post[0].platform] = [...mentions[post[0].platform], ...post];
     }
 
     return mentions;
