@@ -1,64 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import { Route } from "react-router-dom";
 
-import { Card, CardContent, CardMedia, Typography, Paper, Tabs, Tab, Link } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import MentionDialog from "./MentionDialog";
+import Mention from "./Mention";
+
+import { Typography, Paper, Tabs, Tab } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   mentionsContainer: {
-    width: '75%',
-    margin: 'auto',
-    marginTop: '10px'
+    width: "75%",
+    margin: "auto",
+    marginTop: "10px"
   },
   sortToggleContainer: {
-    float: 'right',
-    borderRadius: '50px',
-    color: '#30336b'
-  },
-  cardContainer: {
-    marginBottom: '10px',
-    display: 'flex',
-    height: '18vh',
-    maxHeight: '18vh'
-  },
-  cardImage: {
-    width: '30%'
+    float: "right",
+    borderRadius: "50px",
+    color: "#30336b"
   },
   header: {
-    marginBottom: '20px',
-    height: (window.innerWidth > 1024) ? '50px' : '100px'
+    marginBottom: "20px",
+    height: window.innerWidth > 1024 ? "50px" : "100px"
   }
 }));
 
 function Mentions(props) {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
   const mentions = props.mentions.map((mention, i) => {
-    return <Card className={classes.cardContainer} key={i}>
-             <CardMedia
-               component="img"
-               alt="image"
-               image={mention.image}
-               title="Image"
-               className={classes.cardImage}
-             />
-             <div>
-               <CardContent>
-                 <Typography variant="h5" component="h2">
-                   <Link href={mention.link} rel="noopener">
-                     {mention.title}
-                   </Link>
-                 </Typography>
-                 <Typography>
-                   <Link href={mention.link} rel="noopener">
-                    {mention.platform}
-                  </Link>
-                 </Typography>
-                 <Typography>
-                   {mention.desc}
-                 </Typography>
-               </CardContent>
-             </div>
-           </Card>
-  })
+    return <Mention key={i} mention={mention} index={i} setOpen={setOpen} />;
+  });
+
   return (
     <div className={classes.mentionsContainer}>
       <Typography variant="h4" className={classes.header}>
@@ -72,12 +45,25 @@ function Mentions(props) {
             variant="fullWidth"
             className={classes.sortToggleContainer}
           >
-            <Tab label="Most recent" className={classes.sortToggleContainer}/>
-            <Tab label="Most popular" className={classes.sortToggleContainer}/>
+            <Tab label="Most recent" className={classes.sortToggleContainer} />
+            <Tab label="Most popular" className={classes.sortToggleContainer} />
           </Tabs>
         </Paper>
       </Typography>
       {mentions}
+      <Route
+        path={`/dashboard/mentions/:mentionId`}
+        render={reactRouterPropss => {
+          return (
+            <MentionDialog
+              {...reactRouterPropss}
+              mentions={props.mentions}
+              setOpen={setOpen}
+              open={open}
+            />
+          );
+        }}
+      />
     </div>
   );
 }
