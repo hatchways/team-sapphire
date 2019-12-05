@@ -1,6 +1,8 @@
 import React from "react";
+
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { withSnackbar } from "notistack";
 
 import {
   Switch,
@@ -21,14 +23,14 @@ const useStyles = makeStyles(theme => ({
     width: "97.5%"
   },
   settingsTitle: {
-    fontSize: "20px"
+    fontSize: "20px",
+    color: "#141414"
   },
   settings: {
     color: "#6583f2"
   },
   titleContainer: {
     paddingLeft: "30px",
-    // justifyContent: "center",
     alignItems: "center",
     paddingTop: "40px"
   },
@@ -38,23 +40,48 @@ const useStyles = makeStyles(theme => ({
   },
   sideBarContainer: {
     display: "flex",
-    flexDirection: "column"
-    // alignItems: "flex-start"
+    flexDirection: "column",
+    marginLeft: "10px"
+  },
+  sideBarContentsCompany: {
+    fontWeight: "bold",
+    borderLeft: "5px solid #6583f2",
+    padding: "6px",
+    color: "#6583f2",
+    marginLeft: "8px",
+    marginBottom: "30px",
+    marginTop: "30px",
+    "&:hover": {
+      cursor: "pointer"
+    }
   },
   sideBarContents: {
-    fontWeight: "bold"
+    fontWeight: "bold",
+    borderLeft: "5px solid white",
+    padding: "6px",
+    marginLeft: "8px",
+    color: "#141414",
+    "&:hover": {
+      cursor: "pointer"
+    }
   }
 }));
 
-const LeftSideBar = () => {
+const LeftSideBar = ({ enqueueSnackbar }) => {
   const classes = useStyles();
   const history = useHistory();
 
   const handleLogout = async () => {
-    let response = await axios.post("http://localhost:4000/logout");
-    if (response.data.success) {
-      localStorage.clear();
-      history.push("/login");
+    try {
+      let response = await axios.post("http://localhost:4000/logout");
+      if (response.data.success) {
+        localStorage.clear();
+        history.push("/login");
+      }
+    } catch (err) {
+      enqueueSnackbar("Something went wrong, Please try again", {
+        variant: "error"
+      });
     }
   };
 
@@ -68,16 +95,20 @@ const LeftSideBar = () => {
       </Grid>
 
       <Grid className={classes.sideBarContainer}>
-        <Tab label="Company" className={classes.sideBarContents} />
+        <div label="Company" className={classes.sideBarContentsCompany}>
+          Company
+        </div>
 
-        <Tab
+        <div
           label="Logout"
           className={classes.sideBarContents}
           onClick={handleLogout}
-        />
+        >
+          Logout
+        </div>
       </Grid>
     </div>
   );
 };
 
-export default LeftSideBar;
+export default withSnackbar(LeftSideBar);

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -8,7 +8,11 @@ import {
   Button,
   Grid,
   Paper,
-  IconButton
+  IconButton,
+  Select,
+  MenuItem,
+  Checkbox,
+  ListItemText
 } from "@material-ui/core";
 
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -17,7 +21,13 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   title: {
-    width: "160px"
+    width: "160px",
+    overflow: "visible"
+  },
+  loginTitle: {
+    width: "160px",
+    overflow: "visible",
+    flexGrow: 1
   },
   titlePart: {
     color: "#30336b"
@@ -40,11 +50,13 @@ const useStyles = makeStyles(theme => ({
     margin: "auto"
   },
   input: {
-    width: "calc(100% - 58px)",
+    width: "calc(100% - 58px - 140px - 140px)",
     marginLeft: "10px"
   },
-  settings: {
-    float: "right"
+  select: {
+    marginRight: "5px",
+    width: "135px",
+    maxWidth: "135px"
   }
 }));
 
@@ -52,99 +64,110 @@ const Navbar = ({
   showSearch = false,
   showRegister = false,
   loggedIn = false,
-  loginToggle = false
+  loginToggle = false,
+  searchInput = "",
+  onSearchChange = () => {},
+  companies = [],
+  platforms = {},
+  isCompanyOpen = false,
+  handleCompanyClose = () => {},
+  handleCompanyOpen = () => {},
+  handleCompanyChange = () => {},
+  selectedCompanies = [],
+  isPlatformOpen = false,
+  handlePlatformClose = () => {},
+  handlePlatformOpen = () => {},
+  handlePlatformChange = () => {},
+  selectedPlatforms = [],
+  handleSubmit = () => {}
 }) => {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <div>
       <AppBar position="static">
         <Toolbar>
-          <Grid container justify="space-between">
-            <Grid item>
+          {showSearch && (
+            <>
               <Typography variant="h6" noWrap className={classes.title}>
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
-            </Grid>
-
-            {showSearch && loggedIn && (
-              <>
-                <Grid>
-                  <Paper component="form" className={classes.search}>
-                    <InputBase
-                      placeholder="Search Company Name..."
-                      className={classes.input}
-                    />
-                    <IconButton type="submit" aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                  </Paper>
-                </Grid>
-                <Grid>
-                  <IconButton className={classes.settings}>
-                    <SettingsIcon />
-                  </IconButton>
-                </Grid>
-              </>
-            )}
-            {showSearch && !loggedIn && loginToggle && (
-              <>
-                <Grid item>
-                  <Paper component="form" className={classes.search}>
-                    <InputBase
-                      placeholder="Search Company Name..."
-                      className={classes.input}
-                    />
-                    <IconButton type="submit" aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                  </Paper>
-                </Grid>
-                <Grid>
-                  <IconButton className={classes.settings}>
-                    <SettingsIcon />
-                  </IconButton>
-                </Grid>
-              </>
-            )}
-            {showSearch && !loggedIn && !loginToggle && (
-              <>
-                <Grid item>
-                  <Paper component="form" className={classes.search}>
-                    <InputBase
-                      placeholder="Search Company Name..."
-                      className={classes.input}
-                    />
-                    <IconButton type="submit" aria-label="search">
-                      <SearchIcon />
-                    </IconButton>
-                  </Paper>
-                </Grid>
-                <Grid item>
-                  <IconButton className={classes.settings}>
-                    <SettingsIcon />
-                  </IconButton>
-                </Grid>
-              </>
-            )}
-
-            {!showSearch && (
-              <Grid item>
-                <Typography variant="caption" className={classes.linkTitle}>
-                  {" "}
-                  {showRegister
-                    ? "Already have an account?"
-                    : "Don't have an account"}
-                </Typography>
-                <Button
-                  variant="outlined"
-                  href={showRegister ? "/login" : "/register"}
-                  className={classes.loginRegisterButton}
+              <Paper component="form" className={classes.search} onSubmit={handleSubmit}>
+                <InputBase
+                  placeholder="Search Contents..."
+                  className={classes.input}
+                  value={searchInput}
+                  onChange={onSearchChange}
+                  id="searchfield"
+                  name="searchfield"
+                />
+                <Select
+                  multiple
+                  className={classes.select}
+                  open={isCompanyOpen}
+                  onClose={handleCompanyClose}
+                  onOpen={handleCompanyOpen}
+                  renderValue={selected => selected.join(', ')}
+                  value={selectedCompanies}
+                  onChange={handleCompanyChange}
+                  id="companyfield"
+                  name="companyfield"
                 >
-                  {showRegister ? "Login" : "Register"}
-                </Button>
-              </Grid>
-            )}
-          </Grid>
+                  {companies.map((company, i) => {
+                    return <MenuItem value={company.name} key={i}>
+                             <Checkbox checked={selectedCompanies.indexOf(company.name) > -1} />
+                             <ListItemText primary={company.name} />
+                           </MenuItem>
+                  })}
+                </Select>
+                <Select
+                  multiple
+                  className={classes.select}
+                  open={isPlatformOpen}
+                  onClose={handlePlatformClose}
+                  onOpen={handlePlatformOpen}
+                  renderValue={selected => selected.join(', ')}
+                  value={selectedPlatforms}
+                  onChange={handlePlatformChange}
+                  id="platformfield"
+                  name="platformfield"
+                >
+                  {Object.keys(platforms).map((platform, i) => {
+                    return <MenuItem value={platform} key={i}>
+                             <Checkbox checked={selectedPlatforms.indexOf(platform) > -1} />
+                             <ListItemText primary={platform} />
+                           </MenuItem>
+                  })}
+                </Select>
+                <IconButton type="submit" aria-label="search" onSubmit={handleSubmit}>
+                  <SearchIcon />
+                </IconButton>
+              </Paper>
+              <IconButton>
+                <SettingsIcon />
+              </IconButton>
+            </>
+          )}
+          {!showSearch && (
+            <>
+              <Typography variant="h6" noWrap className={classes.loginTitle}>
+                mentions<span className={classes.titlePart}>crawler.</span>
+              </Typography>
+              <Typography variant="caption" className={classes.linkTitle}>
+                {" "}
+                {showRegister
+                  ? "Already have an account?"
+                  : "Don't have an account"}
+              </Typography>
+              <Button
+                variant="outlined"
+                href={showRegister ? "/login" : "/register"}
+                className={classes.loginRegisterButton}
+              >
+                {showRegister ? "Login" : "Register"}
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </div>

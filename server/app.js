@@ -13,6 +13,7 @@ const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 const authRoutes = require("./routes/auth");
 const settingsRouter = require("./routes/settings");
+const searchRouter = require("./routes/search");
 
 const app = express();
 
@@ -27,14 +28,22 @@ app.use("/", indexRouter);
 app.use("/ping", pingRouter);
 app.use(authRoutes);
 app.use("/settings", settingsRouter);
+app.use("/search", searchRouter);
 
 // Error handler
 app.use(function(err, req, res, next) {
   res.status(401).send({ success: false, error: err });
 });
 
-app.listen(4000, () => {
+const server = app.listen(4000, () => {
   console.log("Server running on port 4000!");
 });
 
-module.exports = app;
+const io = require('socket.io')(server);
+
+module.exports = {
+  app,
+  io
+};
+
+require('./socket/socket');
