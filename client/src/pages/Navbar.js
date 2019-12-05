@@ -22,7 +22,9 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
   Navbar: {
     backgroundColor: theme.appBlue,
-    height: "92px"
+    height: "92px",
+    display: "flex",
+    justifyContent: "center"
   },
   title: {
     marginLeft: "1%",
@@ -97,7 +99,7 @@ const Navbar = ({
   const history = useHistory();
   return (
     <div>
-      <AppBar position="static" className={classes.Navbar}>
+      <AppBar position="sticky" className={classes.Navbar}>
         <Toolbar>
           {showSearch && (
             <>
