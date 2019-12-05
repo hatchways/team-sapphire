@@ -25,6 +25,6 @@ async function jwtVerify(req, res, next) {
 }
 
 module.exports = {
-    validateRegistration,
-    jwtVerify
-}
+  validateRegistration,
+  jwtVerify
+};
