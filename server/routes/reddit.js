@@ -13,7 +13,7 @@ const getNewestRedditPosts = async (company) => {
   await r.search({query: company, sort: 'new'})
     .then(posts => {
       posts.forEach((submission) => {
-        let image = "https://a.thumbs.redditmedia.com/9EDGp3AsLDtCRvDUAjuQzNQSZPkvVmgesMjVxphosb0.jpg";
+        let image = "https://images-eu.ssl-images-amazon.com/images/I/418PuxYS63L.png";
         if (submission.thumbnail === "image") {
           image = submission.url;
         } else if (submission.thumbnail !== "default" && submission.thumbnail !== "self") {

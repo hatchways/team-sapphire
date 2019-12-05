@@ -11,7 +11,14 @@ import LeftSideBar from "./LeftSideBar";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
-    height: "100%"
+    backgroundColor: '#fafbff',
+    height: "100vh",
+    width: "72vw",
+    borderLeft: "2px solid #e9eaee"
+  },
+  leftGridContainer: {
+    height: "100vh",
+    width: "28vw"
   }
 }));
 
@@ -76,7 +83,7 @@ const Settings = () => {
   }, []);
 
   const handleLogout = async () => {
-    let response = await axios.post("http://localhost:4000/logout");
+    let response = await axios.post("/logout");
     if (response.data.success) {
       localStorage.clear();
       history.push("/login");
@@ -104,10 +111,10 @@ const Settings = () => {
         handleSubmit={handleSearchSubmit}
       />
       <Grid container spacing={0}>
-        <Grid item xs={3}>
+        <Grid item className={classes.leftGridContainer}>
           <LeftSideBar />
         </Grid>
-        <Grid item xs={9} className={classes.rightGridContainer}>
+        <Grid item className={classes.rightGridContainer}>
           <SettingsBody
             companyNames={companyNames}
             setCompanyNames={setCompanyNames}

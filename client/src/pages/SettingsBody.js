@@ -9,10 +9,10 @@ import CompanyNameTextfield from "./CompanyNameTextfield";
 
 const useStyles = makeStyles(theme => ({
   bodyContainer: {
-    backgroundColor: "#fafbff",
     height: "100vh",
+    width: "50vw",
     paddingTop: "30px",
-    paddingLeft: "70px"
+    paddingLeft: "100px"
   },
   companyContainer: {
     display: "flex",
@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
     margin: "1vh",
     border: "1px solid #eeeeef",
     padding: "5px",
-    width: "500px",
+    width: "38vw",
     alignItems: "center"
   },
 
@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   companyEmailInput: {
-    width: "500px",
+    width: "38vw",
     outline: "none",
     backgroundColor: "white",
     height: "25px",
@@ -188,7 +188,6 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
       <p className={classes.error}>{companyNameError}</p>
 
       <div className={classes.userEmailInput}>
-        {" "}
         <b className={classes.emailTitle}>Weekly report </b>
         <div className={classes.companyEmailInput}>
           <div className={classes.userEmail}>

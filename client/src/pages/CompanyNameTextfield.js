@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     margin: "1vh",
     border: "1px solid #eeeeef",
     padding: "5px",
-    width: "500px",
+    width: "38vw",
     alignItems: "center",
     marginLeft: "131px"
   },
