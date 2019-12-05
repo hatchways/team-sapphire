@@ -13,9 +13,6 @@ const useStyles = makeStyles(theme => ({
     margin: "auto",
     marginTop: "10px"
   },
-  companyName: {
-    fontWeight: "bold"
-  },
   sortToggleContainer: {
     float: "right",
     borderRadius: "50px",
@@ -32,44 +29,6 @@ function Mentions(props) {
   const [open, setOpen] = useState(false);
 
   const mentions = props.mentions.map((mention, i) => {
-    let title = mention.title;
-    let desc = mention.desc;
-    let titleIndex = title.search(mention.company) > -1 ? title.search(mention.company) : title.search(mention.company.toLowerCase());
-    let titleEnd = titleIndex + mention.company.length;
-    let descIndex = desc.search(mention.company) > -1 ? desc.search(mention.company) : desc.search(mention.company.toLowerCase());
-    let descEnd = descIndex + mention.company.length;
-    if (desc.length > 200 && descEnd >= 200) {
-      desc = "..." + desc.substring(descIndex - 100, descIndex + 100) + "...";
-      descIndex = descEnd - (descEnd - 100) + 3;
-      descEnd = descIndex + mention.company.length;
-    } else if (desc.length > 200 && descEnd < 200) {
-      desc = desc.substring(0, 200) + "...";
-    }
-    if (descIndex > -1) {
-      desc = <span>
-              {desc.substring(0, descIndex)}
-              <span className={classes.companyName}>
-                {desc.substring(descIndex, descEnd)}
-              </span>
-              {desc.substring(descEnd)}
-            </span>
-    }
-    if (title.length > 40 && titleEnd >= 40) {
-      title = "..." + title.substring(titleIndex - 20, titleIndex + 20) + "...";
-      titleIndex = titleEnd - (titleEnd - 20) + 3;
-      titleEnd = titleIndex + mention.company.length;
-    } else if (title.length > 40 && titleEnd < 40) {
-      title = title.substring(0, 40) + "...";
-    }
-    if (titleIndex > -1) {
-      title = <span>
-                {title.substring(0, titleIndex)}
-                <span className={classes.companyName}>
-                  {title.substring(titleIndex, titleEnd)}
-                </span>
-                {title.substring(titleEnd)}
-              </span>
-    }
     return <Mention key={i} mention={mention} index={i} setOpen={setOpen} />;
   });
 

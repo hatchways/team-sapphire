@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   },
   cardImage: {
     width: "30%"
+  },
+  companyName: {
+    fontWeight: "bold"
   }
 }));
 
@@ -27,6 +30,45 @@ const Mention = ({ mention, index, setOpen }) => {
   const handleClickOpen = event => {
     setOpen(true);
   };
+
+  let title = mention.title;
+  let desc = mention.desc;
+  let titleIndex = title.search(mention.company) > -1 ? title.search(mention.company) : title.search(mention.company.toLowerCase());
+  let titleEnd = titleIndex + mention.company.length;
+  let descIndex = desc.search(mention.company) > -1 ? desc.search(mention.company) : desc.search(mention.company.toLowerCase());
+  let descEnd = descIndex + mention.company.length;
+  if (desc.length > 200 && descEnd >= 200) {
+    desc = "..." + desc.substring(descIndex - 100, descIndex + 100) + "...";
+    descIndex = descEnd - (descEnd - 100) + 3;
+    descEnd = descIndex + mention.company.length;
+  } else if (desc.length > 200 && descEnd < 200) {
+    desc = desc.substring(0, 200) + "...";
+  }
+  if (descIndex > -1) {
+    desc = <span>
+            {desc.substring(0, descIndex)}
+            <span className={classes.companyName}>
+              {desc.substring(descIndex, descEnd)}
+            </span>
+            {desc.substring(descEnd)}
+          </span>
+  }
+  if (title.length > 40 && titleEnd >= 40) {
+    title = "..." + title.substring(titleIndex - 20, titleIndex + 20) + "...";
+    titleIndex = titleEnd - (titleEnd - 20) + 3;
+    titleEnd = titleIndex + mention.company.length;
+  } else if (title.length > 40 && titleEnd < 40) {
+    title = title.substring(0, 40) + "...";
+  }
+  if (titleIndex > -1) {
+    title = <span>
+              {title.substring(0, titleIndex)}
+              <span className={classes.companyName}>
+                {title.substring(titleIndex, titleEnd)}
+              </span>
+              {title.substring(titleEnd)}
+            </span>
+  }
 
   return (
     <div>
@@ -47,7 +89,7 @@ const Mention = ({ mention, index, setOpen }) => {
             <CardContent>
               <Typography variant="h5" component="h2">
                 <LinkTo href={mention.link} rel="noopener">
-                  {mention.title}
+                  {title}
                 </LinkTo>
               </Typography>
               <Typography>
@@ -55,7 +97,7 @@ const Mention = ({ mention, index, setOpen }) => {
                   {mention.platform}
                 </LinkTo>
               </Typography>
-              <Typography>{mention.desc}</Typography>
+              <Typography>{desc}</Typography>
             </CardContent>
           </div>
         </Card>
