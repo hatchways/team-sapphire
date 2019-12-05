@@ -31,7 +31,15 @@ const useStyles = makeStyles(theme => ({
 
 function Mentions(props) {
   const classes = useStyles();
+  let mentionsCache = {};
+  if (localStorage.getItem("mentions")) {
+    mentionsCache = JSON.parse(localStorage.getItem("mentions"));
+    console.log(mentionsCache);
+  }
   const mentions = props.mentions.map((mention, i) => {
+    if (!mentionsCache.hasOwnProperty(mention.link)) {
+      mentionsCache[mention.link] = mention;
+    }
     return <Card className={classes.cardContainer} key={i}>
              <CardMedia
                component="img"
@@ -59,6 +67,13 @@ function Mentions(props) {
              </div>
            </Card>
   })
+  if (localStorage.getItem("mentions") !== JSON.stringify(mentionsCache)) {
+    localStorage.setItem("mentions", JSON.stringify(mentionsCache));
+    console.log("new data");
+  } else {
+    console.log("old data");
+  }
+
   return (
     <div className={classes.mentionsContainer}>
       <Typography variant="h4" className={classes.header}>
