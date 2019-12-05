@@ -20,6 +20,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
+  Navbar: {
+    backgroundColor: theme.appBlue
+  },
   title: {
     width: "160px",
     overflow: "visible"
@@ -30,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   titlePart: {
-    color: "#30336b"
+    color: "#273f96"
   },
   loginRegisterButton: {
     border: "1px solid white",
@@ -85,14 +88,18 @@ const Navbar = ({
   const history = useHistory();
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.Navbar}>
         <Toolbar>
           {showSearch && (
             <>
               <Typography variant="h6" noWrap className={classes.title}>
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
-              <Paper component="form" className={classes.search} onSubmit={handleSubmit}>
+              <Paper
+                component="form"
+                className={classes.search}
+                onSubmit={handleSubmit}
+              >
                 <InputBase
                   placeholder="Search Contents..."
                   className={classes.input}
@@ -107,17 +114,21 @@ const Navbar = ({
                   open={isCompanyOpen}
                   onClose={handleCompanyClose}
                   onOpen={handleCompanyOpen}
-                  renderValue={selected => selected.join(', ')}
+                  renderValue={selected => selected.join(", ")}
                   value={selectedCompanies}
                   onChange={handleCompanyChange}
                   id="companyfield"
                   name="companyfield"
                 >
                   {companies.map((company, i) => {
-                    return <MenuItem value={company.name} key={i}>
-                             <Checkbox checked={selectedCompanies.indexOf(company.name) > -1} />
-                             <ListItemText primary={company.name} />
-                           </MenuItem>
+                    return (
+                      <MenuItem value={company.name} key={i}>
+                        <Checkbox
+                          checked={selectedCompanies.indexOf(company.name) > -1}
+                        />
+                        <ListItemText primary={company.name} />
+                      </MenuItem>
+                    );
                   })}
                 </Select>
                 <Select
@@ -126,20 +137,28 @@ const Navbar = ({
                   open={isPlatformOpen}
                   onClose={handlePlatformClose}
                   onOpen={handlePlatformOpen}
-                  renderValue={selected => selected.join(', ')}
+                  renderValue={selected => selected.join(", ")}
                   value={selectedPlatforms}
                   onChange={handlePlatformChange}
                   id="platformfield"
                   name="platformfield"
                 >
                   {Object.keys(platforms).map((platform, i) => {
-                    return <MenuItem value={platform} key={i}>
-                             <Checkbox checked={selectedPlatforms.indexOf(platform) > -1} />
-                             <ListItemText primary={platform} />
-                           </MenuItem>
+                    return (
+                      <MenuItem value={platform} key={i}>
+                        <Checkbox
+                          checked={selectedPlatforms.indexOf(platform) > -1}
+                        />
+                        <ListItemText primary={platform} />
+                      </MenuItem>
+                    );
                   })}
                 </Select>
-                <IconButton type="submit" aria-label="search" onSubmit={handleSubmit}>
+                <IconButton
+                  type="submit"
+                  aria-label="search"
+                  onSubmit={handleSubmit}
+                >
                   <SearchIcon />
                 </IconButton>
               </Paper>
@@ -164,7 +183,7 @@ const Navbar = ({
                 href={showRegister ? "/login" : "/register"}
                 className={classes.loginRegisterButton}
               >
-                {showRegister ? "Login" : "Register"}
+                {showRegister ? "Login" : "Sign Up"}
               </Button>
             </>
           )}

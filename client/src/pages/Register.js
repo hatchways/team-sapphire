@@ -16,11 +16,19 @@ import {
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.common.white
+      backgroundColor: "#fafbff"
     }
   },
+  formContainer: {
+    backgroundColor: "white",
+    padding: "5%",
+    marginTop: "5%"
+  },
+  title: {
+    fontSize: "1.5rem",
+    fontWeight: "bold"
+  },
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -29,9 +37,13 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     marginTop: theme.spacing(1)
   },
+  subHeader: {
+    color: "#b8c8f9"
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    borderRadius: "25px"
+    borderRadius: "25px",
+    backgroundColor: theme.appBlue
   },
   formInput: {
     [`& fieldset`]: {
@@ -87,13 +99,19 @@ const Register = ({ enqueueSnackbar }) => {
     <div>
       <Navbar showRegister={true} loggedIn={false} />
 
-      <Container component="main" maxWidth="xs">
+      <Container
+        component="main"
+        maxWidth="xs"
+        className={classes.formContainer}
+      >
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h4" variant="h4">
+          <Typography component="h4" variant="h4" className={classes.title}>
             Let's Get Started!
           </Typography>
-          <Typography component="h1">Create an account</Typography>
+          <Typography component="h1" className={classes.subHeader}>
+            Create an account
+          </Typography>
           <form className={classes.form} onSubmit={onSubmitHandler}>
             <TextField
               variant="outlined"
