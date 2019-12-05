@@ -35,7 +35,6 @@ function Mentions(props) {
     if (!localStorage.getItem(`${mention.link}`)) {
       localStorage.setItem(`${mention.link}`, JSON.stringify(mention));
     }
-    console.log(JSON.parse(localStorage.getItem(`${mention.link}`)));
     return <Card className={classes.cardContainer} key={i}>
              <CardMedia
                component="img"
