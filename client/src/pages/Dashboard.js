@@ -64,6 +64,7 @@ function Dashboard() {
       .catch(error => {
         console.error(error);
       });
+      return socket.disconnect();
   }, []);
 
   const handlePlatformToggle = platform => {
