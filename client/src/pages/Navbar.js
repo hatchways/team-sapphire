@@ -21,11 +21,15 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   Navbar: {
-    backgroundColor: theme.appBlue
+    backgroundColor: theme.appBlue,
+    height: "92px"
   },
   title: {
-    width: "160px",
-    overflow: "visible"
+    marginLeft: "1%",
+    width: "20%",
+    overflow: "visible",
+    fontWeight: 900,
+    letterSpacing: "0.5px"
   },
   loginTitle: {
     width: "160px",
@@ -39,18 +43,23 @@ const useStyles = makeStyles(theme => ({
     border: "1px solid white",
     borderRadius: "20px",
     color: "white",
-    width: "100px",
+    width: "125px",
+    height: "50%",
     marginLeft: "10px",
     fontSize: "12px"
   },
   linkTitle: {
-    color: "white"
+    color: "white",
+    marginRight: "15px"
   },
   search: {
-    width: "100vh",
-    height: "90%",
+    width: "48vw",
+    height: "50px",
     borderRadius: "50px",
-    margin: "auto"
+    paddingLeft: "10px",
+    paddingTop: "5px",
+    margin: "auto",
+    fontWeight: 900
   },
   input: {
     width: "calc(100% - 58px - 140px - 140px)",
@@ -163,7 +172,7 @@ const Navbar = ({
                 </IconButton>
               </Paper>
               <IconButton>
-                <SettingsIcon />
+                <SettingsIcon onClick={() => history.push("/settings")} />
               </IconButton>
             </>
           )}
@@ -172,8 +181,7 @@ const Navbar = ({
               <Typography variant="h6" noWrap className={classes.loginTitle}>
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
-              <Typography variant="caption" className={classes.linkTitle}>
-                {" "}
+              <Typography className={classes.linkTitle}>
                 {showRegister
                   ? "Already have an account?"
                   : "Don't have an account?"}
@@ -183,7 +191,9 @@ const Navbar = ({
                 href={showRegister ? "/login" : "/register"}
                 className={classes.loginRegisterButton}
               >
-                {showRegister ? "Login" : "Sign Up"}
+                <Typography variant="button">
+                  {showRegister ? "Login" : "Sign Up"}
+                </Typography>
               </Button>
             </>
           )}

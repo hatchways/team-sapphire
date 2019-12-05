@@ -10,13 +10,21 @@ import Navbar from "./Navbar";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
-    borderLeft: "1px solid black",
-    height: "100%"
+    backgroundColor: "#fafbff",
+    height: "100vh",
+    overflow: "scroll",
+    borderLeft: "2px solid #e9eaee",
+    width: "72vw"
+  },
+  leftGridContainer: {
+    height: "100vh",
+    paddingTop: "25px",
+    width: "28vw"
   }
 }));
 
 function Dashboard() {
-  const socket = window.io('', {
+  const socket = window.io("", {
     autoConnect: false
   });
 
@@ -40,7 +48,7 @@ function Dashboard() {
   const [isPlatformOpen, setPlatformOpen] = useState(false);
   const [isCompanyOpen, setCompanyOpen] = useState(false);
   useEffect(() => {
-    if(!localStorage.getItem("email")) handleLogout();
+    if (!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
@@ -79,39 +87,43 @@ function Dashboard() {
     setSort(sort);
   };
 
-  const handlePlatformClose = (event) => {
+  const handlePlatformClose = event => {
     setPlatformOpen(false);
-  }
+  };
 
-  const handlePlatformOpen = (event) => {
+  const handlePlatformOpen = event => {
     setPlatformOpen(true);
-  }
+  };
 
-  const handlePlatformChange = (event) => {
+  const handlePlatformChange = event => {
     setSelectedPlatforms(event.target.value);
-  }
+  };
 
-  const handleCompanyClose = (event) => {
+  const handleCompanyClose = event => {
     setCompanyOpen(false);
-  }
+  };
 
-  const handleCompanyOpen = (event) => {
+  const handleCompanyOpen = event => {
     setCompanyOpen(true);
-  }
+  };
 
-  const handleCompanyChange = (event) => {
+  const handleCompanyChange = event => {
     setSelectedCompanies(event.target.value);
-  }
+  };
 
-  const handleSearchSubmit = (event) => {
+  const handleSearchSubmit = event => {
     event.preventDefault();
-    console.log(event.target.searchfield.value, event.target.companyfield.value, event.target.platformfield.value);
+    console.log(
+      event.target.searchfield.value,
+      event.target.companyfield.value,
+      event.target.platformfield.value
+    );
     setSearch("");
-  }
+  };
 
-  const onSearchChange = (event) => {
+  const onSearchChange = event => {
     setSearch(event.target.value);
-  }
+  };
 
   const handleLogout = async () => {
     let response = await axios.post("http://localhost:4000/logout");
@@ -124,7 +136,7 @@ function Dashboard() {
 
   const classes = useStyles();
   return (
-    <div className={classes.dashboardContainer}>
+    <div>
       <Navbar
         showSearch={true}
         searchInput={searchInput}
@@ -144,13 +156,13 @@ function Dashboard() {
         handleSubmit={handleSearchSubmit}
       />
       <Grid container spacing={0}>
-        <Grid item xs={4}>
+        <Grid item className={classes.leftGridContainer}>
           <Platforms
             platforms={platforms}
             handleChange={handlePlatformToggle}
           />
         </Grid>
-        <Grid item xs={8} className={classes.rightGridContainer}>
+        <Grid item className={classes.rightGridContainer}>
           <Mentions
             mentions={mentions}
             sort={sort}

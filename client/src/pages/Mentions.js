@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route } from "react-router-dom";
 
+
 import MentionDialog from "./MentionDialog";
 import Mention from "./Mention";
 
@@ -9,17 +10,26 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   mentionsContainer: {
-    width: "75%",
-    margin: "auto",
-    marginTop: "10px"
+    width: "50vw",
+    marginLeft: "90px",
+    marginTop: "50px"
+
   },
   sortToggleContainer: {
     float: "right",
     borderRadius: "50px",
-    color: "#30336b"
+    color: "#30336b",
+    height: "50px"
   },
   header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: "20px",
+    marginRight: "20px",
+    fontWeight: 900,
+    lineHeight: "25px",
+    letterSpacing: "1px",
     height: window.innerWidth > 1024 ? "50px" : "100px"
   }
 }));
@@ -53,10 +63,10 @@ function Mentions(props) {
       {mentions}
       <Route
         path={`/dashboard/mentions/:mentionId`}
-        render={reactRouterPropss => {
+        render={reactRouterProps => {
           return (
             <MentionDialog
-              {...reactRouterPropss}
+              {...reactRouterProps}
               mentions={props.mentions}
               setOpen={setOpen}
               open={open}

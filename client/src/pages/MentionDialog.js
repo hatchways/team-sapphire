@@ -16,12 +16,16 @@ const useStyles = makeStyles({
     width: "100%"
   },
   cardImage: {
-    width: "50%"
+    width: "50%",
+    height: "50%",
+    objectFit: "contain",
+    marginBottom: "5vh"
   },
   mentionContents: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    width: "100%",
+    alignItems: "center",
   }
 });
 
@@ -48,12 +52,7 @@ function SimpleDialog(props) {
           </LinkTo>
         </Typography>
       </DialogTitle>
-      <CardContent>
-        <LinkTo href={mention.link} rel="noopener">
-          {mention.platform}
-        </LinkTo>
-      </CardContent>
-
+      <CardContent>{mention.platform}</CardContent>
       <CardContent className={classes.mentionContents}>
         <CardMedia
           component="img"
