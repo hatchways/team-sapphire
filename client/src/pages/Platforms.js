@@ -66,10 +66,9 @@ function Platforms(props) {
   const classes = useStyles();
   const platforms = Object.keys(props.platforms).map((platform, i) => {
     return (
-      <div>
+      <div key={i}>
         <Typography
           className={classes.platformContainer}
-          key={i}
           align="justify"
         >
           <TwitterIcon className={classes.iconContainer}>info</TwitterIcon>
