@@ -176,7 +176,7 @@ const Navbar = ({
                 {" "}
                 {showRegister
                   ? "Already have an account?"
-                  : "Don't have an account"}
+                  : "Don't have an account?"}
               </Typography>
               <Button
                 variant="outlined"
