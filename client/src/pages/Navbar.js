@@ -20,8 +20,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
-  barStyle: {
-    backgroundColor: "#6583f2",
+  Navbar: {
+    backgroundColor: theme.appBlue,
     height: "92px"
   },
   title: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   titlePart: {
-    color: "#30336b"
+    color: "#273f96"
   },
   loginRegisterButton: {
     border: "1px solid white",
@@ -97,8 +97,8 @@ const Navbar = ({
   const history = useHistory();
   return (
     <div>
-      <AppBar position="sticky">
-        <Toolbar className={classes.barStyle}>
+      <AppBar position="static" className={classes.Navbar}>
+        <Toolbar>
           {showSearch && (
             <>
               <Typography variant="h6" noWrap className={classes.title}>

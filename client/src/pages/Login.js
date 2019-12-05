@@ -18,26 +18,34 @@ import {
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.common.white
+      backgroundColor: "#fafbff"
     }
   },
+  formContainer: {
+    backgroundColor: "white",
+    padding: "5%",
+    marginTop: "5%"
+  },
+  title: {
+    fontSize: "1.5rem",
+    fontWeight: "bold"
+  },
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: "100%",
     marginTop: theme.spacing(1)
   },
+  subHeader: {
+    color: "#b8c8f9"
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    borderRadius: "25px"
+    borderRadius: "25px",
+    backgroundColor: theme.appBlue
   },
   formInput: {
     [`& fieldset`]: {
@@ -89,13 +97,19 @@ const Login = ({ enqueueSnackbar }) => {
   return (
     <div>
       <Navbar />
-      <Container component="main" maxWidth="xs">
+      <Container
+        component="main"
+        maxWidth="xs"
+        className={classes.formContainer}
+      >
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h4" variant="h4">
+          <Typography component="h5" variant="h5" className={classes.title}>
             Welcome Back!
           </Typography>
-          <Typography component="h1">Login to your account</Typography>
+          <Typography component="h1" className={classes.subHeader}>
+            Login to your account
+          </Typography>
           <form className={classes.form} onSubmit={onSubmitHandler}>
             <TextField
               variant="outlined"
