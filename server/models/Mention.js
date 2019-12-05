@@ -10,6 +10,7 @@ const MentionSchema = new Schema({
   content: String,
   date: String,
   link: String,
+  image: String,
   popularity: Number
 });
 
