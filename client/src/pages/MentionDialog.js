@@ -34,7 +34,7 @@ function SimpleDialog(props) {
     history.push("/dashboard");
   };
 
-  return (
+  return mention ? (
     <Dialog
       onClose={handleClose}
       aria-labelledby="simple-dialog-title"
@@ -65,7 +65,7 @@ function SimpleDialog(props) {
         <Typography>{mention.desc}</Typography>
       </CardContent>
     </Dialog>
-  );
+  ) : null;
 }
 
 SimpleDialog.propTypes = {

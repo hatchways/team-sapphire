@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 function Mentions(props) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const mentions = props.mentions.map((mention, i) => {
     return <Mention key={i} mention={mention} index={i} setOpen={setOpen} />;
