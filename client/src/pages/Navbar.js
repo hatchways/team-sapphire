@@ -173,8 +173,8 @@ const Navbar = ({
                   <SearchIcon />
                 </IconButton>
               </Paper>
-              <IconButton>
-                <SettingsIcon onClick={() => history.push("/settings")} />
+              <IconButton href="/settings">
+                <SettingsIcon />
               </IconButton>
             </>
           )}
