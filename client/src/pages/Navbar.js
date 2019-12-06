@@ -20,9 +20,18 @@ import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
+  Navbar: {
+    backgroundColor: theme.appBlue,
+    height: "92px",
+    display: "flex",
+    justifyContent: "center"
+  },
   title: {
-    width: "160px",
-    overflow: "visible"
+    marginLeft: "1%",
+    width: "20%",
+    overflow: "visible",
+    fontWeight: 900,
+    letterSpacing: "0.5px"
   },
   loginTitle: {
     width: "160px",
@@ -30,24 +39,29 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   titlePart: {
-    color: "#30336b"
+    color: "#273f96"
   },
   loginRegisterButton: {
     border: "1px solid white",
     borderRadius: "20px",
     color: "white",
-    width: "100px",
+    width: "125px",
+    height: "50%",
     marginLeft: "10px",
     fontSize: "12px"
   },
   linkTitle: {
-    color: "white"
+    color: "white",
+    marginRight: "15px"
   },
   search: {
-    width: "100vh",
-    height: "90%",
+    width: "48vw",
+    height: "50px",
     borderRadius: "50px",
-    margin: "auto"
+    paddingLeft: "10px",
+    paddingTop: "5px",
+    margin: "auto",
+    fontWeight: 900
   },
   input: {
     width: "calc(100% - 58px - 140px - 140px)",
@@ -85,14 +99,18 @@ const Navbar = ({
   const history = useHistory();
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="sticky" className={classes.Navbar}>
         <Toolbar>
           {showSearch && (
             <>
               <Typography variant="h6" noWrap className={classes.title}>
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
-              <Paper component="form" className={classes.search} onSubmit={handleSubmit}>
+              <Paper
+                component="form"
+                className={classes.search}
+                onSubmit={handleSubmit}
+              >
                 <InputBase
                   placeholder="Search Contents..."
                   className={classes.input}
@@ -107,17 +125,21 @@ const Navbar = ({
                   open={isCompanyOpen}
                   onClose={handleCompanyClose}
                   onOpen={handleCompanyOpen}
-                  renderValue={selected => selected.join(', ')}
+                  renderValue={selected => selected.join(", ")}
                   value={selectedCompanies}
                   onChange={handleCompanyChange}
                   id="companyfield"
                   name="companyfield"
                 >
                   {companies.map((company, i) => {
-                    return <MenuItem value={company.name} key={i}>
-                             <Checkbox checked={selectedCompanies.indexOf(company.name) > -1} />
-                             <ListItemText primary={company.name} />
-                           </MenuItem>
+                    return (
+                      <MenuItem value={company.name} key={i}>
+                        <Checkbox
+                          checked={selectedCompanies.indexOf(company.name) > -1}
+                        />
+                        <ListItemText primary={company.name} />
+                      </MenuItem>
+                    );
                   })}
                 </Select>
                 <Select
@@ -126,24 +148,32 @@ const Navbar = ({
                   open={isPlatformOpen}
                   onClose={handlePlatformClose}
                   onOpen={handlePlatformOpen}
-                  renderValue={selected => selected.join(', ')}
+                  renderValue={selected => selected.join(", ")}
                   value={selectedPlatforms}
                   onChange={handlePlatformChange}
                   id="platformfield"
                   name="platformfield"
                 >
                   {Object.keys(platforms).map((platform, i) => {
-                    return <MenuItem value={platform} key={i}>
-                             <Checkbox checked={selectedPlatforms.indexOf(platform) > -1} />
-                             <ListItemText primary={platform} />
-                           </MenuItem>
+                    return (
+                      <MenuItem value={platform} key={i}>
+                        <Checkbox
+                          checked={selectedPlatforms.indexOf(platform) > -1}
+                        />
+                        <ListItemText primary={platform} />
+                      </MenuItem>
+                    );
                   })}
                 </Select>
-                <IconButton type="submit" aria-label="search" onSubmit={handleSubmit}>
+                <IconButton
+                  type="submit"
+                  aria-label="search"
+                  onSubmit={handleSubmit}
+                >
                   <SearchIcon />
                 </IconButton>
               </Paper>
-              <IconButton>
+              <IconButton href="/settings">
                 <SettingsIcon />
               </IconButton>
             </>
@@ -153,18 +183,19 @@ const Navbar = ({
               <Typography variant="h6" noWrap className={classes.loginTitle}>
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
-              <Typography variant="caption" className={classes.linkTitle}>
-                {" "}
+              <Typography className={classes.linkTitle}>
                 {showRegister
                   ? "Already have an account?"
-                  : "Don't have an account"}
+                  : "Don't have an account?"}
               </Typography>
               <Button
                 variant="outlined"
                 href={showRegister ? "/login" : "/register"}
                 className={classes.loginRegisterButton}
               >
-                {showRegister ? "Login" : "Register"}
+                <Typography variant="button">
+                  {showRegister ? "Login" : "Sign Up"}
+                </Typography>
               </Button>
             </>
           )}

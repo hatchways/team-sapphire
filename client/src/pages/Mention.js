@@ -6,19 +6,38 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Grid,
   Link as LinkTo
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
+  link: {
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "none"
+    }
+  },
   cardContainer: {
-    marginBottom: "10px",
     display: "flex",
-    height: "18vh",
-    maxHeight: "18vh"
+    height: "170px",
+    margin: "20px 20px 20px 0",
+    overflow: "hidden",
+    width: "48.5vw"
+  },
+  imageContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+  contentContainer: {
+    height: "100%"
   },
   cardImage: {
-    width: "30%"
+    marginLeft: "5%",
+    width: "90%",
+    height: "90%",
+    objectFit: "contain"
   },
   companyName: {
     fontWeight: "bold"
@@ -72,34 +91,34 @@ const Mention = ({ mention, index, setOpen }) => {
 
   return (
     <div>
-      <Link to={`/dashboard/mentions/${index}`}>
+      <Link to={`/dashboard/mentions/${index}`} className={classes.link}>
         <Card
           className={classes.cardContainer}
           key={index}
           onClick={handleClickOpen}
         >
-          <CardMedia
-            component="img"
-            alt="image"
-            image={mention.image}
-            title="Image"
-            className={classes.cardImage}
-          />
-          <div>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                <LinkTo href={mention.link} rel="noopener">
-                  {title}
-                </LinkTo>
-              </Typography>
-              <Typography>
-                <LinkTo href={mention.link} rel="noopener">
-                  {mention.platform}
-                </LinkTo>
-              </Typography>
-              <Typography>{desc}</Typography>
-            </CardContent>
-          </div>
+          <Grid container>
+            <Grid item xs={3} className={classes.imageContainer}>
+              <CardMedia
+                component="img"
+                alt="image"
+                image={mention.image}
+                title="Image"
+                className={classes.cardImage}
+              />
+            </Grid>
+            <Grid item xs={9} className={classes.contentContainer}>
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  <LinkTo href={mention.link} rel="noopener" className={classes.link}>
+                    {mention.title}
+                  </LinkTo>
+                </Typography>
+                <Typography>{mention.platform}</Typography>
+                <Typography>{mention.desc}</Typography>
+              </CardContent>
+            </Grid>
+          </Grid>
         </Card>
       </Link>
     </div>
