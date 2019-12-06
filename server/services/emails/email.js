@@ -1,66 +1,54 @@
-import Queue from "bull";
-import sgMail from "@sendgrid/mail";
+const Queue = require("bull");
+const sgMail = require("@sendgrid/mail");
+require("dotenv").config();
 
-import Mention from "../../models/Mention";
+const Mention = require("../../models/Mention");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const emailQueue = new Queue("emailQueue", "redis://127.0.0.1:6379");
 
-const data = {
-  email: "foo@bar.com"
-};
-
+// DELAYED EMAIL
 const delayedMsg = {
-  to: user.username,
+  to: "ahanaghosh94@gmail.com",
   from: "welcome@mentionscrawler.com",
   subject: "Interact with APP",
   text: "Interact with APP",
   html: "<strong>Interact with APP!</strong>"
 };
+const delayedEmailOptions = { delay: 10000 };
 
+// WEEKLY EMAIL
 const weeklyMsg = {
-  to: user.username,
+  to: "ahanaghosh94@gmail.com",
   from: "welcome@mentionscrawler.com",
   subject: "Weekly Report",
   text: "Weekly Report",
   html: "<strong>Weekly Report!</strong>"
 };
-
-emailQueue.add(data, options);
-
-const delayedEmailOptions = { delay: 10000 };
-
 const repeat = { every: 15000 };
-
 const weeklyEmailOptions = { repeat };
 
-// sgMail.send(delayedMsg);
-// sgMail.send(weeklyMsg);
+const mockAsync = number => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (!number) reject(new Error("no first name"));
+      resolve(number * 10);
+    }, 1000);
+  });
+};
 
-emailQueue.process(async job => {
-  const result = {};
-
-  return result;
-});
-
-//here you declared the actual job, what you want to do asynchronously
-timeoutQueue.process(async (job, done) => {
-  const result = await mockAsync(job.data.number);
+emailQueue.process(async (job, done) => {
+  const result = await mockAsync(1);
   done(null, result);
 });
-//here you're adding a job to the queue and making it repeat at an interbal
-timeoutQueue.add(
-  { number: 4 },
-  //Optional: you can give the job an id to be able to locate in the queue
-  { jobId: "someId", repeat: { every: 1000 } }
-); //repeat every n miliseconds
-//Inside this listener, you define what you'll do with the result.
-timeoutQueue.on("completed", async (job, result) => {
-  console.log(
-    "the job data was: ",
-    job.data.number,
-    "and this was the result ",
-    result
-  );
+
+emailQueue.add(delayedMsg, delayedEmailOptions);
+// emailQueue.add(weeklyMsg, weeklyEmailOptions);
+
+emailQueue.on("completed", async (job, result) => {
+  console.log("email was sent");
+  // console.log(result);
+  sgMail.send(delayedMsg);
+  // sgMail.send(weeklyMsg);
 });
