@@ -42,11 +42,6 @@ function Dashboard() {
   const [mentions, setMentions] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
-  const [searchInput, setSearch] = useState("");
-  const [selectedCompanies, setSelectedCompanies] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const [isPlatformOpen, setPlatformOpen] = useState(false);
-  const [isCompanyOpen, setCompanyOpen] = useState(false);
   useEffect(() => {
     if (!localStorage.getItem("email")) handleLogout();
     axios
@@ -87,30 +82,6 @@ function Dashboard() {
     setSort(sort);
   };
 
-  const handlePlatformClose = event => {
-    setPlatformOpen(false);
-  };
-
-  const handlePlatformOpen = event => {
-    setPlatformOpen(true);
-  };
-
-  const handlePlatformChange = event => {
-    setSelectedPlatforms(event.target.value);
-  };
-
-  const handleCompanyClose = event => {
-    setCompanyOpen(false);
-  };
-
-  const handleCompanyOpen = event => {
-    setCompanyOpen(true);
-  };
-
-  const handleCompanyChange = event => {
-    setSelectedCompanies(event.target.value);
-  };
-
   const handleSearchSubmit = event => {
     event.preventDefault();
     console.log(
@@ -118,11 +89,6 @@ function Dashboard() {
       event.target.companyfield.value,
       event.target.platformfield.value
     );
-    setSearch("");
-  };
-
-  const onSearchChange = event => {
-    setSearch(event.target.value);
   };
 
   const handleLogout = async () => {
@@ -139,20 +105,8 @@ function Dashboard() {
     <div>
       <Navbar
         showSearch={true}
-        searchInput={searchInput}
-        onSearchChange={onSearchChange}
         platforms={platforms}
-        selectedPlatforms={selectedPlatforms}
-        isPlatformOpen={isPlatformOpen}
-        handlePlatformClose={handlePlatformClose}
-        handlePlatformOpen={handlePlatformOpen}
-        handlePlatformChange={handlePlatformChange}
         companies={companies}
-        selectedCompanies={selectedCompanies}
-        isCompanyOpen={isCompanyOpen}
-        handleCompanyClose={handleCompanyClose}
-        handleCompanyOpen={handleCompanyOpen}
-        handleCompanyChange={handleCompanyChange}
         handleSubmit={handleSearchSubmit}
       />
       <Grid container spacing={0}>

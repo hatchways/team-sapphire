@@ -1,22 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
   Typography,
-  InputBase,
   Button,
-  Grid,
-  Paper,
   IconButton,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText
 } from "@material-ui/core";
 
+import Searchbar from './Searchbar';
 import SettingsIcon from "@material-ui/icons/Settings";
-import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -79,24 +72,140 @@ const Navbar = ({
   showRegister = false,
   loggedIn = false,
   loginToggle = false,
-  searchInput = "",
-  onSearchChange = () => {},
   companies = [],
   platforms = {},
-  isCompanyOpen = false,
-  handleCompanyClose = () => {},
-  handleCompanyOpen = () => {},
-  handleCompanyChange = () => {},
-  selectedCompanies = [],
-  isPlatformOpen = false,
-  handlePlatformClose = () => {},
-  handlePlatformOpen = () => {},
-  handlePlatformChange = () => {},
-  selectedPlatforms = [],
   handleSubmit = () => {}
 }) => {
   const classes = useStyles();
   const history = useHistory();
+  // useEffect(() => {
+  //   let navElements = <div/>;
+  //   const location = history.location.pathname;
+  //   if (location.substring(0, 10) === "/dashboard") {
+  //     navElements = (<>
+  //                     <Typography variant="h6" noWrap className={classes.title}>
+  //                       mentions<span className={classes.titlePart}>crawler.</span>
+  //                     </Typography>
+  //                     <Searchbar
+  //                       searchInput = {searchInput}
+  //                       onSearchChange = {onSearchChange}
+  //                       companies = {companies}
+  //                       platforms = {platforms}
+  //                       isCompanyOpen = {isCompanyOpen}
+  //                       handleCompanyClose = {handleCompanyClose}
+  //                       handleCompanyOpen = {handleCompanyOpen}
+  //                       handleCompanyChange = {handleCompanyChange}
+  //                       selectedCompanies = {selectedCompanies}
+  //                       isPlatformOpen = {isPlatformOpen}
+  //                       handlePlatformClose = {handlePlatformClose}
+  //                       handlePlatformOpen = {handlePlatformOpen}
+  //                       handlePlatformChange = {handlePlatformChange}
+  //                       selectedPlatforms = {selectedPlatforms}
+  //                       handleSubmit = {handleSubmit}
+  //                     />
+  //                     <IconButton href="/settings">
+  //                       <SettingsIcon />
+  //                     </IconButton>
+  //                   </>);
+  //   } else if (location === "/settings") {
+  //     navElements = (<>
+  //                     <Typography variant="h6" noWrap className={classes.title}>
+  //                       mentions<span className={classes.titlePart}>crawler.</span>
+  //                     </Typography>
+  //                     <Searchbar
+  //                       searchInput = {searchInput}
+  //                       onSearchChange = {onSearchChange}
+  //                       companies = {companies}
+  //                       platforms = {platforms}
+  //                       isCompanyOpen = {isCompanyOpen}
+  //                       handleCompanyClose = {handleCompanyClose}
+  //                       handleCompanyOpen = {handleCompanyOpen}
+  //                       handleCompanyChange = {handleCompanyChange}
+  //                       selectedCompanies = {selectedCompanies}
+  //                       isPlatformOpen = {isPlatformOpen}
+  //                       handlePlatformClose = {handlePlatformClose}
+  //                       handlePlatformOpen = {handlePlatformOpen}
+  //                       handlePlatformChange = {handlePlatformChange}
+  //                       selectedPlatforms = {selectedPlatforms}
+  //                       handleSubmit = {handleSubmit}
+  //                     />
+  //                     <IconButton href="/settings">
+  //                       <SettingsIcon />
+  //                     </IconButton>
+  //                   </>);
+  //   } else if (location === "/login") {
+  //     navElements = (<>
+  //                     <Typography variant="h6" noWrap className={classes.loginTitle}>
+  //                       mentions<span className={classes.titlePart}>crawler.</span>
+  //                     </Typography>
+  //                     <Typography className={classes.linkTitle}>
+  //                         Don't have an account?
+  //                     </Typography>
+  //                     <Button
+  //                       variant="outlined"
+  //                       href="/register"
+  //                       className={classes.loginRegisterButton}
+  //                     >
+  //                       <Typography variant="button">
+  //                         Sign Up
+  //                       </Typography>
+  //                     </Button>
+  //                   </>);
+  //   } else if (location === "/register") {
+  //     navElements = (<>
+  //                     <Typography variant="h6" noWrap className={classes.loginTitle}>
+  //                       mentions<span className={classes.titlePart}>crawler.</span>
+  //                     </Typography>
+  //                     <Typography className={classes.linkTitle}>
+  //                         Already have an account?
+  //                     </Typography>
+  //                     <Button
+  //                       variant="outlined"
+  //                       href="/login"
+  //                       className={classes.loginRegisterButton}
+  //                     >
+  //                       <Typography variant="button">
+  //                         Login
+  //                       </Typography>
+  //                     </Button>
+  //                   </>);
+  //   }
+  // }, []);
+
+  const [searchInput, setSearch] = useState("");
+  const [selectedCompanies, setSelectedCompanies] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [isPlatformOpen, setPlatformOpen] = useState(false);
+  const [isCompanyOpen, setCompanyOpen] = useState(false);
+
+  const handlePlatformClose = event => {
+    setPlatformOpen(false);
+  };
+
+  const handlePlatformOpen = event => {
+    setPlatformOpen(true);
+  };
+
+  const handlePlatformChange = event => {
+    setSelectedPlatforms(event.target.value);
+  };
+
+  const handleCompanyClose = event => {
+    setCompanyOpen(false);
+  };
+
+  const handleCompanyOpen = event => {
+    setCompanyOpen(true);
+  };
+
+  const handleCompanyChange = event => {
+    setSelectedCompanies(event.target.value);
+  };
+
+  const onSearchChange = event => {
+    setSearch(event.target.value);
+  };
+
   return (
     <div>
       <AppBar position="sticky" className={classes.Navbar}>
@@ -106,73 +215,23 @@ const Navbar = ({
               <Typography variant="h6" noWrap className={classes.title}>
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
-              <Paper
-                component="form"
-                className={classes.search}
-                onSubmit={handleSubmit}
-              >
-                <InputBase
-                  placeholder="Search Contents..."
-                  className={classes.input}
-                  value={searchInput}
-                  onChange={onSearchChange}
-                  id="searchfield"
-                  name="searchfield"
-                />
-                <Select
-                  multiple
-                  className={classes.select}
-                  open={isCompanyOpen}
-                  onClose={handleCompanyClose}
-                  onOpen={handleCompanyOpen}
-                  renderValue={selected => selected.join(", ")}
-                  value={selectedCompanies}
-                  onChange={handleCompanyChange}
-                  id="companyfield"
-                  name="companyfield"
-                >
-                  {companies.map((company, i) => {
-                    return (
-                      <MenuItem value={company.name} key={i}>
-                        <Checkbox
-                          checked={selectedCompanies.indexOf(company.name) > -1}
-                        />
-                        <ListItemText primary={company.name} />
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-                <Select
-                  multiple
-                  className={classes.select}
-                  open={isPlatformOpen}
-                  onClose={handlePlatformClose}
-                  onOpen={handlePlatformOpen}
-                  renderValue={selected => selected.join(", ")}
-                  value={selectedPlatforms}
-                  onChange={handlePlatformChange}
-                  id="platformfield"
-                  name="platformfield"
-                >
-                  {Object.keys(platforms).map((platform, i) => {
-                    return (
-                      <MenuItem value={platform} key={i}>
-                        <Checkbox
-                          checked={selectedPlatforms.indexOf(platform) > -1}
-                        />
-                        <ListItemText primary={platform} />
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-                <IconButton
-                  type="submit"
-                  aria-label="search"
-                  onSubmit={handleSubmit}
-                >
-                  <SearchIcon />
-                </IconButton>
-              </Paper>
+              <Searchbar
+                searchInput = {searchInput}
+                onSearchChange = {onSearchChange}
+                companies = {companies}
+                platforms = {platforms}
+                isCompanyOpen = {isCompanyOpen}
+                handleCompanyClose = {handleCompanyClose}
+                handleCompanyOpen = {handleCompanyOpen}
+                handleCompanyChange = {handleCompanyChange}
+                selectedCompanies = {selectedCompanies}
+                isPlatformOpen = {isPlatformOpen}
+                handlePlatformClose = {handlePlatformClose}
+                handlePlatformOpen = {handlePlatformOpen}
+                handlePlatformChange = {handlePlatformChange}
+                selectedPlatforms = {selectedPlatforms}
+                handleSubmit = {handleSubmit}
+              />
               <IconButton href="/settings">
                 <SettingsIcon />
               </IconButton>
