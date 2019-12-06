@@ -73,8 +73,7 @@ const Navbar = ({
   loggedIn = false,
   loginToggle = false,
   companies = [],
-  platforms = {},
-  handleSubmit = () => {}
+  platforms = {}
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -87,20 +86,8 @@ const Navbar = ({
   //                       mentions<span className={classes.titlePart}>crawler.</span>
   //                     </Typography>
   //                     <Searchbar
-  //                       searchInput = {searchInput}
-  //                       onSearchChange = {onSearchChange}
   //                       companies = {companies}
   //                       platforms = {platforms}
-  //                       isCompanyOpen = {isCompanyOpen}
-  //                       handleCompanyClose = {handleCompanyClose}
-  //                       handleCompanyOpen = {handleCompanyOpen}
-  //                       handleCompanyChange = {handleCompanyChange}
-  //                       selectedCompanies = {selectedCompanies}
-  //                       isPlatformOpen = {isPlatformOpen}
-  //                       handlePlatformClose = {handlePlatformClose}
-  //                       handlePlatformOpen = {handlePlatformOpen}
-  //                       handlePlatformChange = {handlePlatformChange}
-  //                       selectedPlatforms = {selectedPlatforms}
   //                       handleSubmit = {handleSubmit}
   //                     />
   //                     <IconButton href="/settings">
@@ -113,20 +100,8 @@ const Navbar = ({
   //                       mentions<span className={classes.titlePart}>crawler.</span>
   //                     </Typography>
   //                     <Searchbar
-  //                       searchInput = {searchInput}
-  //                       onSearchChange = {onSearchChange}
   //                       companies = {companies}
   //                       platforms = {platforms}
-  //                       isCompanyOpen = {isCompanyOpen}
-  //                       handleCompanyClose = {handleCompanyClose}
-  //                       handleCompanyOpen = {handleCompanyOpen}
-  //                       handleCompanyChange = {handleCompanyChange}
-  //                       selectedCompanies = {selectedCompanies}
-  //                       isPlatformOpen = {isPlatformOpen}
-  //                       handlePlatformClose = {handlePlatformClose}
-  //                       handlePlatformOpen = {handlePlatformOpen}
-  //                       handlePlatformChange = {handlePlatformChange}
-  //                       selectedPlatforms = {selectedPlatforms}
   //                       handleSubmit = {handleSubmit}
   //                     />
   //                     <IconButton href="/settings">
@@ -172,40 +147,6 @@ const Navbar = ({
   //   }
   // }, []);
 
-  const [searchInput, setSearch] = useState("");
-  const [selectedCompanies, setSelectedCompanies] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const [isPlatformOpen, setPlatformOpen] = useState(false);
-  const [isCompanyOpen, setCompanyOpen] = useState(false);
-
-  const handlePlatformClose = event => {
-    setPlatformOpen(false);
-  };
-
-  const handlePlatformOpen = event => {
-    setPlatformOpen(true);
-  };
-
-  const handlePlatformChange = event => {
-    setSelectedPlatforms(event.target.value);
-  };
-
-  const handleCompanyClose = event => {
-    setCompanyOpen(false);
-  };
-
-  const handleCompanyOpen = event => {
-    setCompanyOpen(true);
-  };
-
-  const handleCompanyChange = event => {
-    setSelectedCompanies(event.target.value);
-  };
-
-  const onSearchChange = event => {
-    setSearch(event.target.value);
-  };
-
   return (
     <div>
       <AppBar position="sticky" className={classes.Navbar}>
@@ -216,21 +157,8 @@ const Navbar = ({
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
               <Searchbar
-                searchInput = {searchInput}
-                onSearchChange = {onSearchChange}
                 companies = {companies}
                 platforms = {platforms}
-                isCompanyOpen = {isCompanyOpen}
-                handleCompanyClose = {handleCompanyClose}
-                handleCompanyOpen = {handleCompanyOpen}
-                handleCompanyChange = {handleCompanyChange}
-                selectedCompanies = {selectedCompanies}
-                isPlatformOpen = {isPlatformOpen}
-                handlePlatformClose = {handlePlatformClose}
-                handlePlatformOpen = {handlePlatformOpen}
-                handlePlatformChange = {handlePlatformChange}
-                selectedPlatforms = {selectedPlatforms}
-                handleSubmit = {handleSubmit}
               />
               <IconButton href="/settings">
                 <SettingsIcon />

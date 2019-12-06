@@ -25,15 +25,9 @@ const useStyles = makeStyles(theme => ({
 const Settings = () => {
   const classes = useStyles();
   const history = useHistory();
-  useEffect(() => {
-    if (!localStorage.getItem("email")) handleLogout();
-    axios
-      .get(`/settings/${localStorage.getItem("email")}/company`)
-      .then(res => setCompanyNames(res.data.companies));
-  }, []);
-
   const [companyNames, setCompanyNames] = useState([]);
-  const [platforms, setPlatforms] = useState({
+  const [companies, setCompanies] = useState([]);
+  const platforms = {
     Reddit: true,
     Twitter: true,
     Facebook: true,
@@ -41,12 +35,17 @@ const Settings = () => {
     Forbes: true,
     Shopify: true,
     "Business Insider": true
-  });
+  };
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    console.log(event.target.searchfield.value, event.target.companyfield.value, event.target.platformfield.value);
-  }
+  useEffect(() => {
+    if (!localStorage.getItem("email")) handleLogout();
+    axios
+      .get(`/settings/${localStorage.getItem("email")}/company`)
+      .then(res => {
+        setCompanyNames(res.data.companies);
+        setCompanies(res.data.settings.companies);
+      });
+  }, []);
 
   const handleLogout = async () => {
     let response = await axios.post("/logout");
@@ -61,8 +60,7 @@ const Settings = () => {
       <Navbar
         showSearch={true}
         platforms={platforms}
-        companies={companyNames}
-        handleSubmit={handleSearchSubmit}
+        companies={companies}
       />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>

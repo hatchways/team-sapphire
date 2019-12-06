@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   InputBase,
   Paper,
@@ -9,6 +9,7 @@ import {
   ListItemText
 } from "@material-ui/core";
 
+import { useHistory } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -34,29 +35,65 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Searchbar = ({
-  searchInput = "",
-  onSearchChange = () => {},
   companies = [],
-  platforms = {},
-  isCompanyOpen = false,
-  handleCompanyClose = () => {},
-  handleCompanyOpen = () => {},
-  handleCompanyChange = () => {},
-  selectedCompanies = [],
-  isPlatformOpen = false,
-  handlePlatformClose = () => {},
-  handlePlatformOpen = () => {},
-  handlePlatformChange = () => {},
-  selectedPlatforms = [],
-  handleSubmit = () => {}
+  platforms = {}
 }) => {
+  const history = useHistory();
+  const [searchInput, setSearch] = useState("");
+  const [selectedCompanies, setSelectedCompanies] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [isPlatformOpen, setPlatformOpen] = useState(false);
+  const [isCompanyOpen, setCompanyOpen] = useState(false);
+
+  const handlePlatformClose = event => {
+    setPlatformOpen(false);
+  };
+
+  const handlePlatformOpen = event => {
+    setPlatformOpen(true);
+  };
+
+  const handlePlatformChange = event => {
+    setSelectedPlatforms(event.target.value);
+  };
+
+  const handleCompanyClose = event => {
+    setCompanyOpen(false);
+  };
+
+  const handleCompanyOpen = event => {
+    setCompanyOpen(true);
+  };
+
+  const handleCompanyChange = event => {
+    setSelectedCompanies(event.target.value);
+  };
+
+  const onSearchChange = event => {
+    setSearch(event.target.value);
+  };
+
+  const handleSearchSubmit = event => {
+    event.preventDefault();
+    console.log(
+      event.target.searchfield.value,
+      event.target.companyfield.value,
+      event.target.platformfield.value
+    );
+    const search = event.target.searchfield.value;
+    const selectedCompanies = event.target.companyfield.value;
+    const selectedPlatforms = event.target.platformfield.value;
+    setSearch("");
+    history.push(`/dashboard?search=${search}&companies=${selectedCompanies}&platforms=${selectedPlatforms}`);
+  };
+
   const classes = useStyles();
   return (
     <>
       <Paper
         component="form"
         className={classes.search}
-        onSubmit={handleSubmit}
+        onSubmit={handleSearchSubmit}
       >
         <InputBase
           placeholder="Search Contents..."
@@ -115,7 +152,7 @@ const Searchbar = ({
         <IconButton
           type="submit"
           aria-label="search"
-          onSubmit={handleSubmit}
+          onSubmit={handleSearchSubmit}
         >
           <SearchIcon />
         </IconButton>

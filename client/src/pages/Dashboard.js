@@ -29,7 +29,6 @@ function Dashboard() {
   });
 
   const history = useHistory();
-
   const [platforms, setPlatforms] = useState({
     Reddit: true,
     Twitter: true,
@@ -82,15 +81,6 @@ function Dashboard() {
     setSort(sort);
   };
 
-  const handleSearchSubmit = event => {
-    event.preventDefault();
-    console.log(
-      event.target.searchfield.value,
-      event.target.companyfield.value,
-      event.target.platformfield.value
-    );
-  };
-
   const handleLogout = async () => {
     let response = await axios.post("http://localhost:4000/logout");
     if (response.data.success) {
@@ -99,7 +89,7 @@ function Dashboard() {
       history.push("/login");
     }
   };
-
+  console.log(history);
   const classes = useStyles();
   return (
     <div>
@@ -107,7 +97,6 @@ function Dashboard() {
         showSearch={true}
         platforms={platforms}
         companies={companies}
-        handleSubmit={handleSearchSubmit}
       />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>
