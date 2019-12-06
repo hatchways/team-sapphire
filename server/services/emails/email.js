@@ -3,6 +3,7 @@ const sgMail = require("@sendgrid/mail");
 require("dotenv").config();
 
 const Mention = require("../../models/Mention");
+const User = require("../../models/User");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -40,6 +41,8 @@ const mockAsync = number => {
 
 emailQueue.process(async (job, done) => {
   const result = await mockAsync(1);
+  const userEmails = await User.find();
+  console.log(result1);
   done(null, result);
 });
 
