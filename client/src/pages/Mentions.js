@@ -39,6 +39,9 @@ function Mentions(props) {
   const [open, setOpen] = useState(true);
 
   const mentions = props.mentions.map((mention, i) => {
+    if (!localStorage.getItem(`${mention.link}`)) {
+      localStorage.setItem(`${mention.link}`, JSON.stringify(mention));
+    }
     return <Mention key={i} mention={mention} index={i} setOpen={setOpen} />;
   });
 

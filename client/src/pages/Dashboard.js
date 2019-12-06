@@ -11,13 +11,13 @@ import Navbar from "./Navbar";
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
     backgroundColor: "#fafbff",
-    height: "100vh",
+    height: "calc(100vh - 92px)",
     overflow: "scroll",
     borderLeft: "2px solid #e9eaee",
     width: "72vw"
   },
   leftGridContainer: {
-    height: "100vh",
+    height: "calc(100vh - 92px)",
     paddingTop: "25px",
     width: "28vw"
   }
