@@ -77,75 +77,26 @@ const Navbar = ({
 }) => {
   const classes = useStyles();
   const history = useHistory();
-  // useEffect(() => {
-  //   let navElements = <div/>;
-  //   const location = history.location.pathname;
-  //   if (location.substring(0, 10) === "/dashboard") {
-  //     navElements = (<>
-  //                     <Typography variant="h6" noWrap className={classes.title}>
-  //                       mentions<span className={classes.titlePart}>crawler.</span>
-  //                     </Typography>
-  //                     <Searchbar
-  //                       companies = {companies}
-  //                       platforms = {platforms}
-  //                       handleSubmit = {handleSubmit}
-  //                     />
-  //                     <IconButton href="/settings">
-  //                       <SettingsIcon />
-  //                     </IconButton>
-  //                   </>);
-  //   } else if (location === "/settings") {
-  //     navElements = (<>
-  //                     <Typography variant="h6" noWrap className={classes.title}>
-  //                       mentions<span className={classes.titlePart}>crawler.</span>
-  //                     </Typography>
-  //                     <Searchbar
-  //                       companies = {companies}
-  //                       platforms = {platforms}
-  //                       handleSubmit = {handleSubmit}
-  //                     />
-  //                     <IconButton href="/settings">
-  //                       <SettingsIcon />
-  //                     </IconButton>
-  //                   </>);
-  //   } else if (location === "/login") {
-  //     navElements = (<>
-  //                     <Typography variant="h6" noWrap className={classes.loginTitle}>
-  //                       mentions<span className={classes.titlePart}>crawler.</span>
-  //                     </Typography>
-  //                     <Typography className={classes.linkTitle}>
-  //                         Don't have an account?
-  //                     </Typography>
-  //                     <Button
-  //                       variant="outlined"
-  //                       href="/register"
-  //                       className={classes.loginRegisterButton}
-  //                     >
-  //                       <Typography variant="button">
-  //                         Sign Up
-  //                       </Typography>
-  //                     </Button>
-  //                   </>);
-  //   } else if (location === "/register") {
-  //     navElements = (<>
-  //                     <Typography variant="h6" noWrap className={classes.loginTitle}>
-  //                       mentions<span className={classes.titlePart}>crawler.</span>
-  //                     </Typography>
-  //                     <Typography className={classes.linkTitle}>
-  //                         Already have an account?
-  //                     </Typography>
-  //                     <Button
-  //                       variant="outlined"
-  //                       href="/login"
-  //                       className={classes.loginRegisterButton}
-  //                     >
-  //                       <Typography variant="button">
-  //                         Login
-  //                       </Typography>
-  //                     </Button>
-  //                   </>);
-  //   }
-  // }, []);
+  const [userRedirect, setRedirect] = useState("");
+  const [loginRegisterName, setLoginRegisterName] = useState("");
+  const [loginRegisterMessage, setLoginRegisterMessage] = useState("");
+  useEffect(() => {
+    let navElements = <div/>;
+    const location = history.location.pathname;
+    if (location.substring(0, 10) === "/dashboard") {
+
+    } else if (location === "/settings") {
+
+    } else if (location === "/login") {
+      setRedirect("/register");
+      setLoginRegisterName("Sign Up");
+      setLoginRegisterMessage("Don't have an account?");
+    } else if (location === "/register") {
+      setRedirect("/login");
+      setLoginRegisterName("Login");
+      setLoginRegisterMessage("Already have an account?");
+    }
+  }, []);
 
   return (
     <div>
@@ -171,17 +122,15 @@ const Navbar = ({
                 mentions<span className={classes.titlePart}>crawler.</span>
               </Typography>
               <Typography className={classes.linkTitle}>
-                {showRegister
-                  ? "Already have an account?"
-                  : "Don't have an account?"}
+                {loginRegisterMessage}
               </Typography>
               <Button
                 variant="outlined"
-                href={showRegister ? "/login" : "/register"}
+                href={userRedirect}
                 className={classes.loginRegisterButton}
               >
                 <Typography variant="button">
-                  {showRegister ? "Login" : "Sign Up"}
+                  {loginRegisterName}
                 </Typography>
               </Button>
             </>
