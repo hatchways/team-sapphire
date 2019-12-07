@@ -75,16 +75,11 @@ const Searchbar = ({
 
   const handleSearchSubmit = event => {
     event.preventDefault();
-    console.log(
-      event.target.searchfield.value,
-      event.target.companyfield.value,
-      event.target.platformfield.value
-    );
     const search = event.target.searchfield.value;
     const selectedCompanies = event.target.companyfield.value;
     const selectedPlatforms = event.target.platformfield.value;
-    setSearch("");
     history.push(`/dashboard?search=${search}&companies=${selectedCompanies}&platforms=${selectedPlatforms}`);
+    window.location.reload();
   };
 
   const classes = useStyles();

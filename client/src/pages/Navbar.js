@@ -68,10 +68,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Navbar = ({
-  showSearch = false,
-  showRegister = false,
-  loggedIn = false,
-  loginToggle = false,
   companies = [],
   platforms = {}
 }) => {
@@ -80,13 +76,12 @@ const Navbar = ({
   const [userRedirect, setRedirect] = useState("");
   const [loginRegisterName, setLoginRegisterName] = useState("");
   const [loginRegisterMessage, setLoginRegisterMessage] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
   useEffect(() => {
     let navElements = <div/>;
     const location = history.location.pathname;
-    if (location.substring(0, 10) === "/dashboard") {
-
-    } else if (location === "/settings") {
-
+    if (location.substring(0, 10) === "/dashboard" || location === "/settings") {
+      setShowSearch(true);
     } else if (location === "/login") {
       setRedirect("/register");
       setLoginRegisterName("Sign Up");

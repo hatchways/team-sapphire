@@ -58,7 +58,6 @@ const Settings = () => {
   return (
     <div className={classes.dashboardContainer}>
       <Navbar
-        showSearch={true}
         platforms={platforms}
         companies={companies}
       />

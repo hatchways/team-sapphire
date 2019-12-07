@@ -43,6 +43,8 @@ function Dashboard() {
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
+    if (!localStorage.getItem("email")) handleLogout();
+
     if (history.location.search.length > 0) {
       const query = queryString.parse(history.location.search);
       console.log(query);
@@ -61,7 +63,7 @@ function Dashboard() {
           console.error(error);
         });
     }
-    if (!localStorage.getItem("email")) handleLogout();
+
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
@@ -77,7 +79,8 @@ function Dashboard() {
       .catch(error => {
         console.error(error);
       });
-      return socket.disconnect();
+      
+    return socket.disconnect();
   }, []);
 
   const handlePlatformToggle = platform => {
@@ -88,7 +91,6 @@ function Dashboard() {
           handleLogout();
         } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
-          console.log(platforms);
         }
       })
       .catch(error => {
@@ -112,7 +114,6 @@ function Dashboard() {
   return (
     <div>
       <Navbar
-        showSearch={true}
         platforms={platforms}
         companies={companies}
       />

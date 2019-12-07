@@ -18,41 +18,37 @@ router.get("/filter", jwtVerify, (req, res, next) => {
   });
 });
 
+const getOrCondition = (items, name) => {
+  if (items.length === 1 && items[0] !== "") {
+    return { [name]: items[0] };
+  } else if (items.length > 1) {
+    let orConditions = {
+      $or: []
+    };
+    for (const item of items) {
+      orConditions.$or.push({ [name]: item });
+    }
+    return orConditions;
+  }
+}
+
 router.get("/searchbar", jwtVerify, (req, res, next) => {
   const companies = req.query.companies;
   const platforms = req.query.platforms;
   const search = req.query.search;
   let andConditions = [];
 
-  if (companies.length === 1 && platforms[0] !== "") {
-    andConditions.push({ company: companies[0] });
-  } else if (companies.length > 1) {
-    let orConditions = {
-      $or: []
-    };
-    for (const company of companies) {
-      orConditions.$or.push({ company });
-    }
-    andConditions.push(orConditions);
+  if (companies[0] !== "") {
+    andConditions.push(getOrCondition(companies, "company"));
   }
-
-  if (platforms.length === 1 && platforms[0] !== "") {
-    andConditions.push({ platform: platforms[0] });
-  } else if (platforms.length > 1) {
-    let orConditions = {
-      $or: []
-    };
-    for (const platform of platforms) {
-      orConditions.$or.push({ platform });
-    }
-    andConditions.push(orConditions);
+  if (platforms[0] !== "") {
+    andConditions.push(getOrCondition(platforms, "platform"));
   }
-
   andConditions.push({ content: { $regex: search } });
-  console.log(andConditions);
-  Object.keys(andConditions).forEach(condition => {
-    console.log(andConditions[condition]);
-  })
+
+  for (condition of andConditions) {
+    console.log(condition);
+  }
   Mention.findAll()
          .and(andConditions)
          .exec((err, mentions) => {
