@@ -49,10 +49,10 @@ router.get("/searchbar", jwtVerify, (req, res, next) => {
   for (condition of andConditions) {
     console.log(condition);
   }
-  Mention.findAll()
+  Mention.find({})
          .and(andConditions)
          .exec((err, mentions) => {
-           console.log(mentions);
+           res.send({ mentions });
          })
 });
 

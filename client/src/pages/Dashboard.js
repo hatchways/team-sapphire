@@ -57,7 +57,8 @@ function Dashboard() {
           }
         })
         .then(res => {
-
+          setMentions(res.data.mentions);
+          //empty array since we are not using the mentions model yet
         })
         .catch(error => {
           console.error(error);
@@ -79,7 +80,7 @@ function Dashboard() {
       .catch(error => {
         console.error(error);
       });
-      
+
     return socket.disconnect();
   }, []);
 
