@@ -73,7 +73,7 @@ const Mention = ({ mention, index, setOpen }) => {
                   </LinkTo>
                 </Typography>
                 <Typography>{mention.platform}</Typography>
-                <Typography>{mention.desc}</Typography>
+                <Typography>{mention.content}</Typography>
               </CardContent>
             </Grid>
           </Grid>

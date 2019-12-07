@@ -11,7 +11,8 @@ const MentionSchema = new Schema({
   date: String,
   link: String,
   image: String,
-  popularity: Number
+  popularity: Number,
+  title: String
 });
 
 const Mention = mongoose.model("Mention", MentionSchema);

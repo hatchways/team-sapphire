@@ -58,13 +58,13 @@ function Dashboard() {
           socket.connect();
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          setMentions(res.data.mentions.Reddit);
+          setMentions(res.data.mentions.Twitter.concat(...res.data.mentions.Reddit));
         }
       })
       .catch(error => {
         console.error(error);
       });
-      return socket.disconnect();
+      return () => socket.disconnect();
   }, []);
 
   const handlePlatformToggle = platform => {
@@ -84,7 +84,12 @@ function Dashboard() {
   };
 
   const handleSortChange = (event, sort) => {
-    setSort(sort);
+    if(sort === 0) {
+      setSort(1);
+    }
+    else{
+      setSort(0);
+    }
   };
 
   const handlePlatformClose = event => {

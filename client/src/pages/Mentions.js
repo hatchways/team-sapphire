@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Route } from "react-router-dom";
 
-
 import MentionDialog from "./MentionDialog";
 import Mention from "./Mention";
 
@@ -13,7 +12,6 @@ const useStyles = makeStyles(theme => ({
     width: "50vw",
     marginLeft: "90px",
     marginTop: "50px"
-
   },
   sortToggleContainer: {
     float: "right",
@@ -38,6 +36,9 @@ function Mentions(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
+  // if (props.sort === "popular") {
+  //   props.mentions.sort((a, b) => b.popularity - a.popularity);
+  // }
   const mentions = props.mentions.map((mention, i) => {
     if (!localStorage.getItem(`${mention.link}`)) {
       localStorage.setItem(`${mention.link}`, JSON.stringify(mention));
