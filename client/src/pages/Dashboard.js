@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import queryString from 'query-string';
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,6 +43,24 @@ function Dashboard() {
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
+    if (history.location.search.length > 0) {
+      const query = queryString.parse(history.location.search);
+      console.log(query);
+      axios
+        .get(`/search/searchbar`, {
+          params: {
+            companies: query.companies.split(","),
+            platforms: query.platforms.split(","),
+            search: query.search
+          }
+        })
+        .then(res => {
+
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
     if (!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}`)
@@ -89,7 +108,6 @@ function Dashboard() {
       history.push("/login");
     }
   };
-  console.log(history);
   const classes = useStyles();
   return (
     <div>
