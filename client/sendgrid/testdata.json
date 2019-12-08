@@ -1,0 +1,24 @@
+{
+  "weeklyreport": {
+    "report": [
+      {
+        "title": "PayPal invested $500 million in Company ABC",
+        "company": "Facebook",
+        "desc": "AAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+        "img": "https://i.redd.it/0xmtl4g2fds11.jpg"
+      },
+      {
+        "title": "PayPal invested $500 million in Company ABC",
+        "company": "Facebook",
+        "desc": "AAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+        "img": "https://i.redd.it/0xmtl4g2fds11.jpg"
+      },
+      {
+        "title": "PayPal invested $500 million in Company ABC",
+        "company": "Facebook",
+        "desc": "AAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+        "img": "https://i.redd.it/0xmtl4g2fds11.jpg"
+      }
+    ]
+  }
+}
