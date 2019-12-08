@@ -23,7 +23,7 @@
     "morgan": "~1.9.1",
     "nodemon": "^1.19.1",
     "snoowrap": "^1.20.1",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
