@@ -3,7 +3,7 @@ const { getNewestRedditPosts } = require("./../routes/reddit");
 const { getNewTweets } = require("./../routes/twitter");
 const Mention = require("./Mention");
 
-const interface = class Interface {
+const mentionsInterface = class Interface {
   async getNewestMentions(companies) {
     let mentions = {
       Reddit: [],
@@ -42,4 +42,4 @@ const interface = class Interface {
   }
 };
 
-module.exports = interface;
+module.exports = mentionsInterface;

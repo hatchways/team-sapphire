@@ -39,11 +39,7 @@ const server = app.listen(4000, () => {
   console.log("Server running on port 4000!");
 });
 
-const io = require('socket.io')(server);
+const io = require("socket.io")(server);
+require("./socket/socket.js")(io);
 
-module.exports = {
-  app,
-  io
-};
-
-require('./socket/socket');
+module.exports = app;

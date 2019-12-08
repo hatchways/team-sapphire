@@ -1,22 +1,23 @@
-const { io } = require("../app");
-const jwt = require("jsonwebtoken");
 const cookie = require('cookie');
+const jwt = require("jsonwebtoken");
 
-io.use((socket, next) => {
-  const cookies = cookie.parse(socket.handshake.headers.cookie);
-  if (cookies.token) {
-    const token = cookies.token;
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    socket.userId = decodedToken.userId;
-    next();
-  } else {
-    next("Unable to authenticate");
-  }
-})
-.on("connection", (socket) => {
-  console.log(`${socket.userId} connected`);
+module.exports = (io) => {
+  io.use((socket, next) => {
+    const cookies = cookie.parse(socket.handshake.headers.cookie);
+    if (cookies.token) {
+      const token = cookies.token;
+      const decodedToken = jwt.verify(token, process.env.SECRET);
+      socket.userId = decodedToken.userId;
+      next();
+    } else {
+      next("Unable to authenticate");
+    }
+  })
+  .on("connection", (socket) => {
+    console.log(`${socket.userId} connected`);
 
-  socket.on("disconnect", () => {
-    console.log(`${socket.userId} disconnected`);
-  });
-})
+    socket.on("disconnect", () => {
+      console.log(`${socket.userId} disconnected`);
+    });
+  })
+};
