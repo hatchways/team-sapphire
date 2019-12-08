@@ -1,4 +1,5 @@
 const Queue = require("bull");
+const Arena = require("bull-arena");
 const sgMail = require("@sendgrid/mail");
 require("dotenv").config();
 
