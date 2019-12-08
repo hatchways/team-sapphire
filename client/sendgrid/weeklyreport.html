@@ -64,201 +64,73 @@
         </span>
       </div>
       <div>
-        <div style="z-index: 4;
-                    width: 560px;
-                    height: 140px;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px20px rgba(215,219,237,0.3);
-                    margin: auto;
-                    margin-bottom: 10px;
-                   "
-        >
-          <img
-            src={{report.img}}
-            alt="AHHHHHHHH"
-            style="z-index: 5;
-                  width: 120px;
-                  height: 140px;
-                  background: #d8d8d8;
-                  float: left
-                  "
-          >
-          <div style="width: 440px;
+        {{#each weeklyreport.report}}
+          <div style="z-index: 4;
+                      width: 560px;
+                      height: 140px;
+                      border-radius: 5px;
+                      box-shadow: 0px 0px20px rgba(215,219,237,0.3);
                       margin: auto;
-                      float: right;
+                      margin-bottom: 10px;
                      "
           >
-            <div style="z-index: 4;
-                        height: 17px;
-                        font-family: Verdana;
-                        font-size: 14px;
-                        font-weight: 400;
-                        line-height: 17px;
-                        margin-left: 22px;
-                        word-wrap: break-word;
-                        "
-            >
-              {{report.title}}
-            </div>
-            <div style="opacity: 0.298111;
-                        z-index: 4;
-                        height: 15px;
-                        font-family: Verdana;
-                        font-size: 12px;
-                        font-weight: 400;
-                        line-height: 15px;
-                        margin-left: 22px;
-                        margin-top: 7.5px;
-                        margin-bottom: 6.5px;
-                       "
-            >
-              {{report.company}}
-            </div>
-            <div style="opacity: 0.4972331;
-                        z-index: 4;
-                        height: 69px;
-                        font-family: Verdana;
-                        font-size: 12px;
-                        font-weight: 400;
-                        line-height: 18px;
-                        margin-left: 22px;
-                        word-wrap: break-word;
-                      "
-            >
-              {{report.desc}}
-            </div>
-          </div>
-        </div>
-        <div style="z-index: 4;
-                    width: 560px;
+            <img
+              src={{this.img}}
+              alt="AHHHHHHHH"
+              style="z-index: 5;
+                    width: 120px;
                     height: 140px;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px20px rgba(215,219,237,0.3);
-                    margin: auto;
-                    margin-bottom: 10px;
-                   "
-        >
-          <img
-            src={{report.img}}
-            alt="AHHHHHHHH"
-            style="z-index: 5;
-                  width: 120px;
-                  height: 140px;
-                  background: #d8d8d8;
-                  float: left
-                  "
-          >
-          <div style="width: 440px;
-                      margin: auto;
-                      float: right;
-                     "
-          >
-            <div style="z-index: 4;
-                        height: 17px;
-                        font-family: Verdana;
-                        font-size: 14px;
-                        font-weight: 400;
-                        line-height: 17px;
-                        margin-left: 22px;
-                        word-wrap: break-word;
-                        "
+                    background: #d8d8d8;
+                    float: left
+                    "
             >
-              {{report.title}}
-            </div>
-            <div style="opacity: 0.298111;
-                        z-index: 4;
-                        height: 15px;
-                        font-family: Verdana;
-                        font-size: 12px;
-                        font-weight: 400;
-                        line-height: 15px;
-                        margin-left: 22px;
-                        margin-top: 7.5px;
-                        margin-bottom: 6.5px;
+            <div style="width: 440px;
+                        margin: auto;
+                        float: right;
                        "
             >
-              {{report.company}}
-            </div>
-            <div style="opacity: 0.4972331;
-                        z-index: 4;
-                        height: 69px;
-                        font-family: Verdana;
-                        font-size: 12px;
-                        font-weight: 400;
-                        line-height: 18px;
-                        margin-left: 22px;
-                        word-wrap: break-word;
-                      "
-            >
-              {{report.desc}}
-            </div>
-          </div>
-        </div>
-        <div style="z-index: 4;
-                    width: 560px;
-                    height: 140px;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px20px rgba(215,219,237,0.3);
-                    margin: auto;
-                    margin-bottom: 10px;
-                   "
-        >
-          <img
-            src={{report.img}}
-            alt="AHHHHHHHH"
-            style="z-index: 5;
-                  width: 120px;
-                  height: 140px;
-                  background: #d8d8d8;
-                  float: left
-                  "
-          >
-          <div style="width: 440px;
-                      margin: auto;
-                      float: right;
-                     "
-          >
-            <div style="z-index: 4;
-                        height: 17px;
-                        font-family: Verdana;
-                        font-size: 14px;
-                        font-weight: 400;
-                        line-height: 17px;
-                        margin-left: 22px;
-                        word-wrap: break-word;
+              <div style="z-index: 4;
+                          height: 17px;
+                          font-family: Verdana;
+                          font-size: 14px;
+                          font-weight: 400;
+                          line-height: 17px;
+                          margin-left: 22px;
+                          word-wrap: break-word;
+                          "
+              >
+                {{this.title}}
+              </div>
+              <div style="opacity: 0.298111;
+                          z-index: 4;
+                          height: 15px;
+                          font-family: Verdana;
+                          font-size: 12px;
+                          font-weight: 400;
+                          line-height: 15px;
+                          margin-left: 22px;
+                          margin-top: 7.5px;
+                          margin-bottom: 6.5px;
+                         "
+              >
+                {{this.company}}
+              </div>
+              <div style="opacity: 0.4972331;
+                          z-index: 4;
+                          height: 69px;
+                          font-family: Verdana;
+                          font-size: 12px;
+                          font-weight: 400;
+                          line-height: 18px;
+                          margin-left: 22px;
+                          word-wrap: break-word;
                         "
-            >
-              {{report.title}}
-            </div>
-            <div style="opacity: 0.298111;
-                        z-index: 4;
-                        height: 15px;
-                        font-family: Verdana;
-                        font-size: 12px;
-                        font-weight: 400;
-                        line-height: 15px;
-                        margin-left: 22px;
-                        margin-top: 7.5px;
-                        margin-bottom: 6.5px;
-                       "
-            >
-              {{report.company}}
-            </div>
-            <div style="opacity: 0.4972331;
-                        z-index: 4;
-                        height: 69px;
-                        font-family: Verdana;
-                        font-size: 12px;
-                        font-weight: 400;
-                        line-height: 18px;
-                        margin-left: 22px;
-                        word-wrap: break-word;
-                      "
-            >
-              {{report.desc}}
+              >
+                {{this.desc}}
+              </div>
             </div>
           </div>
-        </div>
+        {{/each}}
       </div>
       <div style="z-index: 4;
                   width: 124px;
