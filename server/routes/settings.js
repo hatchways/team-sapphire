@@ -97,6 +97,7 @@ router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {
     });
 });
 
+// Set is Verfiied in user model to true
 router.put("/:email", jwtVerify, (req, res, next) => {
   UserModel.findOne({ username: req.params.email }).exec((err, user) => {
     if (user) {
