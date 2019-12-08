@@ -15,9 +15,12 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  isVerified: {
+    type: Boolean
+  },
   settings_id: {
     type: Schema.Types.ObjectId,
-    ref: 'setting'
+    ref: "setting"
   }
 });
 

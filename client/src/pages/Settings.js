@@ -11,7 +11,7 @@ import LeftSideBar from "./LeftSideBar";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
-    backgroundColor: '#fafbff',
+    backgroundColor: "#fafbff",
     height: "100vh",
     width: "72vw",
     borderLeft: "2px solid #e9eaee"
@@ -39,39 +39,43 @@ const Settings = () => {
   const [isPlatformOpen, setPlatformOpen] = useState(false);
   const [isCompanyOpen, setCompanyOpen] = useState(false);
 
-  const handlePlatformClose = (event) => {
+  const handlePlatformClose = event => {
     setPlatformOpen(false);
-  }
+  };
 
-  const handlePlatformOpen = (event) => {
+  const handlePlatformOpen = event => {
     setPlatformOpen(true);
-  }
+  };
 
-  const handlePlatformChange = (event) => {
+  const handlePlatformChange = event => {
     setSelectedPlatforms(event.target.value);
-  }
+  };
 
-  const handleCompanyClose = (event) => {
+  const handleCompanyClose = event => {
     setCompanyOpen(false);
-  }
+  };
 
-  const handleCompanyOpen = (event) => {
+  const handleCompanyOpen = event => {
     setCompanyOpen(true);
-  }
+  };
 
-  const handleCompanyChange = (event) => {
+  const handleCompanyChange = event => {
     setSelectedCompanies(event.target.value);
-  }
+  };
 
-  const handleSearchSubmit = (event) => {
+  const handleSearchSubmit = event => {
     event.preventDefault();
-    console.log(event.target.searchfield.value, event.target.companyfield.value, event.target.platformfield.value);
+    console.log(
+      event.target.searchfield.value,
+      event.target.companyfield.value,
+      event.target.platformfield.value
+    );
     setSearch("");
-  }
+  };
 
-  const onSearchChange = (event) => {
+  const onSearchChange = event => {
     setSearch(event.target.value);
-  }
+  };
 
   const classes = useStyles();
   const history = useHistory();
@@ -89,6 +93,14 @@ const Settings = () => {
       history.push("/login");
     }
   };
+
+  window.addEventListener(
+    "beforeunload",
+    event => {
+      axios.post(`/queue/${localStorage.getItem("email")}`);
+    },
+    false
+  );
 
   return (
     <div className={classes.dashboardContainer}>

@@ -31,28 +31,27 @@ const repeat = { every: 60000 };
 const weeklyEmailOptions = { repeat };
 
 emailQueue.process(async (job, done) => {
-  const { from, subject, text, html } = job.data;
-  const users = await User.find();
-  // console.log(result1);
-  for (let user of users) {
-    const message = {
-      to: user.username,
-      from,
-      subject,
-      text,
-      html
-    };
-    sgMail.send(message);
-  }
-  done(null, users);
+  const { from, to, subject, text, html } = job.data;
+  // const users = await User.find();
+  // for (let user of users) {
+  const message = {
+    to,
+    from,
+    subject,
+    text,
+    html
+  };
+  sgMail.send(message);
+  // }
+  done(null, to);
 });
 
 // emailQueue.add(delayedMsg, delayedEmailOptions);
-emailQueue.add(weeklyMsg, weeklyEmailOptions);
+// emailQueue.add(weeklyMsg, weeklyEmailOptions);
 
 emailQueue.on("completed", async (job, result) => {
   console.log("email was sent to");
   console.log(result);
-  // sgMail.send(delayedMsg);
-  // sgMail.send(weeklyMsg);
 });
+
+module.exports = emailQueue;

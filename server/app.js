@@ -8,12 +8,13 @@ require("dotenv").config();
 const corsOptions = {
   origin: "http://localhost:3000"
 };
-
+const Arena = require("bull-arena");
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 const authRoutes = require("./routes/auth");
 const settingsRouter = require("./routes/settings");
 const searchRouter = require("./routes/search");
+const emailRouter = require("./routes/email");
 
 const app = express();
 
@@ -29,6 +30,30 @@ app.use("/ping", pingRouter);
 app.use(authRoutes);
 app.use("/settings", settingsRouter);
 app.use("/search", searchRouter);
+app.use(emailRouter);
+app.use(
+  "/",
+  Arena(
+    {
+      queues: [
+        {
+          // Name of the bull queue, this name must match up exactly with what you've defined in bull.
+          name: "emailQueue",
+
+          // Hostname or queue prefix, you can put whatever you want.
+          hostId: "Mentions",
+
+          // Redis auth.
+          redis: "redis://127.0.0.1:6379"
+        }
+      ]
+    },
+    {
+      basePath: "/arena",
+      disableListen: true
+    }
+  )
+);
 
 // Error handler
 app.use(function(err, req, res, next) {
@@ -39,11 +64,11 @@ const server = app.listen(4000, () => {
   console.log("Server running on port 4000!");
 });
 
-const io = require('socket.io')(server);
+const io = require("socket.io")(server);
 
 module.exports = {
   app,
   io
 };
 
-require('./socket/socket');
+require("./socket/socket");
