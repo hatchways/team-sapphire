@@ -21,7 +21,7 @@ router.post("/queue/:email", jwtVerify, (req, res, next) => {
           to: "ahanaghosh94@gmail.com", //user.username
           subject: "Interact with APP",
           text: "You didnt checkout the dashboard!",
-          html: "<strong>Interact with APP!</strong>"
+          html: "<strong>Checkout your dashbooard!</strong>"
         };
         emailQueue.add(delayedMsg, { delay: 20000 });
       }

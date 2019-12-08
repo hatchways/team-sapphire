@@ -66,7 +66,6 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
 
 // Gets users settings
 router.get("/:email", jwtVerify, (req, res, next) => {
-  console.log("email-", req.params.email);
   SettingsModel.findOne({ email: req.params.email })
     .populate("companies")
     .exec(async (err, settings) => {
