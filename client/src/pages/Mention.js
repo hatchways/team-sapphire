@@ -50,49 +50,30 @@ const Mention = ({ mention, index, setOpen }) => {
     setOpen(true);
   };
 
-  const getCompanySummary = (title, desc, company) => {
-    let titleIndex = title.search(company) > -1 ? title.search(company) : title.search(company.toLowerCase());
-    let titleEnd = titleIndex + company.length;
-    let descIndex = desc.search(company) > -1 ? desc.search(company) : desc.search(company.toLowerCase());
-    let descEnd = descIndex + company.length;
-    if (desc.length > 200 && descEnd >= 200) {
-      desc = "..." + desc.substring(descIndex - 100, descIndex + 100) + "...";
-      descIndex = descEnd - (descEnd - 100) + 3;
-      descEnd = descIndex + company.length;
-    } else if (desc.length > 200 && descEnd < 200) {
-      desc = desc.substring(0, 200) + "...";
+  const getSummary = (paragraph, company, length) => {
+    let index = paragraph.toLowerCase().search(company.toLowerCase());
+    let endIndex = index + company.length;
+    if (paragraph.length > length && endIndex >= length) {
+      paragraph = "..." + paragraph.substring(index - length/2, index + length/2) + "...";
+      index = endIndex - (endIndex - length/2) + 3;
+      endIndex = index + company.length;
+    } else if (paragraph.length > length && endIndex < length) {
+      paragraph = paragraph.substring(0, length) + "...";
     }
-    if (descIndex > -1) {
-      desc = <span>
-              {desc.substring(0, descIndex)}
-              <span className={classes.companyName}>
-                {desc.substring(descIndex, descEnd)}
-              </span>
-              {desc.substring(descEnd)}
-            </span>
-    }
-    if (title.length > 40 && titleEnd >= 40) {
-      title = "..." + title.substring(titleIndex - 20, titleIndex + 20) + "...";
-      titleIndex = titleEnd - (titleEnd - 20) + 3;
-      titleEnd = titleIndex + company.length;
-    } else if (title.length > 40 && titleEnd < 40) {
-      title = title.substring(0, 40) + "...";
-    }
-    if (titleIndex > -1) {
-      title = <span>
-                {title.substring(0, titleIndex)}
+    if (index > -1) {
+      paragraph = <span>
+                {paragraph.substring(0, index)}
                 <span className={classes.companyName}>
-                  {title.substring(titleIndex, titleEnd)}
+                  {paragraph.substring(index, endIndex)}
                 </span>
-                {title.substring(titleEnd)}
+                {paragraph.substring(endIndex)}
               </span>
     }
-    return {title, desc};
+    return paragraph;
   }
 
-  const summary = getCompanySummary(mention.title, mention.desc, mention.company);
-  const title = summary.title;
-  const desc = summary.desc;
+  const title = getSummary(mention.title, mention.company, 40);
+  const desc = getSummary(mention.desc, mention.company, 200);
 
   return (
     <Link to={`/dashboard/mentions/${index}`} className={classes.link}>
