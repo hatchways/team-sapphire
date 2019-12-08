@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Switch, Icon, Typography, Divider } from "@material-ui/core";
+import { Switch, Typography, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TwitterIcon from "@material-ui/icons/Twitter";
 

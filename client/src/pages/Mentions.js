@@ -36,9 +36,15 @@ function Mentions(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
-  // if (props.sort === "popular") {
-  //   props.mentions.sort((a, b) => b.popularity - a.popularity);
-  // }
+  if (props.sort === 0) {
+    props.mentions.sort((a, b) => {
+      a = new Date(a.date);
+      b = new Date(b.date);
+      return b - a;
+    });
+  } else {
+    props.mentions.sort((a, b) => b.popularity - a.popularity);
+  }
   const mentions = props.mentions.map((mention, i) => {
     if (!localStorage.getItem(`${mention.link}`)) {
       localStorage.setItem(`${mention.link}`, JSON.stringify(mention));

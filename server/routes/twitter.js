@@ -15,18 +15,21 @@ const getNewTweets = async company => {
     q: company,
     lang: "en",
     result_type: "mixed"
-  })
-  tweets.statuses = tweets.statuses.filter(tweet => tweet.text.slice(0,2) !== 'RT');
+  });
+  tweets.statuses = tweets.statuses.filter(
+    tweet => tweet.text.slice(0, 2) !== "RT"
+  );
   for (const tweet of tweets.statuses) {
     await Mention.findOne({ postId: tweet.id }, async (err, mention) => {
       if (!mention) {
+        let date = new Date(tweet.created_at);
         let newMention = new Mention({
           company: company,
           platform: "Twitter",
           postId: tweet.id_str,
           userId: tweet.user.id,
           content: tweet.text,
-          date: tweet.created_at,
+          date,
           link: `twitter.com/i/web/status/${tweet.id_str}`,
           image:
             tweet.entities.media &&

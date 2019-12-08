@@ -72,6 +72,20 @@ router.get("/:email", jwtVerify, (req, res, next) => {
       next("User settings doesn't exist!");
     }
   })
+});
+
+router.get("/:email/mentions", jwtVerify, (req, res, next) => {
+  SettingsModel.findOne({ email: req.params.email }).populate('companies').exec(async (err, settings) => {
+    if (settings) {
+      let companyNames = [];
+      settings.companies.forEach(company => companyNames.push(company.name));
+      const interface = new Interface();
+      const mentions = await interface.getAllMentions(companyNames);
+      res.send({ success: true, settings, mentions });
+    } else {
+      next("User settings doesn't exist!");
+    }
+  })
 })
 
 // Deletes a company from a users list of tracked companies

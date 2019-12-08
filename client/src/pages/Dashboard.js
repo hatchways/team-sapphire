@@ -50,7 +50,7 @@ function Dashboard() {
   useEffect(() => {
     if (!localStorage.getItem("email")) handleLogout();
     axios
-      .get(`/settings/${localStorage.getItem("email")}`)
+      .get(`/settings/${localStorage.getItem("email")}/mentions`)
       .then(res => {
         if (res.data.authenticated === false) {
           handleLogout();
@@ -58,7 +58,7 @@ function Dashboard() {
           socket.connect();
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          setMentions(res.data.mentions.Twitter.concat(...res.data.mentions.Reddit));
+          setMentions(res.data.mentions.Reddit.concat(...res.data.mentions.Twitter));
         }
       })
       .catch(error => {
@@ -84,12 +84,8 @@ function Dashboard() {
   };
 
   const handleSortChange = (event, sort) => {
-    if(sort === 0) {
-      setSort(1);
-    }
-    else{
-      setSort(0);
-    }
+    // console.log(sort);
+    setSort(sort);
   };
 
   const handlePlatformClose = event => {

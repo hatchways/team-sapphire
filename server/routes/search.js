@@ -7,15 +7,16 @@ const { jwtVerify } = require("../utils/authUtils");
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
-router.get("/filter", jwtVerify, (req, res, next) => {
-  let query = {};
-  if (req.body.company) query.company = req.body.company;
-  if (req.body.platform) query.platform = req.body.platform;
-  if (req.body.author) query.author = req.body.author;
-  if (req.body.content) query.content = req.body.content;
-  Mention.find(query, (err, mentions) => {
-    res.send({ mentions });
-  });
+router.post("/filter", jwtVerify, async (req, res, next) => {
+  let query = { $query: {$or: []} };
+  if (req.body.company) {
+    req.body.company.forEach(comp => query.$query.$or.push({ "company": comp }));
+  }
+  if (req.body.platform) {
+    req.body.platform.forEach(plat => query.$query.$or.push({ "platform": plat }));
+  }
+  const mentions = await Mention.find(query).sort({ date: 1});
+  res.send({success: true, mentions});
 });
 
 module.exports = router;

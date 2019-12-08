@@ -5,14 +5,8 @@ import axios from "axios";
 import { withSnackbar } from "notistack";
 
 import {
-  Switch,
-  Icon,
-  Typography,
-  Tab,
-  Tabs,
   Grid,
-  IconButton,
-  Link
+  IconButton
 } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { makeStyles } from "@material-ui/core/styles";
