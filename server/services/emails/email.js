@@ -12,7 +12,6 @@ const emailQueue = new Queue("emailQueue", "redis://127.0.0.1:6379");
 
 // DELAYED EMAIL
 const delayedMsg = {
-  to: "ahanaghosh94@gmail.com",
   from: "welcome@mentionscrawler.com",
   subject: "Interact with APP",
   text: "Interact with APP",
@@ -28,21 +27,32 @@ const weeklyMsg = {
   text: "Weekly Report",
   html: "<strong>Weekly Report!</strong>"
 };
-const repeat = { every: 15000 };
+const repeat = { every: 60000 };
 const weeklyEmailOptions = { repeat };
 
 emailQueue.process(async (job, done) => {
-  const userEmails = await User.find();
+  const { from, subject, text, html } = job.data;
+  const users = await User.find();
   // console.log(result1);
-  done(null, userEmails);
+  for (let user of users) {
+    const message = {
+      to: user.username,
+      from,
+      subject,
+      text,
+      html
+    };
+    sgMail.send(message);
+  }
+  done(null, users);
 });
 
-emailQueue.add(delayedMsg, delayedEmailOptions);
-// emailQueue.add(weeklyMsg, weeklyEmailOptions);
+// emailQueue.add(delayedMsg, delayedEmailOptions);
+emailQueue.add(weeklyMsg, weeklyEmailOptions);
 
 emailQueue.on("completed", async (job, result) => {
-  console.log("email was sent");
-  // console.log(result);
-  sgMail.send(delayedMsg);
+  console.log("email was sent to");
+  console.log(result);
+  // sgMail.send(delayedMsg);
   // sgMail.send(weeklyMsg);
 });
