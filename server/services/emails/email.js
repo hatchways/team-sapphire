@@ -30,20 +30,10 @@ const weeklyMsg = {
 const repeat = { every: 15000 };
 const weeklyEmailOptions = { repeat };
 
-const mockAsync = number => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (!number) reject(new Error("no first name"));
-      resolve(number * 10);
-    }, 1000);
-  });
-};
-
 emailQueue.process(async (job, done) => {
-  const result = await mockAsync(1);
   const userEmails = await User.find();
-  console.log(result1);
-  done(null, result);
+  // console.log(result1);
+  done(null, userEmails);
 });
 
 emailQueue.add(delayedMsg, delayedEmailOptions);
