@@ -1,7 +1,7 @@
 const express = require("express");
 const { getNewestRedditPosts } = require("./../routes/reddit");
 
-const interface = class Interface {
+const mentionsInterface = class Interface {
   async getNewestMentions(companies) {
     let mentions = {
       Reddit: []
@@ -23,4 +23,4 @@ const interface = class Interface {
   }
 };
 
-module.exports = interface;
+module.exports = mentionsInterface;
