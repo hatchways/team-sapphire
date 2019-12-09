@@ -19,7 +19,7 @@ delayedEmailQueue.process(async (job, done) => {
     text,
     html
   };
-  sgMail.send(message);
+  // sgMail.send(message);
   done(null, to);
 });
 

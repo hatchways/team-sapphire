@@ -76,6 +76,7 @@ const Login = ({ enqueueSnackbar }) => {
       .then(res => {
         if (res.data.success) {
           localStorage.setItem("email", res.data.user.username);
+          localStorage.setItem("isVerfied", res.data.user.isVerified);
           history.push("/dashboard");
         }
       })

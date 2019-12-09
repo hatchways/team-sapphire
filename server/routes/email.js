@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const SettingsModel = require("./../models/Settings");
-const Company = require("./../models/Company");
 const UserModel = require("./../models/User");
-const Interface = require("./../models/Interface");
 const { jwtVerify } = require("../utils/authUtils");
 const { delayedEmailQueue } = require("../services/emails/email");
 
