@@ -11,7 +11,7 @@ import LeftSideBar from "./LeftSideBar";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
-    backgroundColor: '#fafbff',
+    backgroundColor: "#fafbff",
     height: "100vh",
     width: "72vw",
     borderLeft: "2px solid #e9eaee"
@@ -57,10 +57,7 @@ const Settings = () => {
 
   return (
     <div className={classes.dashboardContainer}>
-      <Navbar
-        platforms={platforms}
-        companies={companies}
-      />
+      <Navbar platforms={platforms} companies={companies} />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>
           <LeftSideBar />

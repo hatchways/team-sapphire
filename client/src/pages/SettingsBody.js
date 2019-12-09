@@ -111,10 +111,12 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
     event.preventDefault();
     if (companyNames.length > 0) {
       history.push("/dashboard");
+      axios.put(`/settings/${localStorage.getItem("email")}`);
     } else {
       setCompanyNameSaveError("Add at least one company name");
     }
   };
+
   const onSubmitHandler = event => {
     event.preventDefault();
 

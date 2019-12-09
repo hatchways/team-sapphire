@@ -4,10 +4,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
-import {
-  Grid,
-  IconButton
-} from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -69,8 +66,10 @@ const LeftSideBar = ({ enqueueSnackbar }) => {
     try {
       let response = await axios.post("http://localhost:4000/logout");
       if (response.data.success) {
-        localStorage.clear();
-        history.push("/login");
+        axios.post(`/queue/${localStorage.getItem("email")}`).then(() => {
+          localStorage.clear();
+          history.push("/login");
+        });
       }
     } catch (err) {
       enqueueSnackbar("Something went wrong, Please try again", {
