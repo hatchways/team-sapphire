@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import queryString from 'query-string';
+import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -66,31 +66,34 @@ function Dashboard() {
     }
 
     axios
-    .get(`/settings/${localStorage.getItem("email")}`)
-    .then(res => {
-      if (res.data.authenticated === false) {
-        handleLogout();
-      } else if (res.data.success) {
-        socket.connect();
-        setPlatforms(res.data.settings.platforms);
-        setCompanies(res.data.settings.companies);
-        setMentions(res.data.mentions.Reddit.concat(...res.data.mentions.Twitter));
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    })
-    
-    axios
-      .get(`/settings/${localStorage.getItem("email")}/mentions`)
+      .get(`/settings/${localStorage.getItem("email")}`)
       .then(res => {
-          setMentions(res.data.mentions.Reddit.concat(...res.data.mentions.Twitter));
+        if (res.data.authenticated === false) {
+          handleLogout();
+        } else if (res.data.success) {
+          socket.connect();
+          setPlatforms(res.data.settings.platforms);
+          setCompanies(res.data.settings.companies);
+          setMentions(
+            res.data.mentions.Reddit.concat(...res.data.mentions.Twitter)
+          );
+        }
       })
       .catch(error => {
         console.error(error);
-      })
-      return () => socket.disconnect();
+      });
 
+    axios
+      .get(`/settings/${localStorage.getItem("email")}/mentions`)
+      .then(res => {
+        setMentions(
+          res.data.mentions.Reddit.concat(...res.data.mentions.Twitter)
+        );
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    return () => socket.disconnect();
   }, []);
 
   const handlePlatformToggle = platform => {
@@ -123,10 +126,7 @@ function Dashboard() {
   const classes = useStyles();
   return (
     <div>
-      <Navbar
-        platforms={platforms}
-        companies={companies}
-      />
+      <Navbar platforms={platforms} companies={companies} />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>
           <Platforms
