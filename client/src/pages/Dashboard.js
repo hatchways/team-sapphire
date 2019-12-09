@@ -100,7 +100,6 @@ function Dashboard() {
   };
 
   const handleSortChange = (event, sort) => {
-    // console.log(sort);
     setSort(sort);
   };
 
