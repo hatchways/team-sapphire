@@ -38,7 +38,7 @@ app.use(
       queues: [
         {
           // Name of the bull queue, this name must match up exactly with what you've defined in bull.
-          name: "emailQueue",
+          name: "delayedEmailQueue",
 
           // Hostname or queue prefix, you can put whatever you want.
           hostId: "Mentions",
