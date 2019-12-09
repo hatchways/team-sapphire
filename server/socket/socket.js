@@ -15,6 +15,14 @@ module.exports = (io) => {
   })
   .on("connection", (socket) => {
     console.log(`${socket.userId} connected`);
+    // socket.emit("newMentions", (true));
+    socket.on("getNewMentions", userId => {
+      if (socket.userId === userId) {
+        socket.emit("newMentions", true);
+      } else {
+        socket.emit("newMentions", false);
+      }
+    })
 
     socket.on("disconnect", () => {
       console.log(`${socket.userId} disconnected`);
