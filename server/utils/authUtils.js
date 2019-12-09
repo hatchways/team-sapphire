@@ -12,15 +12,20 @@ function validateRegistration(request) {
 async function jwtVerify(req, res, next) {
   if (req.cookies.token) {
     const token = req.cookies.token;
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    const userId = decodedToken.userId;
-    if (req.body.userId && req.body.userId !== userId) {
-      res.status(401).send({ authenticated: false });
-    } else {
-      next();
-    }
+    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+      if (err) {
+        res.send({ authenticated: false });
+      } else {
+        const userId = decoded.userId;
+        if (req.body.userId && req.body.userId !== userId) {
+          res.send({ authenticated: false });
+        } else {
+          next();
+        }
+      }
+    });
   } else {
-    res.status(401).send({ authenticated: false });
+    res.send({ authenticated: false });
   }
 }
 

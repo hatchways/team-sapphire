@@ -29,7 +29,7 @@ router.get("/:email/company", jwtVerify, (req, res, next) => {
       if (settings) {
         let companyNames = [];
         settings.companies.forEach(company => companyNames.push(company.name));
-        res.send({ companies: companyNames });
+        res.send({ companies: companyNames, settings });
       } else {
         next("User settings doesn't exist!");
       }
@@ -72,6 +72,20 @@ router.get("/:email", jwtVerify, (req, res, next) => {
       settings.companies.forEach(company => companyNames.push(company.name));
       const mentionsInterface = new Interface();
       const mentions = await mentionsInterface.getNewestMentions(companyNames);
+      res.send({ success: true, settings, mentions });
+    } else {
+      next("User settings doesn't exist!");
+    }
+  })
+});
+
+router.get("/:email/mentions", jwtVerify, (req, res, next) => {
+  SettingsModel.findOne({ email: req.params.email }).populate('companies').exec(async (err, settings) => {
+    if (settings) {
+      let companyNames = [];
+      settings.companies.forEach(company => companyNames.push(company.name));
+      const mentionsInterface = new Interface();
+      const mentions = await mentionsInterface.getAllMentions(companyNames);
       res.send({ success: true, settings, mentions });
     } else {
       next("User settings doesn't exist!");

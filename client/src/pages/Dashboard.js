@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import queryString from 'query-string';
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -29,7 +30,6 @@ function Dashboard() {
   });
 
   const history = useHistory();
-
   const [platforms, setPlatforms] = useState({
     Reddit: true,
     Twitter: true,
@@ -42,15 +42,31 @@ function Dashboard() {
   const [mentions, setMentions] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
-  const [searchInput, setSearch] = useState("");
-  const [selectedCompanies, setSelectedCompanies] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const [isPlatformOpen, setPlatformOpen] = useState(false);
-  const [isCompanyOpen, setCompanyOpen] = useState(false);
   useEffect(() => {
     if (!localStorage.getItem("email")) handleLogout();
+
+    if (history.location.search.length > 0) {
+      const query = queryString.parse(history.location.search);
+      console.log(query);
+      axios
+        .get(`/search/searchbar`, {
+          params: {
+            companies: query.companies.split(","),
+            platforms: query.platforms.split(","),
+            search: query.search
+          }
+        })
+        .then(res => {
+          setMentions(res.data.mentions);
+          //empty array since we are not using the mentions model yet
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
     axios
-      .get(`/settings/${localStorage.getItem("email")}`)
+      .get(`/settings/${localStorage.getItem("email")}/mentions`)
       .then(res => {
         if (res.data.authenticated === false) {
           handleLogout();
@@ -58,13 +74,14 @@ function Dashboard() {
           socket.connect();
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          setMentions(res.data.mentions.Reddit);
+          setMentions(res.data.mentions.Reddit.concat(...res.data.mentions.Twitter));
         }
       })
       .catch(error => {
         console.error(error);
-      });
-      return socket.disconnect();
+      })
+      return () => socket.disconnect();
+
   }, []);
 
   const handlePlatformToggle = platform => {
@@ -75,7 +92,6 @@ function Dashboard() {
           handleLogout();
         } else if (res.data.success) {
           setPlatforms(res.data.settings.platforms);
-          console.log(platforms);
         }
       })
       .catch(error => {
@@ -87,44 +103,6 @@ function Dashboard() {
     setSort(sort);
   };
 
-  const handlePlatformClose = event => {
-    setPlatformOpen(false);
-  };
-
-  const handlePlatformOpen = event => {
-    setPlatformOpen(true);
-  };
-
-  const handlePlatformChange = event => {
-    setSelectedPlatforms(event.target.value);
-  };
-
-  const handleCompanyClose = event => {
-    setCompanyOpen(false);
-  };
-
-  const handleCompanyOpen = event => {
-    setCompanyOpen(true);
-  };
-
-  const handleCompanyChange = event => {
-    setSelectedCompanies(event.target.value);
-  };
-
-  const handleSearchSubmit = event => {
-    event.preventDefault();
-    console.log(
-      event.target.searchfield.value,
-      event.target.companyfield.value,
-      event.target.platformfield.value
-    );
-    setSearch("");
-  };
-
-  const onSearchChange = event => {
-    setSearch(event.target.value);
-  };
-
   const handleLogout = async () => {
     let response = await axios.post("http://localhost:4000/logout");
     if (response.data.success) {
@@ -133,27 +111,12 @@ function Dashboard() {
       history.push("/login");
     }
   };
-
   const classes = useStyles();
   return (
     <div>
       <Navbar
-        showSearch={true}
-        searchInput={searchInput}
-        onSearchChange={onSearchChange}
         platforms={platforms}
-        selectedPlatforms={selectedPlatforms}
-        isPlatformOpen={isPlatformOpen}
-        handlePlatformClose={handlePlatformClose}
-        handlePlatformOpen={handlePlatformOpen}
-        handlePlatformChange={handlePlatformChange}
         companies={companies}
-        selectedCompanies={selectedCompanies}
-        isCompanyOpen={isCompanyOpen}
-        handleCompanyClose={handleCompanyClose}
-        handleCompanyOpen={handleCompanyOpen}
-        handleCompanyChange={handleCompanyChange}
-        handleSubmit={handleSearchSubmit}
       />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>

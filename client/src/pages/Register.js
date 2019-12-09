@@ -97,8 +97,7 @@ const Register = ({ enqueueSnackbar }) => {
 
   return (
     <div>
-      <Navbar showRegister={true} loggedIn={false} />
-
+      <Navbar />
       <Container
         component="main"
         maxWidth="xs"

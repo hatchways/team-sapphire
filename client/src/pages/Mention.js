@@ -73,7 +73,7 @@ const Mention = ({ mention, index, setOpen }) => {
   }
 
   const title = getSummary(mention.title, mention.company, 40);
-  const desc = getSummary(mention.desc, mention.company, 200);
+  const content = getSummary(mention.content, mention.company, 200);
 
   return (
     <Link to={`/dashboard/mentions/${index}`} className={classes.link}>
@@ -100,7 +100,7 @@ const Mention = ({ mention, index, setOpen }) => {
                 </LinkTo>
               </Typography>
               <Typography>{mention.platform}</Typography>
-              <Typography>{desc}</Typography>
+              <Typography>{content}</Typography>
             </CardContent>
           </Grid>
         </Grid>
