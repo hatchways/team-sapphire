@@ -36,7 +36,6 @@ const mentionsInterface = class Interface {
         }
       });
     }
-    console.log(allMentions);
     return allMentions;
   }
 };
