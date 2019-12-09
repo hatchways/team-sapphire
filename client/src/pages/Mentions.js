@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Route } from "react-router-dom";
 
-
 import MentionDialog from "./MentionDialog";
 import Mention from "./Mention";
 
@@ -37,6 +36,15 @@ function Mentions(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
 
+  if (props.sort === 0) {
+    props.mentions.sort((a, b) => {
+      a = new Date(a.date);
+      b = new Date(b.date);
+      return b - a;
+    });
+  } else {
+    props.mentions.sort((a, b) => b.popularity - a.popularity);
+  }
   const mentions = props.mentions.map((mention, i) => {
     if (!localStorage.getItem(`${mention.link}`)) {
       localStorage.setItem(`${mention.link}`, JSON.stringify(mention));

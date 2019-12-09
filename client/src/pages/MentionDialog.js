@@ -61,7 +61,7 @@ function SimpleDialog(props) {
           title="Image"
           className={classes.cardImage}
         />
-        <Typography>{mention.desc}</Typography>
+        <Typography>{mention.content}</Typography>
       </CardContent>
     </Dialog>
   ) : null;

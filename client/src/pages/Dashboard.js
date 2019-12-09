@@ -66,7 +66,7 @@ function Dashboard() {
     }
 
     axios
-      .get(`/settings/${localStorage.getItem("email")}`)
+      .get(`/settings/${localStorage.getItem("email")}/mentions`)
       .then(res => {
         if (res.data.authenticated === false) {
           handleLogout();
@@ -74,14 +74,14 @@ function Dashboard() {
           socket.connect();
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          setMentions(res.data.mentions.Reddit);
+          setMentions(res.data.mentions.Reddit.concat(...res.data.mentions.Twitter));
         }
       })
       .catch(error => {
         console.error(error);
-      });
+      })
+      return () => socket.disconnect();
 
-    return socket.disconnect();
   }, []);
 
   const handlePlatformToggle = platform => {
