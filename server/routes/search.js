@@ -57,4 +57,16 @@ router.get("/searchbar", jwtVerify, (req, res, next) => {
          })
 });
 
+router.get("/infinitescroll", jwtVerify, (req, res, next) => {
+  const cursor = req.query.cursor;
+  let mentions = [];
+  for (let i=0; i<10; i++) {
+    if (cursor.hasNext()) {
+      cursor = cursor.next();
+      mentions.push(cursor);
+    }
+  }
+  res.send({ mentions });
+});
+
 module.exports = router;
