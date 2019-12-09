@@ -8,7 +8,7 @@ const User = require("../../models/User");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const emailQueue = new Queue("emailQueue", "redis://127.0.0.1:6379");
+const delayedEmailQueue = new Queue("emailQueue", "redis://127.0.0.1:6379");
 
 // DELAYED EMAIL
 const delayedMsg = {
@@ -30,7 +30,7 @@ const weeklyMsg = {
 const repeat = { every: 60000 };
 const weeklyEmailOptions = { repeat };
 
-emailQueue.process(async (job, done) => {
+delayedEmailQueue.process(async (job, done) => {
   const { from, to, subject, text, html } = job.data;
   // const users = await User.find();
   // for (let user of users) {
@@ -49,9 +49,9 @@ emailQueue.process(async (job, done) => {
 // emailQueue.add(delayedMsg, delayedEmailOptions);
 // emailQueue.add(weeklyMsg, weeklyEmailOptions);
 
-emailQueue.on("completed", async (job, result) => {
+delayedEmailQueue.on("completed", async (job, result) => {
   console.log("email was sent to");
   console.log(result);
 });
 
-module.exports = emailQueue;
+module.exports = { delayedEmailQueue };

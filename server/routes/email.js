@@ -6,16 +6,14 @@ const Company = require("./../models/Company");
 const UserModel = require("./../models/User");
 const Interface = require("./../models/Interface");
 const { jwtVerify } = require("../utils/authUtils");
-const emailQueue = require("../services/emails/email");
+const { delayedEmailQueue } = require("../services/emails/email");
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
 router.post("/queue/:email", jwtVerify, (req, res, next) => {
-  console.log("----QUEUE ROUTE-----------");
   UserModel.findOne({ username: req.params.email }).exec((err, user) => {
     if (user) {
       if (!user.isVerified) {
-        console.log("----QUEUE ROUTE-----------", user);
         const delayedMsg = {
           from: "welcome@mentionscrawler.com",
           to: user.username,
@@ -23,8 +21,9 @@ router.post("/queue/:email", jwtVerify, (req, res, next) => {
           text: "You didnt checkout the dashboard!",
           html: "<strong>Checkout your dashbooard!</strong>"
         };
-        emailQueue.add(delayedMsg, { delay: 20000 });
+        delayedEmailQueue.add(delayedMsg, { delay: 10000 });
       }
+      res.status(200).send({ success: true, message: "email sent to user" });
     } else {
       next("User settings doesn't exist!");
     }

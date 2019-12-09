@@ -55,14 +55,6 @@ const Settings = () => {
     }
   };
 
-  window.addEventListener(
-    "beforeunload",
-    event => {
-      axios.post(`/queue/${localStorage.getItem("email")}`);
-    },
-    false
-  );
-
   return (
     <div className={classes.dashboardContainer}>
       <Navbar platforms={platforms} companies={companies} />
