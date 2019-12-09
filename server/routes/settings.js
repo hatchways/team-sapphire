@@ -15,6 +15,12 @@ const saveSettings = (settings, res) => {
   });
 };
 
+const saveUser = (user, res) => {
+  user.save(err => {
+    res.send({ success: true, user });
+  });
+};
+
 // Get company names of a given user
 router.get("/:email/company", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email })
@@ -58,7 +64,6 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
   });
 });
 
-
 // Gets users settings
 router.get("/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email }).populate('companies').exec(async (err, settings) => {
@@ -90,12 +95,26 @@ router.get("/:email/mentions", jwtVerify, (req, res, next) => {
 
 // Deletes a company from a users list of tracked companies
 router.delete("/:email/company/:company", jwtVerify, (req, res, next) => {
-  SettingsModel.findOne({ email: req.params.email }).populate('companies').exec((err, settings) => {
-    if (settings) {
-      settings.companies = settings.companies.filter(
-        company => company.name !== req.params.company
-      );
-      saveSettings(settings, res);
+  SettingsModel.findOne({ email: req.params.email })
+    .populate("companies")
+    .exec((err, settings) => {
+      if (settings) {
+        settings.companies = settings.companies.filter(
+          company => company.name !== req.params.company
+        );
+        saveSettings(settings, res);
+      } else {
+        next("User settings doesn't exist!");
+      }
+    });
+});
+
+// Set is Verfiied in user model to true
+router.put("/:email", jwtVerify, (req, res, next) => {
+  UserModel.findOne({ username: req.params.email }).exec((err, user) => {
+    if (user) {
+      user.isVerified = true;
+      saveUser(user, res);
     } else {
       next("User settings doesn't exist!");
     }
