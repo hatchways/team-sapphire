@@ -95,11 +95,11 @@ const Settings = () => {
   };
 
   window.addEventListener(
-    "beforeunload",
+    "unload",
     event => {
       axios.post(`/queue/${localStorage.getItem("email")}`);
     },
-    false
+    true
   );
 
   return (
