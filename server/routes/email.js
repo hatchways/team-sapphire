@@ -11,9 +11,11 @@ const emailQueue = require("../services/emails/email");
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 
 router.post("/queue/:email", jwtVerify, (req, res, next) => {
+  console.log("----QUEUE ROUTE-----------");
   UserModel.findOne({ username: req.params.email }).exec((err, user) => {
     if (user) {
       if (!user.isVerified) {
+        console.log("----QUEUE ROUTE-----------", user);
         const delayedMsg = {
           from: "welcome@mentionscrawler.com",
           to: user.username,
