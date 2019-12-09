@@ -23,8 +23,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Settings = () => {
+  const classes = useStyles();
+  const history = useHistory();
   const [companyNames, setCompanyNames] = useState([]);
-  const [platforms, setPlatforms] = useState({
+  const [companies, setCompanies] = useState([]);
+  const platforms = {
     Reddit: true,
     Twitter: true,
     Facebook: true,
@@ -32,54 +35,16 @@ const Settings = () => {
     Forbes: true,
     Shopify: true,
     "Business Insider": true
-  });
-  const [searchInput, setSearch] = useState("");
-  const [selectedCompanies, setSelectedCompanies] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const [isPlatformOpen, setPlatformOpen] = useState(false);
-  const [isCompanyOpen, setCompanyOpen] = useState(false);
+  };
 
-  const handlePlatformClose = (event) => {
-    setPlatformOpen(false);
-  }
-
-  const handlePlatformOpen = (event) => {
-    setPlatformOpen(true);
-  }
-
-  const handlePlatformChange = (event) => {
-    setSelectedPlatforms(event.target.value);
-  }
-
-  const handleCompanyClose = (event) => {
-    setCompanyOpen(false);
-  }
-
-  const handleCompanyOpen = (event) => {
-    setCompanyOpen(true);
-  }
-
-  const handleCompanyChange = (event) => {
-    setSelectedCompanies(event.target.value);
-  }
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    console.log(event.target.searchfield.value, event.target.companyfield.value, event.target.platformfield.value);
-    setSearch("");
-  }
-
-  const onSearchChange = (event) => {
-    setSearch(event.target.value);
-  }
-
-  const classes = useStyles();
-  const history = useHistory();
   useEffect(() => {
     if (!localStorage.getItem("email")) handleLogout();
     axios
       .get(`/settings/${localStorage.getItem("email")}/company`)
-      .then(res => setCompanyNames(res.data.companies));
+      .then(res => {
+        setCompanyNames(res.data.companies);
+        setCompanies(res.data.settings.companies);
+      });
   }, []);
 
   const handleLogout = async () => {
@@ -93,22 +58,8 @@ const Settings = () => {
   return (
     <div className={classes.dashboardContainer}>
       <Navbar
-        showSearch={true}
-        searchInput={searchInput}
-        onSearchChange={onSearchChange}
         platforms={platforms}
-        selectedPlatforms={selectedPlatforms}
-        isPlatformOpen={isPlatformOpen}
-        handlePlatformClose={handlePlatformClose}
-        handlePlatformOpen={handlePlatformOpen}
-        handlePlatformChange={handlePlatformChange}
-        companies={companyNames}
-        selectedCompanies={selectedCompanies}
-        isCompanyOpen={isCompanyOpen}
-        handleCompanyClose={handleCompanyClose}
-        handleCompanyOpen={handleCompanyOpen}
-        handleCompanyChange={handleCompanyChange}
-        handleSubmit={handleSearchSubmit}
+        companies={companies}
       />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>

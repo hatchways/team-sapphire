@@ -23,7 +23,7 @@ router.get("/:email/company", jwtVerify, (req, res, next) => {
       if (settings) {
         let companyNames = [];
         settings.companies.forEach(company => companyNames.push(company.name));
-        res.send({ companies: companyNames });
+        res.send({ companies: companyNames, settings });
       } else {
         next("User settings doesn't exist!");
       }
