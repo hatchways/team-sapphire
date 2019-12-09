@@ -19,4 +19,42 @@ router.post("/filter", jwtVerify, async (req, res, next) => {
   res.send({success: true, mentions});
 });
 
+const getOrCondition = (items, name) => {
+  if (items.length === 1 && items[0] !== "") {
+    return { [name]: items[0] };
+  } else if (items.length > 1) {
+    let orConditions = {
+      $or: []
+    };
+    for (const item of items) {
+      orConditions.$or.push({ [name]: item });
+    }
+    return orConditions;
+  }
+}
+
+router.get("/searchbar", jwtVerify, (req, res, next) => {
+  const companies = req.query.companies;
+  const platforms = req.query.platforms;
+  const search = req.query.search;
+  let andConditions = [];
+
+  if (companies[0] !== "") {
+    andConditions.push(getOrCondition(companies, "company"));
+  }
+  if (platforms[0] !== "") {
+    andConditions.push(getOrCondition(platforms, "platform"));
+  }
+  andConditions.push({ content: { $regex: search } });
+
+  for (condition of andConditions) {
+    console.log(condition);
+  }
+  Mention.find({})
+         .and(andConditions)
+         .exec((err, mentions) => {
+           res.send({ mentions });
+         })
+});
+
 module.exports = router;
