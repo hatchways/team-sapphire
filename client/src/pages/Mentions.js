@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
     width: "50vw",
     marginLeft: "90px",
     marginTop: "50px"
-
   },
   sortToggleContainer: {
     float: "right",

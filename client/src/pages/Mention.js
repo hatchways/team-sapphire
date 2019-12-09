@@ -38,6 +38,9 @@ const useStyles = makeStyles(theme => ({
     width: "90%",
     height: "90%",
     objectFit: "contain"
+  },
+  companyName: {
+    fontWeight: "bold"
   }
 }));
 
@@ -47,39 +50,62 @@ const Mention = ({ mention, index, setOpen }) => {
     setOpen(true);
   };
 
+  const getSummary = (paragraph, company, length) => {
+    let index = paragraph.toLowerCase().search(company.toLowerCase());
+    let endIndex = index + company.length;
+    if (paragraph.length > length && endIndex >= length) {
+      paragraph = "..." + paragraph.substring(index - length/2, index + length/2) + "...";
+      index = endIndex - (endIndex - length/2) + 3;
+      endIndex = index + company.length;
+    } else if (paragraph.length > length && endIndex < length) {
+      paragraph = paragraph.substring(0, length) + "...";
+    }
+    if (index > -1) {
+      paragraph = <span>
+                {paragraph.substring(0, index)}
+                <span className={classes.companyName}>
+                  {paragraph.substring(index, endIndex)}
+                </span>
+                {paragraph.substring(endIndex)}
+              </span>
+    }
+    return paragraph;
+  }
+
+  const title = getSummary(mention.title, mention.company, 40);
+  const desc = getSummary(mention.desc, mention.company, 200);
+
   return (
-    <div>
-      <Link to={`/dashboard/mentions/${index}`} className={classes.link}>
-        <Card
-          className={classes.cardContainer}
-          key={index}
-          onClick={handleClickOpen}
-        >
-          <Grid container>
-            <Grid item xs={3} className={classes.imageContainer}>
-              <CardMedia
-                component="img"
-                alt="image"
-                image={mention.image}
-                title="Image"
-                className={classes.cardImage}
-              />
-            </Grid>
-            <Grid item xs={9} className={classes.contentContainer}>
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  <LinkTo href={mention.link} rel="noopener" className={classes.link}>
-                    {mention.title}
-                  </LinkTo>
-                </Typography>
-                <Typography>{mention.platform}</Typography>
-                <Typography>{mention.desc}</Typography>
-              </CardContent>
-            </Grid>
+    <Link to={`/dashboard/mentions/${index}`} className={classes.link}>
+      <Card
+        className={classes.cardContainer}
+        key={index}
+        onClick={handleClickOpen}
+      >
+        <Grid container>
+          <Grid item xs={3} className={classes.imageContainer}>
+            <CardMedia
+              component="img"
+              alt="image"
+              image={mention.image}
+              title="Image"
+              className={classes.cardImage}
+            />
           </Grid>
-        </Card>
-      </Link>
-    </div>
+          <Grid item xs={9} className={classes.contentContainer}>
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                <LinkTo href={mention.link} rel="noopener" className={classes.link}>
+                  {title}
+                </LinkTo>
+              </Typography>
+              <Typography>{mention.platform}</Typography>
+              <Typography>{desc}</Typography>
+            </CardContent>
+          </Grid>
+        </Grid>
+      </Card>
+    </Link>
   );
 };
 

@@ -65,8 +65,8 @@ router.get("/:email", jwtVerify, (req, res, next) => {
     if (settings) {
       let companyNames = [];
       settings.companies.forEach(company => companyNames.push(company.name));
-      const interface = new Interface();
-      const mentions = await interface.getNewestMentions(companyNames);
+      const mentionsInterface = new Interface();
+      const mentions = await mentionsInterface.getNewestMentions(companyNames);
       res.send({ success: true, settings, mentions });
     } else {
       next("User settings doesn't exist!");
