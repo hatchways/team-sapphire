@@ -18,7 +18,6 @@ const mentionsInterface = class Interface {
     }
 
     let posts = await Promise.all(promises);
-    console.log(posts);
     for (const post of posts) {
       mentions[post[0].platform] = [...mentions[post[0].platform], ...post];
     }
