@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const Schema = mongoose.Schema;
 
@@ -14,6 +15,8 @@ const MentionSchema = new Schema({
   popularity: Number,
   title: String
 });
+
+MentionSchema.plugin(mongoosePaginate);
 
 const Mention = mongoose.model("Mention", MentionSchema);
 

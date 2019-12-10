@@ -60,41 +60,23 @@ router.get("/searchbar", jwtVerify, (req, res, next) => {
          })
 });
 
-router.get("/initial", jwtVerify, (req, res, next) => {
+router.get("/pagination", jwtVerify, (req, res, next) => {
   let andConditions = getAndConditions(req.query.companies, req.query.platforms, req.query.search);
 
-  const sort = req.query.sort;
-  // { date: "descending" }
-  // "-date"
-  // { popularity: "descending" }
-  // "-popularity"
+  const sortBy = req.query.sortBy;
+  // date or popularity
+  const page = req.query.page;
+  //Math.floor(mentions / 10) + 1
+  const options = {
+    page,
+    limit: 10,
+    sort: { [sortBy]: -1 },
+  };
+  const query = { $and: andConditions };
 
-  Mention.find({})
-         .and(andConditions)
-         .sort("-" + sort)
-         .limit(10)
-         .exec((err, mentions) => {
-           res.send({ mentions });
-         })
-});
-
-router.get("/infinitescroll", jwtVerify, (req, res, next) => {
-  let andConditions = getAndConditions(req.query.companies, req.query.platforms, req.query.search);
-  const sort = req.query.sort;
-  const lastMention = req.query.lastMention;
-  andConditions.push({ [sort]: { $lte: lastMention[sort] } });
-  andConditions.push({ postId: { $ne: lastMention.postId } })
-  // const skip = { $and: [
-  //   [sort]: { $lte: lastMention[sort] },
-  //   postId: { $ne: lastMention.postId }
-  // ]};
-
-  Mention.find({ $and: andConditions })
-         .sort("-" + sort)
-         .limit(10)
-         .exec((err, mentions) => {
-           res.send({ mentions });
-         })
+  Mention.paginate(query, options, (err, mentions) => {
+    res.send({ mentions: mentions.docs, hasNextPage: mentions.hasNextPage, page: mentions.page });
+  });
 });
 
 module.exports = router;
