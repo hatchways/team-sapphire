@@ -33,19 +33,22 @@ const getOrCondition = (items, name) => {
   }
 }
 
-router.get("/searchbar", jwtVerify, (req, res, next) => {
-  const companies = req.query.companies;
-  const platforms = req.query.platforms;
-  const search = req.query.search;
+const getAndConditions = (companies, platforms, search) => {
   let andConditions = [];
-
   if (companies[0] !== "") {
     andConditions.push(getOrCondition(companies, "company"));
   }
   if (platforms[0] !== "") {
     andConditions.push(getOrCondition(platforms, "platform"));
   }
-  andConditions.push({ content: { $regex: search } });
+  if (search) {
+    andConditions.push({ content: { $regex: search } });
+  }
+  return andConditions;
+}
+
+router.get("/searchbar", jwtVerify, (req, res, next) => {
+  let andConditions = getAndConditions(req.query.companies, req.query.platforms, req.query.search);
 
   for (condition of andConditions) {
     console.log(condition);
@@ -57,16 +60,41 @@ router.get("/searchbar", jwtVerify, (req, res, next) => {
          })
 });
 
+router.get("/initial", jwtVerify, (req, res, next) => {
+  let andConditions = getAndConditions(req.query.companies, req.query.platforms, req.query.search);
+
+  const sort = req.query.sort;
+  // { date: "descending" }
+  // "-date"
+  // { popularity: "descending" }
+  // "-popularity"
+
+  Mention.find({})
+         .and(andConditions)
+         .sort("-" + sort)
+         .limit(10)
+         .exec((err, mentions) => {
+           res.send({ mentions });
+         })
+});
+
 router.get("/infinitescroll", jwtVerify, (req, res, next) => {
-  const cursor = req.query.cursor;
-  let mentions = [];
-  for (let i=0; i<10; i++) {
-    if (cursor.hasNext()) {
-      cursor = cursor.next();
-      mentions.push(cursor);
-    }
-  }
-  res.send({ mentions });
+  let andConditions = getAndConditions(req.query.companies, req.query.platforms, req.query.search);
+  const sort = req.query.sort;
+  const lastMention = req.query.lastMention;
+  andConditions.push({ [sort]: { $lte: lastMention[sort] } });
+  andConditions.push({ postId: { $ne: lastMention.postId } })
+  // const skip = { $and: [
+  //   [sort]: { $lte: lastMention[sort] },
+  //   postId: { $ne: lastMention.postId }
+  // ]};
+
+  Mention.find({ $and: andConditions })
+         .sort("-" + sort)
+         .limit(10)
+         .exec((err, mentions) => {
+           res.send({ mentions });
+         })
 });
 
 module.exports = router;
