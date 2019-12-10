@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import queryString from 'query-string';
+import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -74,14 +74,15 @@ function Dashboard() {
           socket.connect();
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          setMentions(res.data.mentions.Reddit.concat(...res.data.mentions.Twitter));
+          setMentions(
+            res.data.mentions.Reddit.concat(...res.data.mentions.Twitter)
+          );
         }
       })
       .catch(error => {
         console.error(error);
-      })
-      return () => socket.disconnect();
-
+      });
+    return () => socket.disconnect();
   }, []);
 
   const handlePlatformToggle = platform => {
@@ -114,10 +115,7 @@ function Dashboard() {
   const classes = useStyles();
   return (
     <div>
-      <Navbar
-        platforms={platforms}
-        companies={companies}
-      />
+      <Navbar platforms={platforms} companies={companies} />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>
           <Platforms

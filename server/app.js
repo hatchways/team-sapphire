@@ -39,12 +39,15 @@ app.use(
         {
           // Name of the bull queue, this name must match up exactly with what you've defined in bull.
           name: "delayedEmailQueue",
-
           // Hostname or queue prefix, you can put whatever you want.
           hostId: "Mentions",
-
           // Redis auth.
-          redis: "redis://127.0.0.1:6379"
+          redis: process.env.REDIS_AUTH
+        },
+        {
+          name: "weeklyEmailQueue",
+          hostId: "Mentions",
+          redis: process.env.REDIS_AUTH
         }
       ]
     },
