@@ -39,7 +39,7 @@ router.get("/queue/:email/report", jwtVerify, (req, res, next) => {
           text: "Weekly Report!"
         };
         // weeklyEmailQueue.add(report, { repeat: { every: 30000 } });
-        weeklyEmailQueue.add(report, { delay: 10000 });
+        // weeklyEmailQueue.add(report, { delay: 10000 });
       }
       res.status(200).send({ success: true, message: "email sent to user" });
     } else {
