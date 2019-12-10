@@ -13,7 +13,7 @@ const generateWeeklyEmailBody = responses => {
     >
     <img
     src=${response.image}
-    alt=${response.pokemon}
+    alt=${response.company}
     style="z-index: 5;
     width: 120px;
     height: 140px;
