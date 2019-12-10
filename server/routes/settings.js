@@ -121,4 +121,15 @@ router.put("/:email", jwtVerify, (req, res, next) => {
   });
 });
 
+router.put("/:email/subscribe", jwtVerify, (req, res, next) => {
+  UserModel.findOne({ username: req.params.email }).exec((err, user) => {
+    if (user) {
+      user.subscribed = !user.subscribed;
+      saveUser(user, res);
+    } else {
+      next("User settings doesn't exist!");
+    }
+  });
+});
+
 module.exports = router;

@@ -22,6 +22,10 @@ const SettingSchema = new Schema({
       Shopify: true,
       "Business Insider": true
     }
+  },
+  subscribed: {
+    type: Boolean,
+    default: true
   }
 });
 
