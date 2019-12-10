@@ -107,13 +107,19 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
 
   const [companyNameInput, setCompanyNameInput] = useState("");
 
-  const onClickHandler = event => {
+  const onClickHandler = async event => {
     event.preventDefault();
     if (companyNames.length > 0) {
-      history.push("/dashboard");
-      if (!localStorage.getItem("isVerified")) {
-        axios.put(`/settings/${localStorage.getItem("email")}`);
+      if (localStorage.getItem("isVerified") === "false") {
+        let response = await axios.put(
+          `/settings/${localStorage.getItem("email")}`
+        );
+        if (response.data.success) {
+          await axios.get(`/queue/${localStorage.getItem("email")}/report`);
+        }
       }
+
+      history.push("/dashboard");
     } else {
       setCompanyNameSaveError("Add at least one company name");
     }

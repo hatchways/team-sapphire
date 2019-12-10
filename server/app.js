@@ -45,6 +45,16 @@ app.use(
 
           // Redis auth.
           redis: "redis://127.0.0.1:6379"
+        },
+        {
+          // Name of the bull queue, this name must match up exactly with what you've defined in bull.
+          name: "weeklyEmailQueue",
+
+          // Hostname or queue prefix, you can put whatever you want.
+          hostId: "Mentions",
+
+          // Redis auth.
+          redis: "redis://127.0.0.1:6379"
         }
       ]
     },
