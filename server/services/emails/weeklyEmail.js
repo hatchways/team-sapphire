@@ -2,7 +2,7 @@ const Queue = require("bull");
 const Arena = require("bull-arena");
 const sgMail = require("@sendgrid/mail");
 const MentionModel = require("../../models/Mention");
-const { generateEmailBody } = require("../emails/weeklyEmailHelper");
+const { generateWeeklyEmailBody } = require("./emailHelper");
 
 require("dotenv").config();
 
@@ -23,7 +23,7 @@ weeklyEmailQueue.process(async (job, done) => {
     from,
     subject,
     text,
-    html: await generateEmailBody(response)
+    html: await generateWeeklyEmailBody(response)
   };
   // sgMail.send(message);
   done(null, to);

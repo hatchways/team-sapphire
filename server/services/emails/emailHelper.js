@@ -1,4 +1,4 @@
-const generateEmailBody = responses => {
+const generateWeeklyEmailBody = responses => {
   const individualResponse = () => {
     let string = "";
     for (let response of responses) {
@@ -149,6 +149,7 @@ const generateEmailBody = responses => {
   margin-bottom: 40px;
   "
   >
+  <a href='http://localhost:3000/login'>
   <button style="z-index: 4;
   width: 170px;
   height: 56px;
@@ -172,6 +173,7 @@ const generateEmailBody = responses => {
   Check More
   </span>
   </button> 
+  </a>
   </div>
   </div>
   </body>
@@ -179,4 +181,112 @@ const generateEmailBody = responses => {
   `
   );
 };
-module.exports = { generateEmailBody };
+
+const generateDelayedEmailBody = () => {
+  return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <title>Weekly Report</title>
+  </head>
+  <body>
+  <div style="width: 560px;
+  height: 150px;
+  margin: auto;
+  margin-top: 30px;
+  background: linear-gradient(-45deg, #4872D8, #6583F2);
+  z-index: 4;
+  "
+  >
+  <span style="z-index: 4;
+  width: 205.9px;
+  height: 40px;
+  color: #ffffff;
+  font-family: GothamPro-Bold;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 40px;
+  text-transform: uppercase;
+  letter-spacing: -1.25px;
+  margin: auto;
+  margin-left: 10%;
+  line-height: 150px;
+  "
+  >
+  Mentions Crawler
+  </span>
+  <span style="z-index: 5;
+  opacity: 0.099071;
+  width: 100px;
+  height: 100px;
+  font-size: 100px;
+  color: #ffffff;
+  margin: auto;
+  margin-right: 10%;
+  line-height: 150px;
+  float: right
+  "
+  >
+  @
+  </span>
+  </div>
+  <div>
+  <div style="width: 560px;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  "
+  >
+  <span style="z-index: 4;
+  width: 365px;
+  height: 22px;
+  font-family: Verdana;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  "
+  >
+  We miss you! Checkout your Dashboard!
+  </span>
+  </div>
+  <div>
+    
+  </div>
+  <div style="z-index: 4;
+  width: 124px;
+  height: 34px;
+  margin: auto;
+  margin-bottom: 40px;
+  "
+  >
+  <a href='http://localhost:3000/login'>
+  <button style="z-index: 4;
+  width: 170px;
+  height: 56px;
+  background: #6583f2;
+  border-radius: 50px;
+  box-shadow: 0px 0px30px #476bf0;
+  "
+  >
+  <span style="z-index: 4;
+  width: 78.83px;
+  height: 17px;
+  color: #ffffff;
+  font-family: GothamPro-Bold;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: center;
+  text-transform: uppercase;
+  "
+  >
+  Check More
+  </span>
+  </button> 
+  </a>
+  </div>
+  </div>
+  </body>
+  </html>
+  `;
+};
+module.exports = { generateWeeklyEmailBody, generateDelayedEmailBody };
