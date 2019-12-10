@@ -13,7 +13,7 @@ const generateEmailBody = responses => {
     >
     <img
     src=${response.image}
-    alt="AHHHHHHHH"
+    alt=${response.pokemon}
     style="z-index: 5;
     width: 120px;
     height: 140px;
@@ -180,61 +180,3 @@ const generateEmailBody = responses => {
   );
 };
 module.exports = { generateEmailBody };
-
-// let responsesss = [ { _id: 5defe92ad5f45067a3da2bc7,
-//   company: 'pokemon',
-//   platform: 'Reddit',
-//   postId: 'e8up3a',
-//   userId: 't2_kuaiy',
-//   content: '',
-//   date: 'Tue Dec 10 2019 13:41:43 GMT-0500 (Eastern Standard Time)',
-//   link:
-//    'https://www.reddit.com/r/pokemon/comments/e8up3a/i_have_now_tried_to_faithfully_recreate_celestic/',
-//   image:
-//    'https://b.thumbs.redditmedia.com/MVwzQYOya_wUhuLtO1U0AOsDlru221-ANWxzfS2odCI.jpg',
-//   popularity: 24,
-//   title:
-//    'I have now tried to faithfully recreate Celestic Town in the style of Red and Blue',
-//   __v: 0 },
-// { _id: 5defe92ad5f45067a3da2bd1,
-//   company: 'pokemon',
-//   platform: 'Reddit',
-//   postId: 'e8umkn',
-//   userId: 't2_4rostcmm',
-//   content: '',
-//   date: 'Tue Dec 10 2019 13:36:39 GMT-0500 (Eastern Standard Time)',
-//   link:
-//    'https://www.reddit.com/r/memes/comments/e8umkn/6_pokemon_aint_enough/',
-//   image:
-//    'https://b.thumbs.redditmedia.com/NHBMwNfIDHPsHpSigTnXuAUX69BORxmN4VNvEXDz1hw.jpg',
-//   popularity: 20,
-//   title: '6 Pokemon ain\'t enough',
-//   __v: 0 },
-// { _id: 5defe92ad5f45067a3da2bd2,
-//   company: 'pokemon',
-//   platform: 'Reddit',
-//   postId: 'e8ulrp',
-//   userId: 't2_132jat',
-//   content: '',
-//   date: 'Tue Dec 10 2019 13:35:05 GMT-0500 (Eastern Standard Time)',
-//   link:
-//    'https://www.reddit.com/r/pokemon/comments/e8ulrp/redesigned_primarina/',
-//   image:
-//    'https://b.thumbs.redditmedia.com/Ri6M7GppcaPG3KOes8QqDPqa4cvD0UkKAeUchPNXn2A.jpg',
-//   popularity: 15,
-//   title: 'Redesigned Primarina',
-//   __v: 0 },
-// { _id: 5defe92ad5f45067a3da2bcf,
-//   company: 'pokemon',
-//   platform: 'Reddit',
-//   postId: 'e8un7u',
-//   userId: 't2_4g574udv',
-//   content: '',
-//   date: 'Tue Dec 10 2019 13:37:54 GMT-0500 (Eastern Standard Time)',
-//   link:
-//    'https://www.reddit.com/r/pokemon/comments/e8un7u/marnie_best_girl_in_pokemon/',
-//   image:
-//    'https://b.thumbs.redditmedia.com/6HiQcJQupaF2Ko4Msna7DT1E3nSjpG9-gjCFvtIg-FY.jpg',
-//   popularity: 13,
-//   title: 'Marnie best girl in Pokemon',
-//   __v: 0 } ]
