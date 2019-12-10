@@ -38,20 +38,23 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("email")) handleLogout();
-    axios
-      .get(`/settings/${localStorage.getItem("email")}/company`)
-      .then(res => {
-        setCompanyNames(res.data.companies);
-        setCompanies(res.data.settings.companies);
-      });
+    if (!localStorage.getItem("email")) {
+      handleLogout();
+    } else {
+      axios
+        .get(`/settings/${localStorage.getItem("email")}/company`)
+        .then(res => {
+          setCompanyNames(res.data.companies);
+          setCompanies(res.data.settings.companies);
+        });
+    }
   }, []);
 
   const handleLogout = async () => {
     let response = await axios.post("/logout");
     if (response.data.success) {
       localStorage.clear();
-      history.push("/login");
+      history.push("/login?redirect=settings");
     }
   };
 

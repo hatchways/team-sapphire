@@ -78,7 +78,6 @@ const Navbar = ({
   const [loginRegisterMessage, setLoginRegisterMessage] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   useEffect(() => {
-    let navElements = <div/>;
     const location = history.location.pathname;
     if (location.substring(0, 10) === "/dashboard" || location === "/settings") {
       setShowSearch(true);
