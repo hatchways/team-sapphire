@@ -36,8 +36,7 @@ router.get("/queue/:email/report", jwtVerify, (req, res, next) => {
           from: "welcome@mentionscrawler.com",
           to: user.username,
           subject: "Weekly Report",
-          text: "Weekly Report!",
-          html: "<strong>Weekly Report!</strong>"
+          text: "Weekly Report!"
         };
         // weeklyEmailQueue.add(report, { repeat: { every: 15000 } });
       }

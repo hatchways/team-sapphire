@@ -7,7 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const delayedEmailQueue = new Queue(
   "delayedEmailQueue",
-  "redis://127.0.0.1:6379"
+  process.env.REDIS_AUTH
 );
 
 delayedEmailQueue.process(async (job, done) => {
