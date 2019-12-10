@@ -115,7 +115,8 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
           `/settings/${localStorage.getItem("email")}`
         );
         if (response.data.success) {
-          await axios.get(`/queue/${localStorage.getItem("email")}/report`);
+          localStorage.setItem("isVerified", response.data.user.isVerified);
+          axios.get(`/queue/${localStorage.getItem("email")}/report`);
         }
       }
 
