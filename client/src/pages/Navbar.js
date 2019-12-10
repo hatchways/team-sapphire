@@ -82,11 +82,11 @@ const Navbar = ({
     if (location.substring(0, 10) === "/dashboard" || location === "/settings") {
       setShowSearch(true);
     } else if (location === "/login") {
-      setRedirect("/register");
+      setRedirect(`/register${history.location.search}`);
       setLoginRegisterName("Sign Up");
       setLoginRegisterMessage("Don't have an account?");
     } else if (location === "/register") {
-      setRedirect("/login");
+      setRedirect(`/login${history.location.search}`);
       setLoginRegisterName("Login");
       setLoginRegisterMessage("Already have an account?");
     }
