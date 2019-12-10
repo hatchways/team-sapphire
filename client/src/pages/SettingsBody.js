@@ -9,7 +9,6 @@ import CompanyNameTextfield from "./CompanyNameTextfield";
 
 const useStyles = makeStyles(theme => ({
   bodyContainer: {
-    height: "100vh",
     width: "50vw",
     paddingTop: "30px",
     paddingLeft: "100px"

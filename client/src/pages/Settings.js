@@ -12,13 +12,13 @@ import LeftSideBar from "./LeftSideBar";
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
     backgroundColor: "#fafbff",
-    height: "100vh",
-    width: "72vw",
+    height: "calc(100vh - 92px)",
+    width: "72%",
     borderLeft: "2px solid #e9eaee"
   },
   leftGridContainer: {
-    height: "100vh",
-    width: "28vw"
+    height: "calc(100vh - 92px)",
+    width: "28%"
   }
 }));
 

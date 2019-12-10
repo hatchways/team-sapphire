@@ -15,12 +15,12 @@ const useStyles = makeStyles(theme => ({
     height: "calc(100vh - 92px)",
     overflow: "scroll",
     borderLeft: "2px solid #e9eaee",
-    width: "72vw"
+    width: "72%"
   },
   leftGridContainer: {
     height: "calc(100vh - 92px)",
     paddingTop: "25px",
-    width: "28vw"
+    width: "28%"
   }
 }));
 
