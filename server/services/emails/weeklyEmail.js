@@ -2,7 +2,8 @@ const Queue = require("bull");
 const Arena = require("bull-arena");
 const sgMail = require("@sendgrid/mail");
 const MentionModel = require("../../models/Mention");
-const generateEmailBody = require("../emails/weeklyEmailHelper");
+const { generateEmailBody } = require("../emails/weeklyEmailHelper");
+
 require("dotenv").config();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -11,13 +12,18 @@ const weeklyEmailQueue = new Queue("weeklyEmailQueue", process.env.REDIS_AUTH);
 
 weeklyEmailQueue.process(async (job, done) => {
   const { from, to, subject, text } = job.data;
-  let response = await MentionModel.find();
+  let d = new Date(new Date() - 7 * 24 * 60 * 60 * 1000);
+
+  let response = await MentionModel.find({ date: { $gt: d } })
+    .sort({ popularity: -1 })
+    .limit(4);
+
   const message = {
     to,
     from,
     subject,
     text,
-    html: "poop"
+    html: await generateEmailBody(response)
   };
   // sgMail.send(message);
   done(null, to);
