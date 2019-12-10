@@ -27,6 +27,7 @@ const Settings = () => {
   const history = useHistory();
   const [companyNames, setCompanyNames] = useState([]);
   const [companies, setCompanies] = useState([]);
+  const [subscribed, setSubscribed] = useState(false);
   const platforms = {
     Reddit: true,
     Twitter: true,
@@ -44,6 +45,7 @@ const Settings = () => {
       .then(res => {
         setCompanyNames(res.data.companies);
         setCompanies(res.data.settings.companies);
+        setSubscribed(res.data.settings.subscribed);
       });
   }, []);
 
@@ -54,6 +56,14 @@ const Settings = () => {
       history.push("/login");
     }
   };
+
+  const toggleSubscription = () => {
+    axios
+      .put(`/settings/${localStorage.getItem("email")}/subscribe`)
+      .then(res => {
+        setSubscribed(res.data.settings.subscribed);
+      });
+  }
 
   return (
     <div className={classes.dashboardContainer}>
@@ -66,6 +76,8 @@ const Settings = () => {
           <SettingsBody
             companyNames={companyNames}
             setCompanyNames={setCompanyNames}
+            subscribed={subscribed}
+            toggleSubscription={toggleSubscription}
           />
         </Grid>
       </Grid>

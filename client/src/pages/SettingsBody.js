@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
+import { Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import CompanyNameTextfield from "./CompanyNameTextfield";
@@ -98,7 +99,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
+const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames, subscribed, toggleSubscription }) => {
   const classes = useStyles();
   const history = useHistory();
   const [companyNameSaveError, setCompanyNameSaveError] = useState("");
@@ -195,6 +196,13 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
             {localStorage.getItem("email")}
           </div>
         </div>
+      </div>
+      <div className={classes.userEmailInput}>
+        <b className={classes.emailTitle}>Subscribed?</b>
+        <Checkbox
+          checked={subscribed}
+          onClick={toggleSubscription}
+        />
       </div>
 
       <p className={classes.error}>{companyNameSaveError}</p>
