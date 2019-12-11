@@ -12,13 +12,13 @@ import LeftSideBar from "./LeftSideBar";
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
     backgroundColor: "#fafbff",
-    height: "100vh",
-    width: "72vw",
+    height: "calc(100vh - 92px)",
+    width: "72%",
     borderLeft: "2px solid #e9eaee"
   },
   leftGridContainer: {
-    height: "100vh",
-    width: "28vw"
+    height: "calc(100vh - 92px)",
+    width: "28%"
   }
 }));
 
@@ -27,6 +27,7 @@ const Settings = () => {
   const history = useHistory();
   const [companyNames, setCompanyNames] = useState([]);
   const [companies, setCompanies] = useState([]);
+  const [subscribed, setSubscribed] = useState(false);
   const platforms = {
     Reddit: true,
     Twitter: true,
@@ -46,6 +47,7 @@ const Settings = () => {
         .then(res => {
           setCompanyNames(res.data.companies);
           setCompanies(res.data.settings.companies);
+          setSubscribed(res.data.settings.subscribed);
         });
     }
   }, []);
@@ -58,6 +60,14 @@ const Settings = () => {
     }
   };
 
+  const toggleSubscription = () => {
+    axios
+      .put(`/settings/${localStorage.getItem("email")}/subscribe`)
+      .then(res => {
+        setSubscribed(res.data.settings.subscribed);
+      });
+  }
+
   return (
     <div className={classes.dashboardContainer}>
       <Navbar platforms={platforms} companies={companies} />
@@ -69,6 +79,8 @@ const Settings = () => {
           <SettingsBody
             companyNames={companyNames}
             setCompanyNames={setCompanyNames}
+            subscribed={subscribed}
+            toggleSubscription={toggleSubscription}
           />
         </Grid>
       </Grid>
