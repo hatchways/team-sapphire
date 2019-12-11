@@ -8,11 +8,12 @@ const MentionSchema = new Schema({
   postId: String,
   userId: String,
   content: String,
-  date: String,
+  date: Number,
   link: String,
   image: String,
   popularity: Number,
-  title: String
+  title: String,
+  rating: Number
 });
 
 const Mention = mongoose.model("Mention", MentionSchema);

@@ -19,7 +19,9 @@ const mentionsInterface = class Interface {
 
     let posts = await Promise.all(promises);
     for (const post of posts) {
-      mentions[post[0].platform] = [...mentions[post[0].platform], ...post];
+      if(post[0]){
+        mentions[post[0].platform] = [...mentions[post[0].platform], ...post];
+      }
     }
     return mentions;
   }
