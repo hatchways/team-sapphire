@@ -26,7 +26,7 @@ const getNewMention = async (post, company) => {
 
 const getNYTPosts = async company => {
   const url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?fq=organizations.contains:(${company})&sort=newest&api-key=${process.env.NYT_API_KEY}`;
-  await request(url, { json: true }, (err, res, nyt) => {
+  await request(url, { json: true }, async (err, res, nyt) => {
     if (err) {
       return [];
     }
