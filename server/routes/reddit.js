@@ -10,7 +10,7 @@ const r = new snoowrap({
   refreshToken: process.env.REDDIT_REFRESH_TOKEN
 });
 
-const getNewMention = async post => {
+const getNewMention = async (post, company) => {
   let image =
     "https://images-eu.ssl-images-amazon.com/images/I/418PuxYS63L.png";
   if (post.thumbnail === "image") {
@@ -45,7 +45,7 @@ const getRedditPosts = async (company, sort, time) => {
   for (const post of posts) {
     await Mention.findOne({ postId: post.id }, async (err, mention) => {
       if (!mention) {
-        let newMention = await getNewMention(post);
+        let newMention = await getNewMention(post, company);
         await newMention.save((err, savedMention) => {
           submissions.push(savedMention);
         });
