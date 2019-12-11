@@ -1,6 +1,8 @@
 const Twitter = require("twitter");
 const Mention = require("../models/Mention");
+const Sentiment = require("sentiment");
 
+const sentiment = new Sentiment();
 const client = new Twitter({
   consumer_key: process.env.TWITTER_API_KEY,
   consumer_secret: process.env.TWITTER_API_SECRET,
@@ -20,9 +22,11 @@ const getNewTweets = async company => {
     tweet => tweet.text.slice(0, 2) !== "RT"
   );
   for (const tweet of tweets.statuses) {
-    await Mention.findOne({ postId: tweet.id }, async (err, mention) => {
+    await Mention.findOne({ postId: tweet.id_str }, async (err, mention) => {
       if (!mention) {
-        let date = new Date(tweet.created_at);
+        let date = Math.floor(new Date(tweet.created_at).getTime() / 1000);
+        let rating = await sentiment.analyze(tweet.text);
+        rating = rating.comparative;
         let newMention = new Mention({
           company: company,
           platform: "Twitter",
@@ -41,7 +45,8 @@ const getNewTweets = async company => {
             tweet.text
               .split(" ")
               .slice(0, 5)
-              .join(" ") + "..."
+              .join(" ") + "...",
+          rating
         });
         await newMention.save((err, savedMention) => {
           allTweets.push(savedMention);
