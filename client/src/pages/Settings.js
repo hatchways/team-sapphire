@@ -39,21 +39,24 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("email")) handleLogout();
-    axios
-      .get(`/settings/${localStorage.getItem("email")}/company`)
-      .then(res => {
-        setCompanyNames(res.data.companies);
-        setCompanies(res.data.settings.companies);
-        setSubscribed(res.data.settings.subscribed);
-      });
+    if (!localStorage.getItem("email")) {
+      handleLogout();
+    } else {
+      axios
+        .get(`/settings/${localStorage.getItem("email")}/company`)
+        .then(res => {
+          setCompanyNames(res.data.companies);
+          setCompanies(res.data.settings.companies);
+          setSubscribed(res.data.settings.subscribed);
+        });
+    }
   }, []);
 
   const handleLogout = async () => {
     let response = await axios.post("/logout");
     if (response.data.success) {
       localStorage.clear();
-      history.push("/login");
+      history.push("/login?redirect=settings");
     }
   };
 

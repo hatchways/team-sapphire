@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import queryString from 'query-string';
+import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -43,45 +43,48 @@ function Dashboard() {
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
-    if (!localStorage.getItem("email")) handleLogout();
+    if (!localStorage.getItem("email")) {
+      handleLogout();
+    } else {
+      if (history.location.search.length > 0) {
+        const query = queryString.parse(history.location.search);
+        console.log(query);
+        axios
+          .get(`/search/searchbar`, {
+            params: {
+              companies: query.companies.split(","),
+              platforms: query.platforms.split(","),
+              search: query.search
+            }
+          })
+          .then(res => {
+            setMentions(res.data.mentions);
+            //empty array since we are not using the mentions model yet
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
 
-    if (history.location.search.length > 0) {
-      const query = queryString.parse(history.location.search);
-      console.log(query);
       axios
-        .get(`/search/searchbar`, {
-          params: {
-            companies: query.companies.split(","),
-            platforms: query.platforms.split(","),
-            search: query.search
-          }
-        })
+        .get(`/settings/${localStorage.getItem("email")}/mentions`)
         .then(res => {
-          setMentions(res.data.mentions);
-          //empty array since we are not using the mentions model yet
+          if (res.data.authenticated === false) {
+            handleLogout();
+          } else if (res.data.success) {
+            socket.connect();
+            setPlatforms(res.data.settings.platforms);
+            setCompanies(res.data.settings.companies);
+            setMentions(
+              res.data.mentions.Reddit.concat(...res.data.mentions.Twitter)
+            );
+          }
         })
         .catch(error => {
           console.error(error);
         });
-    }
-
-    axios
-      .get(`/settings/${localStorage.getItem("email")}/mentions`)
-      .then(res => {
-        if (res.data.authenticated === false) {
-          handleLogout();
-        } else if (res.data.success) {
-          socket.connect();
-          setPlatforms(res.data.settings.platforms);
-          setCompanies(res.data.settings.companies);
-          setMentions(res.data.mentions.Reddit.concat(...res.data.mentions.Twitter));
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      })
       return () => socket.disconnect();
-
+    }
   }, []);
 
   const handlePlatformToggle = platform => {
@@ -108,16 +111,13 @@ function Dashboard() {
     if (response.data.success) {
       socket.disconnect();
       localStorage.clear();
-      history.push("/login");
+      history.push("/login?redirect=dashboard");
     }
   };
   const classes = useStyles();
   return (
     <div>
-      <Navbar
-        platforms={platforms}
-        companies={companies}
-      />
+      <Navbar platforms={platforms} companies={companies} />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>
           <Platforms

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import queryString from "query-string";
 import { withSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
+
 import Navbar from "./Navbar";
 
 import {
@@ -75,8 +77,13 @@ const Register = ({ enqueueSnackbar }) => {
       .then(res => {
         if (res.data.success) {
           localStorage.setItem("email", res.data.user.username);
-
-          history.push("/settings");
+          localStorage.setItem("isVerified", res.data.user.isVerified);
+          if (history.location.search.length > 0) {
+            const query = queryString.parse(history.location.search);
+            history.push(`/${query.redirect}`);
+          } else {
+            history.push("/settings");
+          }
         }
       })
 
