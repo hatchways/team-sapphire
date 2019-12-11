@@ -1,5 +1,5 @@
 const express = require("express");
-const { getNewestRedditPosts } = require("./../routes/reddit");
+const { getRedditPosts } = require("./../routes/reddit");
 const { getNewTweets } = require("./../routes/twitter");
 const Mention = require("./Mention");
 
@@ -13,7 +13,7 @@ const mentionsInterface = class Interface {
     let promises = [];
 
     for (const company of companies) {
-      promises.push(getNewestRedditPosts(company));
+      promises.push(getRedditPosts(company, "new", "all"));
       promises.push(getNewTweets(company));
     }
 
