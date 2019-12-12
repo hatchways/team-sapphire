@@ -23,9 +23,14 @@ weeklyEmailQueue.process(async (job, done) => {
     from,
     subject,
     text,
-    html: await generateWeeklyEmailBody(response)
+    html: await generateWeeklyEmailBody(response),
+    mail_settings: {
+      sandbox_mode: {
+        enable: true
+      }
+    }
   };
-  // sgMail.send(message);
+  sgMail.send(message);
   done(null, to);
 });
 

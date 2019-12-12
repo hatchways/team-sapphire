@@ -37,13 +37,11 @@ function Mentions(props) {
   const [open, setOpen] = useState(true);
 
   if (props.sort === 0) {
-    props.mentions.sort((a, b) => {
-      a = new Date(a.date);
-      b = new Date(b.date);
-      return b - a;
-    });
-  } else {
+    props.mentions.sort((a, b) => b.date - a.date);
+  } else if (props.sort === 1){
     props.mentions.sort((a, b) => b.popularity - a.popularity);
+  } else {
+    props.mentions.sort((a, b) => b.rating - a.rating);
   }
   const mentions = props.mentions.map((mention, i) => {
     if (!localStorage.getItem(`${mention.link}`)) {
@@ -67,6 +65,7 @@ function Mentions(props) {
           >
             <Tab label="Most recent" className={classes.sortToggleContainer} />
             <Tab label="Most popular" className={classes.sortToggleContainer} />
+            <Tab label="Most positive" className={classes.sortToggleContainer} />
           </Tabs>
         </Paper>
       </Typography>

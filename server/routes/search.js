@@ -33,19 +33,22 @@ const getOrCondition = (items, name) => {
   }
 }
 
-router.get("/searchbar", jwtVerify, (req, res, next) => {
-  const companies = req.query.companies;
-  const platforms = req.query.platforms;
-  const search = req.query.search;
+const getAndConditions = (companies, platforms, search) => {
   let andConditions = [];
-
   if (companies[0] !== "") {
     andConditions.push(getOrCondition(companies, "company"));
   }
   if (platforms[0] !== "") {
     andConditions.push(getOrCondition(platforms, "platform"));
   }
-  andConditions.push({ content: { $regex: search } });
+  if (search) {
+    andConditions.push({ content: { $regex: search } });
+  }
+  return andConditions;
+}
+
+router.get("/searchbar", jwtVerify, (req, res, next) => {
+  let andConditions = getAndConditions(req.query.companies, req.query.platforms, req.query.search);
 
   for (condition of andConditions) {
     console.log(condition);
@@ -55,6 +58,25 @@ router.get("/searchbar", jwtVerify, (req, res, next) => {
          .exec((err, mentions) => {
            res.send({ mentions });
          })
+});
+
+router.get("/pagination", jwtVerify, (req, res, next) => {
+  let andConditions = getAndConditions(req.query.companies, req.query.platforms, req.query.search);
+
+  const sortBy = req.query.sortBy;
+  // date or popularity
+  const page = req.query.page;
+  //Math.floor(mentions / 10) + 1
+  const options = {
+    page,
+    limit: 10,
+    sort: { [sortBy]: -1 },
+  };
+  const query = { $and: andConditions };
+
+  Mention.paginate(query, options, (err, mentions) => {
+    res.send({ mentions: mentions.docs, hasNextPage: mentions.hasNextPage, page: mentions.page });
+  });
 });
 
 module.exports = router;

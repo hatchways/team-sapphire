@@ -1,6 +1,8 @@
 const snoowrap = require("snoowrap");
 const Mention = require("../models/Mention");
+const Sentiment = require("sentiment")
 
+const sentiment = new Sentiment();
 const r = new snoowrap({
   userAgent: "mentionscrawler",
   clientId: process.env.REDDIT_CLIENT_ID,
@@ -23,6 +25,9 @@ const getNewestRedditPosts = async company => {
         }
         let date = new Date(0);
         date.setUTCSeconds(post.created_utc);
+        date = Math.floor(date.getTime()/1000);
+        let rating = await sentiment.analyze(post.selftext);
+        rating = rating.comparative;
         let newMention = new Mention({
           company: company,
           platform: "Reddit",
@@ -33,7 +38,8 @@ const getNewestRedditPosts = async company => {
           link: "https://www.reddit.com" + post.permalink,
           image,
           popularity: post.ups + post.num_comments,
-          title: post.title
+          title: post.title,
+          rating
         });
         await newMention.save((err, savedMention) => {
           submissions.push(savedMention);

@@ -50,9 +50,14 @@ router.post("/register", async (req, res, next) => {
                 text:
                   "Find mentions of your companies through platforms like Reddit and Twitter!",
                 html:
-                  "<strong>Find mentions of your companies through platforms like Reddit and Twitter!</strong>"
+                  "<strong>Find mentions of your companies through platforms like Reddit and Twitter!</strong>",
+                mail_settings: {
+                  sandbox_mode: {
+                    enable: true
+                  }
+                }
               };
-              // sgMail.send(msg);
+              sgMail.send(msg);
               let token = jwt.sign({ userId: user._id }, process.env.SECRET, {
                 expiresIn: "24h"
               });

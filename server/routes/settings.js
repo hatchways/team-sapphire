@@ -64,6 +64,17 @@ router.put("/:email/platform/:platform", jwtVerify, (req, res, next) => {
   });
 });
 
+router.put("/:email/subscribe", jwtVerify, (req, res, next) => {
+  SettingsModel.findOne({ email: req.params.email }, (err, settings) => {
+    if (settings) {
+      settings.subscribed = !settings.subscribed;
+      saveSettings(settings, res);
+    } else {
+      next("User settings doesn't exist!");
+    }
+  });
+});
+
 // Gets users settings
 router.get("/:email", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email })
