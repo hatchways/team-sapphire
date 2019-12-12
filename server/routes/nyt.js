@@ -17,7 +17,7 @@ const getNewMention = async (post, company) => {
     date: post.pub_date,
     link: post.web_url,
     image: "https://static01.nyt.com/" + post.multimedia[0].url,
-    popularity: 0,
+    popularity: 1,
     title: post.headline.main,
     rating
   });
