@@ -1,5 +1,6 @@
 const cookie = require('cookie');
 const jwt = require("jsonwebtoken");
+const { mentionNotification } = require("../services/notifications/mentionsChecker");
 
 module.exports = (io) => {
   io.use((socket, next) => {
@@ -15,7 +16,13 @@ module.exports = (io) => {
   })
   .on("connection", (socket) => {
     console.log(`${socket.userId} connected`);
-    // socket.emit("newMentions", (true));
+
+    mentionNotification.on("completed", (job, result) => {
+      if (result) {
+        socket.emit("newMentions", (true));
+      }
+    });
+
     socket.on("getNewMentions", userId => {
       if (socket.userId === userId) {
         socket.emit("newMentions", true);
