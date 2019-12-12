@@ -116,7 +116,9 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames, subscrib
         );
         if (response.data.success) {
           localStorage.setItem("isVerified", response.data.user.isVerified);
-          axios.get(`/queue/${localStorage.getItem("email")}/report`);
+          if (subscribed) {
+            axios.get(`/queue/${localStorage.getItem("email")}/report`);
+          }
         }
       }
 
