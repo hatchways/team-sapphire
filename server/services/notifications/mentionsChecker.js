@@ -13,8 +13,4 @@ mentionNotification.process(async (job, done) => {
   done(null, to);
 });
 
-mentionNotification.on("completed", async (job, result) => {
-  console.log(result);
-});
-
 module.exports = { mentionNotification };
