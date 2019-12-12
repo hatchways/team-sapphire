@@ -10,11 +10,7 @@ const mentionNotification = new Queue(
 mentionNotification.process(async (job, done) => {
   const { test } = job.data;
 
-  done(null, to);
-});
-
-mentionNotification.on("completed", async (job, result) => {
-  console.log(result);
+  done(null, true);
 });
 
 module.exports = { mentionNotification };
