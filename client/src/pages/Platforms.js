@@ -85,6 +85,7 @@ function Platforms(props) {
               track: classes.track,
               checked: classes.checked
             }}
+            disabled={(platform !== "Twitter" && platform !== "Reddit") ? true : false}
           />
         </Typography>
         <Divider className={classes.dividerContainer} />

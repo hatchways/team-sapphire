@@ -30,16 +30,9 @@ function Dashboard() {
   });
 
   const history = useHistory();
-  const [platforms, setPlatforms] = useState({
-    Reddit: true,
-    Twitter: true,
-    Facebook: true,
-    Amazon: true,
-    Forbes: true,
-    Shopify: true,
-    "Business Insider": true
-  });
+  const [platforms, setPlatforms] = useState({});
   const [mentions, setMentions] = useState([]);
+  const [displayedMentions, setDisplay] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   useEffect(() => {
@@ -74,9 +67,8 @@ function Dashboard() {
           socket.connect();
           setPlatforms(res.data.settings.platforms);
           setCompanies(res.data.settings.companies);
-          setMentions(
-            res.data.mentions.Reddit.concat(...res.data.mentions.Twitter)
-          );
+          setMentions(res.data.mentions);
+          setDisplay(res.data.filtered);
         }
       })
       .catch(error => {
@@ -86,6 +78,11 @@ function Dashboard() {
   }, []);
 
   const handlePlatformToggle = platform => {
+    let newPlatforms = platforms;
+    newPlatforms[platform] = !newPlatforms[platform];
+    setDisplay(mentions.filter(mention => {
+      return newPlatforms[mention.platform] === true;
+    }))
     axios
       .put(`/settings/${localStorage.getItem("email")}/platform/${platform}`)
       .then(res => {
@@ -125,7 +122,7 @@ function Dashboard() {
         </Grid>
         <Grid item className={classes.rightGridContainer}>
           <Mentions
-            mentions={mentions}
+            mentions={displayedMentions}
             sort={sort}
             handleChange={handleSortChange}
           />

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Route } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroller";
 
 import MentionDialog from "./MentionDialog";
 import Mention from "./Mention";
@@ -38,7 +39,7 @@ function Mentions(props) {
 
   if (props.sort === 0) {
     props.mentions.sort((a, b) => b.date - a.date);
-  } else if (props.sort === 1){
+  } else if (props.sort === 1) {
     props.mentions.sort((a, b) => b.popularity - a.popularity);
   } else {
     props.mentions.sort((a, b) => b.rating - a.rating);
@@ -65,24 +66,29 @@ function Mentions(props) {
           >
             <Tab label="Most recent" className={classes.sortToggleContainer} />
             <Tab label="Most popular" className={classes.sortToggleContainer} />
-            <Tab label="Most positive" className={classes.sortToggleContainer} />
+            <Tab
+              label="Most positive"
+              className={classes.sortToggleContainer}
+            />
           </Tabs>
         </Paper>
       </Typography>
-      {mentions}
-      <Route
-        path={`/dashboard/mentions/:mentionId`}
-        render={reactRouterProps => {
-          return (
-            <MentionDialog
-              {...reactRouterProps}
-              mentions={props.mentions}
-              setOpen={setOpen}
-              open={open}
-            />
-          );
-        }}
-      />
+      <InfiniteScroll pageStart={0} loadMore={props.loadFunc}>
+        {mentions}
+        <Route
+          path={`/dashboard/mentions/:mentionId`}
+          render={reactRouterProps => {
+            return (
+              <MentionDialog
+                {...reactRouterProps}
+                mentions={props.mentions}
+                setOpen={setOpen}
+                open={open}
+              />
+            );
+          }}
+        />
+      </InfiniteScroll>
     </div>
   );
 }

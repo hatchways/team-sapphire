@@ -34,7 +34,7 @@ const getNewTweets = async company => {
           userId: tweet.user.id,
           content: tweet.text,
           date,
-          link: `twitter.com/i/web/status/${tweet.id_str}`,
+          link: `https://www.twitter.com/i/web/status/${tweet.id_str}`,
           image:
             tweet.entities.media &&
             tweet.extended_entities.media.type === "photo"

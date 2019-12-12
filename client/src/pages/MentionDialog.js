@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   CardContent,
   DialogTitle,
+  DialogContent,
+  DialogContentText,
   CardMedia,
   Dialog,
   Typography,
@@ -13,19 +15,22 @@ import {
 
 const useStyles = makeStyles({
   dialogContainer: {
-    width: "100%"
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
   },
   cardImage: {
     width: "50%",
     height: "50%",
     objectFit: "contain",
-    marginBottom: "5vh"
+    margin: "auto"
   },
   mentionContents: {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
-    alignItems: "center",
+    justifyContent: "center",
+    width: "90%"
   }
 });
 
@@ -46,23 +51,23 @@ function SimpleDialog(props) {
       className={classes.dialogContainer}
     >
       <DialogTitle id="simple-dialog-title">
-        <Typography variant="h5" component="h2">
-          <LinkTo href={mention.link} rel="noopener">
-            {mention.title}
-          </LinkTo>
-        </Typography>
+        <LinkTo href={mention.link} rel="noopener">
+          {mention.title}
+        </LinkTo>
       </DialogTitle>
-      <CardContent>{mention.platform}</CardContent>
-      <CardContent className={classes.mentionContents}>
-        <CardMedia
-          component="img"
-          alt="image"
-          image={mention.image}
-          title="Image"
-          className={classes.cardImage}
-        />
-        <Typography>{mention.content}</Typography>
-      </CardContent>
+      <DialogContent>
+        <DialogContentText>{mention.platform}</DialogContentText>
+        <CardContent className={classes.mentionContents}>
+          <CardMedia
+            component="img"
+            alt="image"
+            image={mention.image}
+            title="Image"
+            className={classes.cardImage}
+          />
+          <DialogContentText>{mention.content}</DialogContentText>
+        </CardContent>
+      </DialogContent>
     </Dialog>
   ) : null;
 }

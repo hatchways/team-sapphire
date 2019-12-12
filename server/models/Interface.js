@@ -5,11 +5,7 @@ const Mention = require("./Mention");
 
 const mentionsInterface = class Interface {
   async getNewestMentions(companies) {
-    let mentions = {
-      Reddit: [],
-      Twitter: []
-    };
-
+    let mentions = [];
     let promises = [];
 
     for (const company of companies) {
@@ -17,24 +13,35 @@ const mentionsInterface = class Interface {
       promises.push(getNewTweets(company));
     }
 
-    let posts = await Promise.all(promises);
-    for (const post of posts) {
-      if(post[0]){
-        mentions[post[0].platform] = [...mentions[post[0].platform], ...post];
+    let platformPosts = await Promise.all(promises);
+    for (const posts of platformPosts) {
+      for(const post of posts){
+        mentions.push(post);
       }
     }
     return mentions;
   }
 
-  async getAllMentions(companies) {
-    let allMentions = {
-      Reddit: [],
-      Twitter: []
-    };
+  async getFilteredMentions(companies, platforms) {
+    let allMentions = [];
+    let platformQuery = [];
+    platforms.forEach(platform => platformQuery.push({platform: platform}));
     for (const company of companies) {
-      await Mention.find({ company: company }, (err, mentions) => {
+      await Mention.find({ $and: [{company: company }, {$or: platformQuery}]}, (err, mentions) => {
         for(const mention of mentions){
-          allMentions[mention.platform].push(mention);
+          allMentions.push(mention);
+        }
+      });
+    }
+    return allMentions;
+  }
+
+  async getAllMentions(companies) {
+    let allMentions = [];
+    for (const company of companies) {
+      await Mention.find({company: company }, (err, mentions) => {
+        for(const mention of mentions){
+          allMentions.push(mention);
         }
       });
     }

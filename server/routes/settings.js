@@ -90,9 +90,16 @@ router.get("/:email/mentions", jwtVerify, (req, res, next) => {
       if (settings) {
         let companyNames = [];
         settings.companies.forEach(company => companyNames.push(company.name));
+        let platforms = [];
+        Object.keys(settings.platforms).forEach(platform => {
+          if(settings.platforms[platform]){
+            platforms.push(platform);
+          }
+        })
         const mentionsInterface = new Interface();
         const mentions = await mentionsInterface.getAllMentions(companyNames);
-        res.send({ success: true, settings, mentions });
+        const filtered = await mentionsInterface.getFilteredMentions(companyNames, platforms);
+        res.send({ success: true, settings, mentions, filtered });
       } else {
         next("User settings doesn't exist!");
       }
