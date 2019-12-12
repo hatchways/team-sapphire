@@ -8,6 +8,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validateRegistration, jwtVerify } = require("../utils/authUtils");
 const sgMail = require("@sendgrid/mail");
+const {
+  mentionNotification
+} = require("../services/notifications/mentionsChecker");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -84,6 +87,10 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "24h"
         });
         res.cookie("token", token, { httpOnly: true, sameSite: true });
+        const report = {
+          test: "hello"
+        };
+        mentionNotification.add(report, { repeat: { every: 30000 } });
         res.status(200).send({ success: true, token, user });
       }
     }
