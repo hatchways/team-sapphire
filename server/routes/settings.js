@@ -75,25 +75,7 @@ router.put("/:email/subscribe", jwtVerify, (req, res, next) => {
   });
 });
 
-// Gets users settings
-router.get("/:email", jwtVerify, (req, res, next) => {
-  SettingsModel.findOne({ email: req.params.email })
-    .populate("companies")
-    .exec(async (err, settings) => {
-      if (settings) {
-        let companyNames = [];
-        settings.companies.forEach(company => companyNames.push(company.name));
-        const mentionsInterface = new Interface();
-        const mentions = await mentionsInterface.getNewestMentions(
-          companyNames
-        );
-        res.send({ success: true, settings, mentions });
-      } else {
-        next("User settings doesn't exist!");
-      }
-    });
-});
-
+// Gets users settings, mentions
 router.get("/:email/mentions", jwtVerify, (req, res, next) => {
   SettingsModel.findOne({ email: req.params.email })
     .populate("companies")
@@ -101,16 +83,9 @@ router.get("/:email/mentions", jwtVerify, (req, res, next) => {
       if (settings) {
         let companyNames = [];
         settings.companies.forEach(company => companyNames.push(company.name));
-        let platforms = [];
-        Object.keys(settings.platforms).forEach(platform => {
-          if(settings.platforms[platform]){
-            platforms.push(platform);
-          }
-        })
         const mentionsInterface = new Interface();
-        const mentions = await mentionsInterface.getAllMentions(companyNames);
-        const filtered = await mentionsInterface.getFilteredMentions(companyNames, platforms);
-        res.send({ success: true, settings, mentions, filtered });
+        await mentionsInterface.getNewestMentions(companyNames);
+        res.send({ success: true, settings });
       } else {
         next("User settings doesn't exist!");
       }

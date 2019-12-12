@@ -5,7 +5,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import MentionDialog from "./MentionDialog";
 import Mention from "./Mention";
 
-import { Typography, Paper, Tabs, Tab } from "@material-ui/core";
+import { Typography, Paper, Tabs, Tab, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -36,7 +36,6 @@ const useStyles = makeStyles(theme => ({
 function Mentions(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
-
   if (props.sort === 0) {
     props.mentions.sort((a, b) => b.date - a.date);
   } else if (props.sort === 1) {
@@ -73,7 +72,7 @@ function Mentions(props) {
           </Tabs>
         </Paper>
       </Typography>
-      <InfiniteScroll pageStart={0} loadMore={props.loadFunc}>
+      <InfiniteScroll pageStart={0} loadMore={()=>props.update()} hasMore={props.hasMore} loader={<CircularProgress />}>
         {mentions}
         <Route
           path={`/dashboard/mentions/:mentionId`}

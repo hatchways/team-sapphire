@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Mentions from "./Mentions";
 import Platforms from "./Platforms";
 import Navbar from "./Navbar";
+import { display } from "@material-ui/system";
 
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
@@ -19,7 +20,6 @@ const useStyles = makeStyles(theme => ({
   },
   leftGridContainer: {
     height: "calc(100vh - 92px)",
-    paddingTop: "25px",
     width: "28%"
   }
 }));
@@ -35,29 +35,12 @@ function Dashboard() {
   const [displayedMentions, setDisplay] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
+  const [hasNextPage, setNextPage] = useState();
+  const [pageNumber, setPage] = useState(0);
   useEffect(() => {
     if (!localStorage.getItem("email")) {
       handleLogout();
     } else {
-      if (history.location.search.length > 0) {
-        const query = queryString.parse(history.location.search);
-        console.log(query);
-        axios
-          .get(`/search/searchbar`, {
-            params: {
-              companies: query.companies.split(","),
-              platforms: query.platforms.split(","),
-              search: query.search
-            }
-          })
-          .then(res => {
-            setMentions(res.data.mentions);
-            //empty array since we are not using the mentions model yet
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
       axios
         .get(`/settings/${localStorage.getItem("email")}/mentions`)
         .then(res => {
@@ -67,18 +50,50 @@ function Dashboard() {
             socket.connect();
             setPlatforms(res.data.settings.platforms);
             setCompanies(res.data.settings.companies);
-            setMentions(res.data.mentions);
-            setDisplay(res.data.filtered);
           }
         })
         .catch(error => {
           console.error(error);
         });
+      if (history.location.search.length > 0) {
+        const query = queryString.parse(history.location.search);
+        axios
+          .get(`/search/pagination`, {
+            params: {
+              companies: query.companies.split(","),
+              platforms: query.platforms.split(","),
+              sortBy: "date",
+              page: 1,
+              search: query.search
+            }
+          })
+          .then(res => {
+            setDisplay(res.data.mentions);
+            setNextPage(res.data.hasNextPage);
+            setPage(res.data.pageNumber);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      } else {
+        axios
+          .get("/search/default")
+          .then(res => {
+            setMentions(res.data.mentions);
+            setDisplay(res.data.mentions);
+            setNextPage(res.data.hasNextPage);
+            setPage(res.data.pageNumber);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
     }
     return () => socket.disconnect();
   }, []);
 
   const handlePlatformToggle = platform => {
+    console.log("toggled", platform);
     let newPlatforms = platforms;
     newPlatforms[platform] = !newPlatforms[platform];
     setDisplay(
@@ -102,10 +117,87 @@ function Dashboard() {
 
   const handleSortChange = (event, sort) => {
     setSort(sort);
+    let sortBy;
+    if (sort === 0) {
+      sortBy = "date";
+    } else if (sort === 1) {
+      sortBy = "popularity";
+    } else {
+      sortBy = "rating";
+    }
+    let companyNames = [];
+    companies.forEach(company => companyNames.push(company.name));
+    let platformNames = [];
+    Object.keys(platforms).forEach(plt => {
+      if (platforms[plt]) {
+        platformNames.push(plt);
+      }
+    });
+    axios
+      .get("/search/pagination", {
+        params: {
+          companies: companyNames,
+          platforms: platformNames,
+          sortBy,
+          page: 1
+        }
+      })
+      .then(res => {
+        if (res.data.authenticated === false) {
+          handleLogout();
+        } else if (res.data.success) {
+          console.log(res.data.mentions);
+          setDisplay(res.data.mentions);
+          setNextPage(res.data.hasNextPage);
+          setPage(res.data.page);
+        }
+      });
   };
 
+  const loadMore = () => {
+    
+    let sortBy;
+    if (sort === 0) {
+      sortBy = "date";
+    } else if (sort === 1) {
+      sortBy = "popularity";
+    } else {
+      sortBy = "rating";
+    }
+    let companyNames = [];
+    companies.forEach(company => companyNames.push(company.name));
+    let platformNames = [];
+    Object.keys(platforms).forEach(plt => {
+      if (platforms[plt]) {
+        platformNames.push(plt);
+      }
+    });
+    if(companyNames.length>0 && platformNames.length>0){
+      console.log('fetching more...')
+      axios
+      .get("/search/pagination", {
+        params: {
+          companies: companyNames,
+          platforms: platformNames,
+          sortBy,
+          page: pageNumber+1
+        }
+      })
+      .then(res => {
+        if (res.data.authenticated === false) {
+          handleLogout();
+        } else if (res.data.success) {
+          console.log(res.data.mentions);
+          setDisplay([...mentions, ...res.data.mentions]);
+          setNextPage(res.data.hasNextPage);
+          setPage(res.data.page);
+        }
+      });
+    }
+  }
+
   const handleLogout = async () => {
-    let response = await axios.post("http://localhost:4000/logout");
+    let response = await axios.post("/logout");
     if (response.data.success) {
       socket.disconnect();
       localStorage.clear();
@@ -127,6 +219,8 @@ function Dashboard() {
           <Mentions
             mentions={displayedMentions}
             sort={sort}
+            update={()=>loadMore()}
+            hasMore={hasNextPage}
             handleChange={handleSortChange}
           />
         </Grid>

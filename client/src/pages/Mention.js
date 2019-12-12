@@ -151,7 +151,7 @@ const Mention = ({ mention, index, setOpen }) => {
             </CardContent>
           </Grid>
           <Grid item xs={2} className={classes.ratingContainer}>
-            <Tooltip title={mention.rating.toFixed(2)} arrow={true}>
+            <Tooltip title={mention.rating.toFixed(2)} arrow='true'>
               {icon}
             </Tooltip>
           </Grid>
