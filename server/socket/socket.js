@@ -19,7 +19,7 @@ module.exports = (io) => {
 
     mentionNotification.on("completed", (job, result) => {
       if (result) {
-        socket.emit("newMentions", (true));
+        socket.emit("newMentions", true);
       }
     });
 
