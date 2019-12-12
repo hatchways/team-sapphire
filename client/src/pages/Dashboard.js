@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import queryString from "query-string";
+import queryString from 'query-string';
+import { withSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Mentions from "./Mentions";
@@ -24,9 +25,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Dashboard() {
+const Dashboard = ({ enqueueSnackbar }) => {
   const socket = window.io("", {
     autoConnect: false
+  });
+
+  socket.on("newMentions", (hasNewMentions) => {
+    if (hasNewMentions) {
+      const action = (key) => {
+        return (<Button onClick={() => { window.location.reload() }}>
+                  Refresh
+                </Button>);
+      }
+      enqueueSnackbar("There are new mentions available!", {
+        variant: "info",
+        action
+      });
+    }
   });
 
   const history = useHistory();
@@ -135,6 +150,6 @@ function Dashboard() {
       </Grid>
     </div>
   );
-}
+};
 
-export default Dashboard;
+export default withSnackbar(Dashboard);
