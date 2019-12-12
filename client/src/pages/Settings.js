@@ -73,7 +73,7 @@ const Settings = () => {
       <Navbar platforms={platforms} companies={companies} />
       <Grid container spacing={0}>
         <Grid item className={classes.leftGridContainer}>
-          <LeftSideBar />
+          <LeftSideBar subscribed={subscribed} />
         </Grid>
         <Grid item className={classes.rightGridContainer}>
           <SettingsBody
