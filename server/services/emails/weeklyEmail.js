@@ -10,7 +10,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const weeklyEmailQueue = new Queue("weeklyEmailQueue", process.env.REDIS_AUTH);
 
-weeklyEmailQueue.process(async (job, done) => {
+weeklyEmailQueue.process("weeklyReport", async (job, done) => {
   const { from, to, subject, text } = job.data;
   let d = new Date(new Date() - 7 * 24 * 60 * 60 * 1000);
 
@@ -35,8 +35,18 @@ weeklyEmailQueue.process(async (job, done) => {
 });
 
 weeklyEmailQueue.on("completed", async (job, result) => {
+  console.log("============xxxx");
   console.log("email was sent to");
+  console.log("============xxxx");
   console.log(result);
+});
+
+weeklyEmailQueue.on("failed", function(job, err) {
+  console.log("============");
+  console.log("============");
+  console.log("err: ", err);
+  console.log("============");
+  console.log("============");
 });
 
 module.exports = { weeklyEmailQueue };

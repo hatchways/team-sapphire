@@ -18,7 +18,7 @@ router.post("/queue/:email", jwtVerify, (req, res, next) => {
           subject: "Interact with APP",
           text: "You didnt checkout the dashboard!"
         };
-        delayedEmailQueue.add(delayedMsg, { delay: 10000 });
+        delayedEmailQueue.add("InteractEmail", delayedMsg, { delay: 10000 });
       }
       res.status(200).send({ success: true, message: "email sent to user" });
     } else {
@@ -37,10 +37,26 @@ router.get("/queue/:email/report", jwtVerify, (req, res, next) => {
           subject: "Weekly Report",
           text: "Weekly Report!"
         };
-        // weeklyEmailQueue.add(report, { repeat: { every: 30000 } });
-        // weeklyEmailQueue.add(report, { delay: 10000 });
+        weeklyEmailQueue.add("weeklyReport", report, {
+          repeat: { every: 30000 }
+        });
       }
       res.status(200).send({ success: true, message: "email sent to user" });
+    } else {
+      next("User settings doesn't exist!");
+    }
+  });
+});
+
+router.put("/queue/:email/emails", jwtVerify, (req, res, next) => {
+  UserModel.findOne({ username: req.params.email }).exec((err, user) => {
+    if (user) {
+      if (user.isVerified) {
+        weeklyEmailQueue.removeRepeatable("weeklyReport", { every: 30000 });
+      }
+      res
+        .status(200)
+        .send({ success: true, message: "subscription cancelled" });
     } else {
       next("User settings doesn't exist!");
     }

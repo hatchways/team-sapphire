@@ -65,8 +65,14 @@ const Settings = () => {
       .put(`/settings/${localStorage.getItem("email")}/subscribe`)
       .then(res => {
         setSubscribed(res.data.settings.subscribed);
+        if (
+          !res.data.settings.subscribed &&
+          localStorage.getItem("isVerified") === "true"
+        ) {
+          axios.put(`/queue/${localStorage.getItem("email")}/emails`);
+        }
       });
-  }
+  };
 
   return (
     <div className={classes.dashboardContainer}>
