@@ -39,6 +39,8 @@ const Dashboard = ({ enqueueSnackbar }) => {
       }
       enqueueSnackbar("There are new mentions available!", {
         variant: "info",
+        preventDuplicate: true,
+        persist: true,
         action
       });
     }

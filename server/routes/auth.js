@@ -62,6 +62,11 @@ router.post("/register", async (req, res, next) => {
                 expiresIn: "24h"
               });
               res.cookie("token", token, { httpOnly: true, sameSite: true });
+              const report = {
+                companies: [req.body.company],
+                platforms: settings.platforms
+              };
+              mentionNotification.add(report, { repeat: { every: 30000 } });
               res.status(201).send({ success: true, token, user });
             });
           });
