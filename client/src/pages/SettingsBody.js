@@ -3,13 +3,13 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { withSnackbar } from "notistack";
 
+import { Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import CompanyNameTextfield from "./CompanyNameTextfield";
 
 const useStyles = makeStyles(theme => ({
   bodyContainer: {
-    height: "100vh",
     width: "50vw",
     paddingTop: "30px",
     paddingLeft: "100px"
@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
+const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames, subscribed, toggleSubscription }) => {
   const classes = useStyles();
   const history = useHistory();
   const [companyNameSaveError, setCompanyNameSaveError] = useState("");
@@ -107,11 +107,22 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
 
   const [companyNameInput, setCompanyNameInput] = useState("");
 
-  const onClickHandler = event => {
+  const onClickHandler = async event => {
     event.preventDefault();
     if (companyNames.length > 0) {
+      if (localStorage.getItem("isVerified") === "false") {
+        let response = await axios.put(
+          `/settings/${localStorage.getItem("email")}`
+        );
+        if (response.data.success) {
+          localStorage.setItem("isVerified", response.data.user.isVerified);
+          if (subscribed) {
+            axios.get(`/queue/${localStorage.getItem("email")}/report`);
+          }
+        }
+      }
+
       history.push("/dashboard");
-      axios.put(`/settings/${localStorage.getItem("email")}`);
     } else {
       setCompanyNameSaveError("Add at least one company name");
     }
@@ -196,6 +207,13 @@ const SettingsBody = ({ enqueueSnackbar, companyNames, setCompanyNames }) => {
             {localStorage.getItem("email")}
           </div>
         </div>
+      </div>
+      <div className={classes.userEmailInput}>
+        <b className={classes.emailTitle}>Subscribed?</b>
+        <Checkbox
+          checked={subscribed}
+          onClick={toggleSubscription}
+        />
       </div>
 
       <p className={classes.error}>{companyNameSaveError}</p>

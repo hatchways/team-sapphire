@@ -1,13 +1,14 @@
 const Queue = require("bull");
 const Arena = require("bull-arena");
 const sgMail = require("@sendgrid/mail");
+const { generateDelayedEmailBody } = require("./emailHelper");
 require("dotenv").config();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const delayedEmailQueue = new Queue(
   "delayedEmailQueue",
-  "redis://127.0.0.1:6379"
+  process.env.REDIS_AUTH
 );
 
 delayedEmailQueue.process(async (job, done) => {
@@ -17,7 +18,12 @@ delayedEmailQueue.process(async (job, done) => {
     from,
     subject,
     text,
-    html
+    html: await generateDelayedEmailBody(),
+    mail_settings: {
+      sandbox_mode: {
+        enable: true
+      }
+    }
   };
   sgMail.send(message);
   done(null, to);

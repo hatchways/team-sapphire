@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import queryString from "query-string";
 import { withSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
 
@@ -76,7 +77,13 @@ const Login = ({ enqueueSnackbar }) => {
       .then(res => {
         if (res.data.success) {
           localStorage.setItem("email", res.data.user.username);
-          history.push("/dashboard");
+          localStorage.setItem("isVerified", res.data.user.isVerified);
+          if (history.location.search.length > 0) {
+            const query = queryString.parse(history.location.search);
+            history.push(`/${query.redirect}`);
+          } else {
+            history.push("/dashboard");
+          }
         }
       })
       .catch(err => {
