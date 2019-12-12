@@ -1,4 +1,5 @@
 const Queue = require("bull");
+const Interface = require("./../../models/Interface");
 
 require("dotenv").config();
 
@@ -8,9 +9,18 @@ const mentionNotification = new Queue(
 );
 
 mentionNotification.process(async (job, done) => {
-  const { test } = job.data;
+  const { companies, platforms } = job.data;
+  let found = false;
 
-  done(null, to);
+  const mentionsInterface = new Interface();
+  const mentions = await mentionsInterface.getNewestMentions(companies);
+  Object.keys(mentions).forEach(mention => {
+    if (mentions[mention].length > 0) {
+      found = true;
+    }
+  });
+
+  done(null, found);
 });
 
 module.exports = { mentionNotification };

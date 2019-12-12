@@ -73,7 +73,7 @@ router.post("/register", async (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   let errorMessage;
-  User.findOne({ username: req.body.username }, async function(err, user) {
+  User.findOne({ username: req.body.username }, async (err, user) => {
     if (!user) {
       errorMessage = "Incorrect username";
       next(errorMessage);
@@ -87,11 +87,18 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "24h"
         });
         res.cookie("token", token, { httpOnly: true, sameSite: true });
-        const report = {
-          test: "hello"
-        };
-        mentionNotification.add(report, { repeat: { every: 30000 } });
-        res.status(200).send({ success: true, token, user });
+        SettingsModel.findOne({ email: req.body.username })
+          .populate("companies")
+          .exec(async (err, settings) => {
+            let companyNames = [];
+            settings.companies.forEach(company => companyNames.push(company.name));
+            const report = {
+              companies: companyNames,
+              platforms: settings.platforms
+            };
+            mentionNotification.add(report, { repeat: { every: 30000 } });
+            res.status(200).send({ success: true, token, user });
+          });
       }
     }
   });
