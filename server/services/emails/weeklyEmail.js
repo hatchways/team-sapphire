@@ -35,18 +35,12 @@ weeklyEmailQueue.process("weeklyReport", async (job, done) => {
 });
 
 weeklyEmailQueue.on("completed", async (job, result) => {
-  console.log("============xxxx");
   console.log("email was sent to");
-  console.log("============xxxx");
   console.log(result);
 });
 
 weeklyEmailQueue.on("failed", function(job, err) {
-  console.log("============");
-  console.log("============");
   console.log("err: ", err);
-  console.log("============");
-  console.log("============");
 });
 
 module.exports = { weeklyEmailQueue };

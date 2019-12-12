@@ -11,8 +11,8 @@ const delayedEmailQueue = new Queue(
   process.env.REDIS_AUTH
 );
 
-delayedEmailQueue.process(async (job, done) => {
-  const { from, to, subject, text, html } = job.data;
+delayedEmailQueue.process("InteractEmail", async (job, done) => {
+  const { from, to, subject, text } = job.data;
   const message = {
     to,
     from,
