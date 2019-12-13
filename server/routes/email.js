@@ -44,7 +44,8 @@ router.get("/queue/:email/report", jwtVerify, (req, res, next) => {
         };
 
         const options = {
-          repeat: { every: 30000 }
+          repeat: { every: 30000 },
+          jobId: user.id
         };
         weeklyEmailQueue.add("weeklyReport", report, options);
       }
@@ -59,17 +60,15 @@ router.put("/queue/:email/emails", jwtVerify, (req, res, next) => {
   UserModel.findOne({ username: req.params.email }).exec((err, user) => {
     if (user) {
       if (user.isVerified) {
-        console.log(" --------- before-----");
-
-        // weeklyEmailQueue.getJob(1).then(res => {
-        //   console.log(res);
-        //   // job.remove();
-        // });
-
-        weeklyEmailQueue.removeRepeatable("weeklyReport", {
-          repeat: { every: 30000 }
+        weeklyEmailQueue.getRepeatableJobs().then(jobs => {
+          for (let job of jobs) {
+            if (job.id === user.id) {
+              weeklyEmailQueue.removeRepeatableByKey(job.key);
+            }
+          }
         });
-        console.log(" --------- after-----");
+
+        // weeklyEmailQueue.removeRepeatable("weeklyReport", { every: 30000 });
       }
       res
         .status(200)
