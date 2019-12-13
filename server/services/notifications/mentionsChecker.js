@@ -16,11 +16,9 @@ mentionNotification.process(async (job, done) => {
   const mentions = await mentionsInterface.getNewestMentions(
     companies
   );
-  Object.keys(mentions).forEach(mention => {
-    if (mentions[mention].length > 0) {
-      found = true;
-    }
-  })
+  if (mentions.length > 0) {
+    found = true;
+  }
 
   done(null, found);
 });

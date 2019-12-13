@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const Mention = require("./../models/Mention");
+const User = require("./../models/User");
 const Company = require("./../models/Company");
 const { jwtVerify } = require("../utils/authUtils");
 
@@ -78,5 +80,31 @@ router.get("/pagination", jwtVerify, (req, res, next) => {
     res.send({ mentions: mentions.docs, hasNextPage: mentions.hasNextPage, page: mentions.page });
   });
 });
+
+router.get("/default", jwtVerify, async (req, res, next) => {
+  const decoded = jwt.verify(req.cookies.token, process.env.SECRET);
+  const userId = decoded.userId;
+  User.findById(userId).populate({ path: "settings_id", populate: { path: "companies"}}).exec((err, user) => {
+    let companyNames = [];
+    user.settings_id.companies.forEach(company => companyNames.push(company.name));
+    let platformNames = [];
+    Object.keys(user.settings_id.platforms).forEach(plt => {
+      if (user.settings_id.platforms[plt]) {
+        platformNames.push(plt);
+      }
+    });
+    let andConditions = getAndConditions(companyNames, platformNames, "");
+
+    const options = {
+      page: 1,
+      limit: 10,
+      sort: { date: -1 }
+    };
+    const query = { $and: andConditions };
+    Mention.paginate(query, options, (err, mentions) => {
+      res.send({ mentions: mentions.docs, hasNextPage: mentions.hasNextPage, page: mentions.page });
+    })
+  });
+})
 
 module.exports = router;
