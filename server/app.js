@@ -48,6 +48,11 @@ app.use(
           name: "weeklyEmailQueue",
           hostId: "Mentions",
           redis: process.env.REDIS_AUTH
+        },
+        {
+          name: "mentionNotification",
+          hostId: "Mentions",
+          redis: process.env.REDIS_AUTH
         }
       ]
     },

@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LeftSideBar = ({ enqueueSnackbar }) => {
+const LeftSideBar = ({ enqueueSnackbar, subscribed }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -66,10 +66,15 @@ const LeftSideBar = ({ enqueueSnackbar }) => {
     try {
       let response = await axios.post("http://localhost:4000/logout");
       if (response.data.success) {
-        axios.post(`/queue/${localStorage.getItem("email")}`).then(() => {
+        if (subscribed) {
+          axios.post(`/queue/${localStorage.getItem("email")}`).then(() => {
+            localStorage.clear();
+            history.push("/login");
+          });
+        } else {
           localStorage.clear();
           history.push("/login");
-        });
+        }
       }
     } catch (err) {
       enqueueSnackbar("Something went wrong, Please try again", {

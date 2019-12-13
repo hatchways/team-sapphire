@@ -18,9 +18,14 @@ delayedEmailQueue.process(async (job, done) => {
     from,
     subject,
     text,
-    html: await generateDelayedEmailBody()
+    html: await generateDelayedEmailBody(),
+    mail_settings: {
+      sandbox_mode: {
+        enable: true
+      }
+    }
   };
-  // sgMail.send(message);
+  sgMail.send(message);
   done(null, to);
 });
 
