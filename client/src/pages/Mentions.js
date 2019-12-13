@@ -72,7 +72,7 @@ function Mentions(props) {
           </Tabs>
         </Paper>
       </Typography>
-      <InfiniteScroll pageStart={0} loadMore={()=>props.update()} hasMore={props.hasMore} loader={<CircularProgress />}>
+      <InfiniteScroll pageStart={0} loadMore={props.update} hasMore={props.hasMore} loader={<CircularProgress />}>
         {mentions}
         <Route
           path={`/dashboard/mentions/:mentionId`}

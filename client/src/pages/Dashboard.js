@@ -13,14 +13,17 @@ import { display } from "@material-ui/system";
 const useStyles = makeStyles(theme => ({
   rightGridContainer: {
     backgroundColor: "#fafbff",
-    height: "calc(100vh - 92px)",
-    overflow: "scroll",
+    height: "calc(100% - 92px)",
     borderLeft: "2px solid #e9eaee",
-    width: "72%"
+    width: "72%",
+    marginLeft: "28%",
+    marginTop: "92px"
   },
   leftGridContainer: {
-    height: "calc(100vh - 92px)",
-    width: "28%"
+    position: "fixed",
+    height: "calc(100% - 92px)",
+    width: "28%",
+    marginTop: "92px"
   }
 }));
 
@@ -35,7 +38,7 @@ function Dashboard() {
   const [displayedMentions, setDisplay] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
-  const [hasNextPage, setNextPage] = useState();
+  const [hasNextPage, setNextPage] = useState(true);
   const [pageNumber, setPage] = useState(0);
   useEffect(() => {
     if (!localStorage.getItem("email")) {
@@ -55,39 +58,6 @@ function Dashboard() {
         .catch(error => {
           console.error(error);
         });
-      if (history.location.search.length > 0) {
-        const query = queryString.parse(history.location.search);
-        axios
-          .get(`/search/pagination`, {
-            params: {
-              companies: query.companies.split(","),
-              platforms: query.platforms.split(","),
-              sortBy: "date",
-              page: 1,
-              search: query.search
-            }
-          })
-          .then(res => {
-            setDisplay(res.data.mentions);
-            setNextPage(res.data.hasNextPage);
-            setPage(res.data.pageNumber);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      } else {
-        axios
-          .get("/search/default")
-          .then(res => {
-            setMentions(res.data.mentions);
-            setDisplay(res.data.mentions);
-            setNextPage(res.data.hasNextPage);
-            setPage(res.data.pageNumber);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
     }
     return () => socket.disconnect();
   }, []);
@@ -154,8 +124,7 @@ function Dashboard() {
       });
   };
 
-  const loadMore = () => {
-    
+  const loadMore = async (page) => {
     let sortBy;
     if (sort === 0) {
       sortBy = "date";
@@ -172,27 +141,47 @@ function Dashboard() {
         platformNames.push(plt);
       }
     });
-    if(companyNames.length>0 && platformNames.length>0){
-      console.log('fetching more...')
+    console.log('fetching more...')
+    if (history.location.search.length > 0) {
+      const query = queryString.parse(history.location.search);
       axios
-      .get("/search/pagination", {
-        params: {
-          companies: companyNames,
-          platforms: platformNames,
-          sortBy,
-          page: pageNumber+1
-        }
-      })
-      .then(res => {
-        if (res.data.authenticated === false) {
-          handleLogout();
-        } else if (res.data.success) {
-          console.log(res.data.mentions);
-          setDisplay([...mentions, ...res.data.mentions]);
+        .get(`/search/pagination`, {
+          params: {
+            companies: query.companies.split(","),
+            platforms: query.platforms.split(","),
+            sortBy: "date",
+            page: pageNumber+1,
+            search: query.search
+          }
+        })
+        .then(res => {
+          setMentions(res.data.mentions);
+          setDisplay(displayedMentions.concat(res.data.mentions));
           setNextPage(res.data.hasNextPage);
           setPage(res.data.page);
-        }
-      });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      axios
+        .get("/search/pagination", {
+          params: {
+            companies: companyNames,
+            platforms: platformNames,
+            sortBy: "date",
+            page: pageNumber+1
+          }
+        })
+        .then(res => {
+          setMentions(res.data.mentions);
+          setDisplay(displayedMentions.concat(res.data.mentions));
+          setNextPage(res.data.hasNextPage);
+          setPage(res.data.page);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }
 
@@ -219,7 +208,7 @@ function Dashboard() {
           <Mentions
             mentions={displayedMentions}
             sort={sort}
-            update={()=>loadMore()}
+            update={loadMore}
             hasMore={hasNextPage}
             handleChange={handleSortChange}
           />

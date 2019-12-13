@@ -77,9 +77,13 @@ const Navbar = ({
   const [loginRegisterName, setLoginRegisterName] = useState("");
   const [loginRegisterMessage, setLoginRegisterMessage] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [position, setPosition] = useState("sticky")
   useEffect(() => {
     const location = history.location.pathname;
-    if (location.substring(0, 10) === "/dashboard" || location === "/settings") {
+    if (location.substring(0, 10) === "/dashboard") {
+      setShowSearch(true);
+      setPosition("fixed");
+    } else if (location === "/settings") {
       setShowSearch(true);
     } else if (location === "/login") {
       setRedirect(`/register${history.location.search}`);
@@ -94,7 +98,7 @@ const Navbar = ({
 
   return (
     <div>
-      <AppBar position="sticky" className={classes.Navbar}>
+      <AppBar position={position} className={classes.Navbar}>
         <Toolbar>
           {showSearch && (
             <>
