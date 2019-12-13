@@ -33,7 +33,6 @@ const getNYTPosts = async company => {
     let submissions = [];
     for (const post of nyt.response.docs) {
       await Mention.findOne({ postId: post._id }, async (err, mention) => {
-        console.log(post.uri);
         if (!mention) {
           let newMention = await getNewMention(post, company);
           await newMention.save((err, savedMention) => {
