@@ -56,7 +56,11 @@ const useStyles = makeStyles(theme => ({
     color: "gray"
   },
   contentContainer: {
-    height: "100%"
+    height: "100%",
+    overflow: "hidden"
+  },
+  cardContent: {
+    marginBottom: "10px"
   },
   cardImage: {
     marginLeft: "5%",
@@ -133,7 +137,7 @@ const Mention = ({ mention, index, setOpen }) => {
             />
           </Grid>
           <Grid item xs={7} className={classes.contentContainer}>
-            <CardContent>
+            <CardContent className={classes.cardContent}>
               <Typography variant="h5" component="h2">
                 <LinkTo
                   href={mention.link}
@@ -148,7 +152,7 @@ const Mention = ({ mention, index, setOpen }) => {
             </CardContent>
           </Grid>
           <Grid item xs={2} className={classes.ratingContainer}>
-            <Tooltip title={mention.rating.toFixed(2)} arrow>
+            <Tooltip title={mention.rating.toFixed(2)} arrow='true'>
               {icon}
             </Tooltip>
           </Grid>
