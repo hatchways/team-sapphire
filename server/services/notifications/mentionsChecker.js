@@ -13,9 +13,7 @@ mentionNotification.process(async (job, done) => {
   let found = false;
 
   const mentionsInterface = new Interface();
-  const mentions = await mentionsInterface.getNewestMentions(
-    companies
-  );
+  const mentions = await mentionsInterface.getNewestMentions(companies);
   if (mentions.length > 0) {
     found = true;
   }

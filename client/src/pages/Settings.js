@@ -65,8 +65,21 @@ const Settings = () => {
       .put(`/settings/${localStorage.getItem("email")}/subscribe`)
       .then(res => {
         setSubscribed(res.data.settings.subscribed);
+        if (
+          !res.data.settings.subscribed &&
+          localStorage.getItem("isVerified") === "true"
+        ) {
+          //remove jobs from queue
+          axios.put(`/queue/${localStorage.getItem("email")}/emails`);
+        } else if (
+          res.data.settings.subscribed &&
+          localStorage.getItem("isVerified") === "true"
+        ) {
+          //start sending report
+          axios.get(`/queue/${localStorage.getItem("email")}/report`);
+        }
       });
-  }
+  };
 
   return (
     <div className={classes.dashboardContainer}>
