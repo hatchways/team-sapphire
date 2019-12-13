@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import InfoIcon from "@material-ui/icons/Info";
 import RedditIcon from "@material-ui/icons/Reddit";
+import FiberNewOutlinedIcon from '@material-ui/icons/FiberNewOutlined';
 
 const useStyles = makeStyles(theme => ({
   platformContainer: {
@@ -75,6 +76,8 @@ function Platforms(props) {
       icons.push(<RedditIcon color='primary' className={classes.iconContainer}>info</RedditIcon>)
     } else if(i===1){
       icons.push(<TwitterIcon color='primary' className={classes.iconContainer}>info</TwitterIcon>)
+    } else if(i===2){
+      icons.push(<FiberNewOutlinedIcon color='primary' className={classes.iconContainer}>info</FiberNewOutlinedIcon>)
     } else{
       icons.push(<InfoIcon color='disabled' className={classes.iconContainer}>info</InfoIcon>)
     }
@@ -103,7 +106,7 @@ function Platforms(props) {
               track: classes.track,
               checked: classes.checked
             }}
-            disabled={(platform !== "Twitter" && platform !== "Reddit") ? true : false}
+            disabled={(platform !== "Twitter" && platform !== "Reddit" && platform !=="The New York Times") ? true : false}
           />
         </Typography>
         <Divider className={classes.dividerContainer} />

@@ -16,7 +16,7 @@ const SettingSchema = new Schema({
     default: {
       Reddit: true,
       Twitter: true,
-      Facebook: true,
+      "The New York Times": true,
       Amazon: true,
       Forbes: true,
       Shopify: true,

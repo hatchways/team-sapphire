@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import queryString from 'query-string';
+import queryString from "query-string";
 import { withSnackbar } from "notistack";
 import { useHistory } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
@@ -33,13 +33,19 @@ const Dashboard = ({ enqueueSnackbar }) => {
     autoConnect: false
   });
 
-  socket.on("newMentions", (hasNewMentions) => {
+  socket.on("newMentions", hasNewMentions => {
     if (hasNewMentions) {
-      const action = (key) => {
-        return (<Button onClick={() => { window.location.reload() }}>
-                  Refresh
-                </Button>);
-      }
+      const action = key => {
+        return (
+          <Button
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Refresh
+          </Button>
+        );
+      };
       enqueueSnackbar("There are new mentions available!", {
         variant: "info",
         action
@@ -50,7 +56,6 @@ const Dashboard = ({ enqueueSnackbar }) => {
   const history = useHistory();
   const [platforms, setPlatforms] = useState({});
   const [mentions, setMentions] = useState([]);
-  const [displayedMentions, setDisplay] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [sort, setSort] = useState(0);
   const [hasNextPage, setNextPage] = useState(true);
@@ -78,14 +83,16 @@ const Dashboard = ({ enqueueSnackbar }) => {
   }, []);
 
   const handlePlatformToggle = platform => {
-    console.log("toggled", platform);
+    let companyNames = [];
+    companies.forEach(company => companyNames.push(company.name));
+    let platformNames = [];
     let newPlatforms = platforms;
     newPlatforms[platform] = !newPlatforms[platform];
-    setDisplay(
-      mentions.filter(mention => {
-        return newPlatforms[mention.platform] === true;
-      })
-    );
+    Object.keys(newPlatforms).forEach(plt => {
+      if (platforms[plt]) {
+        platformNames.push(plt);
+      }
+    });
     axios
       .put(`/settings/${localStorage.getItem("email")}/platform/${platform}`)
       .then(res => {
@@ -97,6 +104,20 @@ const Dashboard = ({ enqueueSnackbar }) => {
       })
       .catch(error => {
         console.error(error);
+      });
+    axios
+      .get("/search/pagination", {
+        params: {
+          companies: companyNames,
+          platforms: platformNames,
+          sortBy: "date",
+          page: 1
+        }
+      })
+      .then(res => {
+        setMentions(res.data.mentions);
+        setNextPage(res.data.hasNextPage);
+        setPage(res.data.page);
       });
   };
 
@@ -128,21 +149,13 @@ const Dashboard = ({ enqueueSnackbar }) => {
         }
       })
       .then(res => {
-        setDisplay(res.data.mentions);
+        setMentions(res.data.mentions);
         setNextPage(res.data.hasNextPage);
         setPage(res.data.page);
       });
   };
 
-  const loadMore = async (page) => {
-    let sortBy;
-    if (sort === 0) {
-      sortBy = "date";
-    } else if (sort === 1) {
-      sortBy = "popularity";
-    } else {
-      sortBy = "rating";
-    }
+  const loadMore = async page => {
     let companyNames = [];
     companies.forEach(company => companyNames.push(company.name));
     let platformNames = [];
@@ -151,7 +164,6 @@ const Dashboard = ({ enqueueSnackbar }) => {
         platformNames.push(plt);
       }
     });
-    console.log('fetching more...')
     if (history.location.search.length > 0) {
       const query = queryString.parse(history.location.search);
       axios
@@ -160,13 +172,12 @@ const Dashboard = ({ enqueueSnackbar }) => {
             companies: query.companies.split(","),
             platforms: query.platforms.split(","),
             sortBy: "date",
-            page: pageNumber+1,
+            page: pageNumber + 1,
             search: query.search
           }
         })
         .then(res => {
-          setMentions(res.data.mentions);
-          setDisplay(displayedMentions.concat(res.data.mentions));
+          setMentions(mentions.concat(res.data.mentions));
           setNextPage(res.data.hasNextPage);
           setPage(res.data.page);
         })
@@ -180,12 +191,11 @@ const Dashboard = ({ enqueueSnackbar }) => {
             companies: companyNames,
             platforms: platformNames,
             sortBy: "date",
-            page: pageNumber+1
+            page: pageNumber + 1
           }
         })
         .then(res => {
-          setMentions(res.data.mentions);
-          setDisplay(displayedMentions.concat(res.data.mentions));
+          setMentions(mentions.concat(res.data.mentions));
           setNextPage(res.data.hasNextPage);
           setPage(res.data.page);
         })
@@ -193,7 +203,7 @@ const Dashboard = ({ enqueueSnackbar }) => {
           console.error(error);
         });
     }
-  }
+  };
 
   const handleLogout = async () => {
     let response = await axios.post("/logout");
@@ -216,7 +226,7 @@ const Dashboard = ({ enqueueSnackbar }) => {
         </Grid>
         <Grid item className={classes.rightGridContainer}>
           <Mentions
-            mentions={displayedMentions}
+            mentions={mentions}
             sort={sort}
             update={loadMore}
             hasMore={hasNextPage}
