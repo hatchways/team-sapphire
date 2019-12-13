@@ -113,14 +113,9 @@ function Dashboard() {
         }
       })
       .then(res => {
-        if (res.data.authenticated === false) {
-          handleLogout();
-        } else if (res.data.success) {
-          console.log(res.data.mentions);
-          setDisplay(res.data.mentions);
-          setNextPage(res.data.hasNextPage);
-          setPage(res.data.page);
-        }
+        setDisplay(res.data.mentions);
+        setNextPage(res.data.hasNextPage);
+        setPage(res.data.page);
       });
   };
 
