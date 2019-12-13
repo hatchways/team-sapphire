@@ -1,6 +1,6 @@
-const request = require('request');
+const request = require("request");
 const Mention = require("../models/Mention");
-const Sentiment = require("sentiment")
+const Sentiment = require("sentiment");
 
 const sentiment = new Sentiment();
 
@@ -22,7 +22,7 @@ const getNewMention = async (post, company) => {
     rating
   });
   return newMention;
-}
+};
 
 const getNYTPosts = async company => {
   const url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?fq=organizations.contains:(${company})&sort=newest&api-key=${process.env.NYT_API_KEY}`;
@@ -31,15 +31,17 @@ const getNYTPosts = async company => {
       return [];
     }
     let submissions = [];
-    for (const post of nyt.response.docs) {
-      await Mention.findOne({ postId: post._id }, async (err, mention) => {
-        if (!mention) {
-          let newMention = await getNewMention(post, company);
-          await newMention.save((err, savedMention) => {
-            submissions.push(savedMention);
-          });
-        }
-      });
+    if (nyt.response) {
+      for (const post of nyt.response.docs) {
+        await Mention.findOne({ postId: post._id }, async (err, mention) => {
+          if (!mention) {
+            let newMention = await getNewMention(post, company);
+            await newMention.save((err, savedMention) => {
+              submissions.push(savedMention);
+            });
+          }
+        });
+      }
     }
     return submissions;
   });
