@@ -5,7 +5,13 @@ import InfiniteScroll from "react-infinite-scroller";
 import MentionDialog from "./MentionDialog";
 import Mention from "./Mention";
 
-import { Typography, Paper, Tabs, Tab, CircularProgress } from "@material-ui/core";
+import {
+  Typography,
+  Paper,
+  Tabs,
+  Tab,
+  CircularProgress
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -30,6 +36,10 @@ const useStyles = makeStyles(theme => ({
     lineHeight: "25px",
     letterSpacing: "1px",
     height: window.innerWidth > 1024 ? "50px" : "100px"
+  },
+  spinnerContainer: {
+    height: "100vh",
+    marginLeft: "50%"
   }
 }));
 
@@ -44,9 +54,6 @@ function Mentions(props) {
     props.mentions.sort((a, b) => b.rating - a.rating);
   }
   const mentions = props.mentions.map((mention, i) => {
-    if (!localStorage.getItem(`${mention.link}`)) {
-      localStorage.setItem(`${mention.link}`, JSON.stringify(mention));
-    }
     return <Mention key={i} mention={mention} index={i} setOpen={setOpen} />;
   });
 
@@ -72,7 +79,16 @@ function Mentions(props) {
           </Tabs>
         </Paper>
       </Typography>
-      <InfiniteScroll pageStart={0} loadMore={props.update} hasMore={props.hasMore} loader={<CircularProgress key={0}/>}>
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={props.update}
+        hasMore={props.hasMore}
+        loader={
+          <div className={classes.spinnerContainer} key={0}>
+            <CircularProgress />
+          </div>
+        }
+      >
         {mentions}
         <Route
           path={`/dashboard/mentions/:mentionId`}

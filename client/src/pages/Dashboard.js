@@ -15,13 +15,13 @@ const useStyles = makeStyles(theme => ({
   rightGridContainer: {
     backgroundColor: "#fafbff",
     height: "calc(100% - 92px)",
-    borderLeft: "2px solid #e9eaee",
     width: "72%",
     marginLeft: "28%",
     marginTop: "92px"
   },
   leftGridContainer: {
     position: "fixed",
+    borderRight: "2px solid #e9eaee",
     height: "calc(100% - 92px)",
     width: "28%",
     marginTop: "92px"
@@ -122,6 +122,7 @@ const Dashboard = ({ enqueueSnackbar }) => {
   };
 
   const handleSortChange = (event, sort) => {
+    setMentions([]);
     setSort(sort);
     let sortBy;
     if (sort === 0) {

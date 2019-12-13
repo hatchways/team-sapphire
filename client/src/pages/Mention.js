@@ -56,7 +56,8 @@ const useStyles = makeStyles(theme => ({
     color: "gray"
   },
   contentContainer: {
-    height: "100%"
+    height: "100%",
+    overflow: "hidden"
   },
   cardContent: {
     marginBottom: "10px"
