@@ -16,9 +16,14 @@ router.post("/queue/:email", jwtVerify, (req, res, next) => {
           from: "welcome@mentionscrawler.com",
           to: user.username,
           subject: "Interact with APP",
-          text: "You didnt checkout the dashboard!"
+          text: "You didnt checkout the dashboard!",
+          jobId: user.id
         };
-        delayedEmailQueue.add("InteractEmail", delayedMsg, { delay: 10000 });
+        const options = {
+          delay: 10000,
+          jobId: user.id
+        };
+        delayedEmailQueue.add("InteractEmail", delayedMsg, options);
       }
       res.status(200).send({ success: true, message: "email sent to user" });
     } else {
@@ -35,11 +40,15 @@ router.get("/queue/:email/report", jwtVerify, (req, res, next) => {
           from: "welcome@mentionscrawler.com",
           to: user.username,
           subject: "Weekly Report",
-          text: "Weekly Report!"
+          text: "Weekly Report!",
+          jobId: user.id
         };
-        weeklyEmailQueue.add("weeklyReport", report, {
+
+        const options = {
           repeat: { every: 30000 }
-        });
+          // jobId: user.id
+        };
+        weeklyEmailQueue.add("weeklyReport", report, options);
       }
       res.status(200).send({ success: true, message: "email sent to user" });
     } else {
@@ -52,7 +61,13 @@ router.put("/queue/:email/emails", jwtVerify, (req, res, next) => {
   UserModel.findOne({ username: req.params.email }).exec((err, user) => {
     if (user) {
       if (user.isVerified) {
-        weeklyEmailQueue.removeRepeatable("weeklyReport", { every: 30000 });
+        console.log("--------userID--------", user.id);
+        const options = {
+          // jobId: user.id,
+          repeat: { every: 30000 }
+        };
+        weeklyEmailQueue.removeRepeatable("weeklyReport", options);
+        console.log("-------------insideeeeee--------");
       }
       res
         .status(200)
