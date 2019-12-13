@@ -1,20 +1,23 @@
 const express = require("express");
-const { getNewestRedditPosts } = require("./../routes/reddit");
+const { getRedditPosts } = require("./../routes/reddit");
 const { getNewTweets } = require("./../routes/twitter");
+const { getNYTPosts } = require("./../routes/nyt");
 const Mention = require("./Mention");
 
 const mentionsInterface = class Interface {
   async getNewestMentions(companies) {
     let mentions = {
       Reddit: [],
-      Twitter: []
+      Twitter: [],
+      "The New York Times": []
     };
 
     let promises = [];
 
     for (const company of companies) {
-      promises.push(getNewestRedditPosts(company));
+      promises.push(getRedditPosts(company, "new", "all"));
       promises.push(getNewTweets(company));
+      promises.push(getNYTPosts(company));
     }
 
     let posts = await Promise.all(promises);
@@ -29,7 +32,8 @@ const mentionsInterface = class Interface {
   async getAllMentions(companies) {
     let allMentions = {
       Reddit: [],
-      Twitter: []
+      Twitter: [],
+      "The New York Times": []
     };
     for (const company of companies) {
       await Mention.find({ company: company }, (err, mentions) => {
