@@ -43,19 +43,9 @@ These can be obtained here (follow the instructions on the website links):
 - [SENDGRID API](https://sendgrid.com/)
 - [NEW YORK TIMES API](https://developer.nytimes.com/apis)
 
-1. Add a `.env` file under `server/` with a key-value pair of
+1. Add a `.env` file under `server/` with a key-value pairs matching the `.env.template`
    <br>
-   `MARKETCHECK_API_KEY={{INSERT MARKETCHECK API KEY HERE}}`
-   `MONGO_URL={{INSERT MONGO URL}}`
-   `SECRET={{INSERT ANY STRING OF ANY LENGTH}}`
-   `SENDGRID_API_KEY={{INSERT SENDGRID API KEY}}`
-   `REDDIT_CLIENT_ID={{INSERT REDDIT CLIENT ID}}`
-   `REDDIT_CLIENT_SECRET={{INSERT REDDIT CLIENT SECRET}}`
-   `REDDIT_REFRESH_TOKEN={{INSERT REFRESH TOKEN}}`
-   `TWITTER_API_KEY={{INSERT TWITTER API KEY}}`
-   `TWITTER_API_SECRET={{INSERT TWITER API SECRET}}`
-   `TWITTER_TOKEN={{INSERT TWITTER TOKEN}}`
-   `TWITTER_TOKEN_SECRET={{INSERT TWITTER TOKEN SECRET}}`
-   `TWITTER_BEARER_TOKEN={{INSERTT TWITTER BEARER TOKEN}}`
    `REDIS_AUTH={{BY DEFAULT THIS IS redis://127.0.0.1:6379}}`
-   `NYT_API_KEY={{INSERT NEW YORK TIMES API KEY}}`
+   <br>
+
+# Application in Action
