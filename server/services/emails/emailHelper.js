@@ -258,7 +258,7 @@ const generateDelayedEmailBody = () => {
   margin-bottom: 40px;
   "
   >
-  <a href='http://localhost:3000/login'>
+  <a href='http://localhost:3000/settings'>
   <button style="z-index: 4;
   width: 170px;
   height: 56px;

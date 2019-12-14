@@ -14,21 +14,21 @@ weeklyEmailQueue.process("weeklyReport", async (job, done) => {
   const { from, to, subject, text } = job.data;
   let d = new Date(new Date() - 7 * 24 * 60 * 60 * 1000);
 
-  let response = await MentionModel.find({ date: { $gt: d } })
+  let response = await MentionModel.find({ date: { $lt: d } })
     .sort({ popularity: -1 })
     .limit(4);
-
+  // console.log("--------response-----", response);
   const message = {
     to,
     from,
     subject,
     text,
-    html: await generateWeeklyEmailBody(response),
-    mail_settings: {
-      sandbox_mode: {
-        enable: true
-      }
-    }
+    html: await generateWeeklyEmailBody(response)
+    // mail_settings: {
+    //   sandbox_mode: {
+    //     enable: true
+    //   }
+    // }
   };
   sgMail.send(message);
   done(null, to);

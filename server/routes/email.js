@@ -44,7 +44,7 @@ router.get("/queue/:email/report", jwtVerify, (req, res, next) => {
         };
 
         const options = {
-          repeat: { every: 30000 },
+          repeat: { every: 180000 },
           jobId: user.id
         };
         weeklyEmailQueue.add("weeklyReport", report, options);
