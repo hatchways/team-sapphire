@@ -48,16 +48,30 @@ These can be obtained here (follow the instructions on the website links):
    `REDIS_AUTH={{BY DEFAULT THIS IS redis://127.0.0.1:6379}}`
    <br>
 
-# Application in Action
+# Features
 
-[Register](team-sapphire/assets/crawler1.gif)
+- **Tracking Companies:** User can track more than one company. Snackbars help the user know whether companies have been added or removed.
+- **Notifications:** User is notified to refresh the page if there are new mentions. This is done via a redis queue. A job to check if there are new posts is added when a user either registers/logins. The job is repeated for a specifc amount of time(30 seconds for demo purposes)
+- **Dialog Box:** User can click on a mention. A dialog box opens with the entire content of the mention along with a link to the original source of the mention.
+
+![Register](./assets/crawler1.gif)
 <br>
-[Register](team-sapphire/assets/crawler2.gif)
+
+- **Sorting:** Mentions can be sorted either by most recent, most popular and most positive.
+- **Sentiment Analysis:** Mentions have either a blue, grey or red face emoticon to indicate the general tone of the post. Hovering over the face emoticon indicates the comparative score of the post. The score ranges from -1 to +1. The more positive the number the more positive the post. The more negative the number the more negative the post.
+- **Backend Pagination & Infinite Scroll**
+
+![Register](./assets/crawler2.gif)
 <br>
-[Register](team-sapphire/assets/crawler3.gif)
-<br>
-[Register](team-sapphire/assets/crawler4.gif)
-<br>
-[Interact Email](team-sapphire/assets/InteractEmail.png)
-<br>
-[Weekly Email](team-sapphire/assets/weeklyReport.png)
+
+- **Clear break down of spending:** Users' monthly budget is further broken down to a daily budget.
+  ![Register](./assets/crawler3.gif)
+  <br>
+- **Clear break down of spending:** Users' monthly budget is further broken down to a daily budget.
+  ![Register](./assets/crawler4.gif)
+  <br>
+- **Clear break down of spending:** Users' monthly budget is further broken down to a daily budget.
+  ![Interact Email](./assets/InteractEmail.png)
+  <br>
+- **Clear break down of spending:** Users' monthly budget is further broken down to a daily budget.
+  ![Weekly Email](./assets/weeklyReport.png)
