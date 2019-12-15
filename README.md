@@ -40,8 +40,8 @@ These can be obtained here (follow the instructions on the website links):
 - Reddit API
   - [Snoowrap](https://not-an-aardvark.github.io/reddit-oauth-helper/)
   - [Reddit](https://www.reddit.com/prefs/apps/)
-- [SENDGRID API](https://sendgrid.com/)
-- [NEW YORK TIMES API](https://developer.nytimes.com/apis)
+- [Twilio Sendgrid API](https://sendgrid.com/)
+- [New York Times API](https://developer.nytimes.com/apis)
 
 1. Add a `.env` file under `server/` with a key-value pairs matching the `.env.template`
    <br>
