@@ -49,3 +49,15 @@ These can be obtained here (follow the instructions on the website links):
    <br>
 
 # Application in Action
+
+[Register](team-sapphire/assets/crawler1.gif)
+<br>
+[Register](team-sapphire/assets/crawler2.gif)
+<br>
+[Register](team-sapphire/assets/crawler3.gif)
+<br>
+[Register](team-sapphire/assets/crawler4.gif)
+<br>
+[Interact Email](team-sapphire/assets/InteractEmail.png)
+<br>
+[Weekly Email](team-sapphire/assets/weeklyReport.png)
