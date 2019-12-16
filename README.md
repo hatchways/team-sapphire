@@ -98,5 +98,6 @@ These can be obtained here (follow the instructions on the website links):
   <br>
 
 - **Weekly Email Reports:** User receives a weekly report with the four most popular mentions of the week. This is also done using a redis queue. A repeated job is added to the queue once the user clicks on dashboard for the first time or if they subscribe for emails after they have unsubscribed.
+
   ![Weekly Email](./assets/weeklyReport.png)
   <br>
